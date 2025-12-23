@@ -3,189 +3,208 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Ecossistema Docente — Diagnóstico & Jogo</title>
+  <title>Ecossistema Docente — V2 (Jogo Crítico)</title>
   <style>
     :root{
-      --bg0:#0b1220;
-      --bg1:#111a2e;
-      --card: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.12);
-      --txt:#eaf0ff;
-      --muted: rgba(234,240,255,.72);
+      /* Paleta clara (menos “noite”) */
+      --bg0:#f6f7fb;
+      --bg1:#eef2ff;
+      --card:#ffffff;
+      --stroke: rgba(17,24,39,.10);
+      --txt:#0f172a;
+      --muted: rgba(15,23,42,.70);
 
-      --r:#60a5fa; /* pesquisa */
-      --e:#34d399; /* extensão */
-      --t:#fbbf24; /* ensino */
-      --g:#a78bfa; /* gestão */
-      --i:#fb7185; /* inovação */
-      --b:#94a3b8; /* burocracia */
+      --r:#2563eb; /* pesquisa */
+      --e:#16a34a; /* extensão */
+      --t:#f59e0b; /* ensino */
+      --g:#7c3aed; /* gestão */
+      --i:#ef4444; /* inovação */
+      --b:#475569; /* burocracia */
 
-      --ok:#22c55e;
+      --ok:#16a34a;
       --warn:#f59e0b;
       --bad:#ef4444;
+
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --radius: 16px;
     }
 
     *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background: radial-gradient(1200px 700px at 15% 20%, #1b2a55 0%, transparent 60%),
-                  radial-gradient(900px 600px at 80% 30%, #4c1d95 0%, transparent 55%),
-                  linear-gradient(180deg,var(--bg0),var(--bg1));
+      background:
+        radial-gradient(1000px 700px at 12% 10%, rgba(37,99,235,.10) 0%, transparent 55%),
+        radial-gradient(900px 650px at 85% 20%, rgba(124,58,237,.10) 0%, transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
       color:var(--txt);
     }
 
     header{
-      padding:22px 16px 10px;
       max-width:1200px; margin:0 auto;
+      padding:18px 16px 10px;
       display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
       flex-wrap:wrap;
     }
-    .brand{
-      display:flex; gap:12px; align-items:center;
-    }
+    .brand{ display:flex; gap:12px; align-items:center; }
     .logo{
       width:46px; height:46px; border-radius:14px;
-      background:
-        conic-gradient(from 180deg, var(--r), var(--e), var(--t), var(--g), var(--i), var(--r));
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.14);
+      background: conic-gradient(from 180deg, var(--r), var(--e), var(--t), var(--g), var(--i), var(--r));
+      box-shadow: var(--shadow);
+      border:1px solid rgba(15,23,42,.10);
     }
-    h1{
-      font-size:18px; margin:0;
-      letter-spacing:.2px;
-    }
+    h1{ margin:0; font-size:18px; letter-spacing:.2px; }
     .subtitle{
-      margin:2px 0 0; color:var(--muted); font-size:13px; line-height:1.35;
-      max-width:680px;
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+      max-width:760px;
     }
-    .top-actions{
-      display:flex; gap:10px; flex-wrap:wrap;
-      align-items:center;
-    }
-    button, .btn{
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.14);
+
+    .top-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    button{
+      background: #fff;
+      border: 1px solid rgba(15,23,42,.12);
       color: var(--txt);
       padding:10px 12px;
-      border-radius:12px;
+      border-radius: 12px;
       cursor:pointer;
-      transition:.15s transform, .15s background;
-      font-weight:650;
-      user-select:none;
+      transition: .15s transform, .15s box-shadow, .15s background;
+      font-weight: 750;
+      box-shadow: 0 6px 18px rgba(15,23,42,.06);
     }
-    button:hover{ transform: translateY(-1px); background: rgba(255,255,255,.11); }
-    button:active{ transform: translateY(0); }
-    .btn-primary{
-      background: linear-gradient(135deg, rgba(96,165,250,.28), rgba(167,139,250,.28));
-      border-color: rgba(255,255,255,.18);
+    button:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,23,42,.10); }
+    button:active{ transform: translateY(0px); }
+    .primary{
+      background: linear-gradient(135deg, rgba(37,99,235,.14), rgba(124,58,237,.14));
+      border-color: rgba(37,99,235,.18);
     }
-    .btn-danger{
-      background: rgba(239,68,68,.12);
-      border-color: rgba(239,68,68,.25);
+    .danger{
+      background: rgba(239,68,68,.10);
+      border-color: rgba(239,68,68,.20);
     }
 
     main{
-      max-width:1200px; margin:0 auto; padding:0 16px 40px;
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 16px 40px;
       display:grid; gap:14px;
-      grid-template-columns: 1.15fr .85fr;
+      grid-template-columns: 1.1fr .9fr;
     }
-    @media (max-width: 980px){
-      main{ grid-template-columns:1fr; }
-    }
+    @media (max-width: 980px){ main{ grid-template-columns:1fr; } }
 
     .card{
       background: var(--card);
       border:1px solid var(--stroke);
-      border-radius:16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow:hidden;
     }
     .card-h{
       padding:14px 14px 10px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
+      border-bottom: 1px solid rgba(15,23,42,.08);
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       flex-wrap:wrap;
     }
     .card-h h2{
       margin:0; font-size:14px; letter-spacing:.2px;
-      display:flex; align-items:center; gap:10px;
+      display:flex; gap:10px; align-items:center;
     }
     .pill{
-      font-size:12px; color:var(--muted);
+      font-size:12px; color: rgba(15,23,42,.72);
       padding:6px 10px; border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(15,23,42,.04);
+      border: 1px solid rgba(15,23,42,.08);
     }
     .card-b{ padding:14px; }
 
-    .grid2{
-      display:grid; gap:10px; grid-template-columns: 1fr 1fr;
+    .tabs{
+      display:flex; gap:8px; flex-wrap:wrap;
+      padding:10px 14px 0;
     }
+    .tab{
+      padding:8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.03);
+      cursor:pointer;
+      font-weight:750;
+      font-size:12px;
+      user-select:none;
+    }
+    .tab.active{
+      background: rgba(37,99,235,.10);
+      border-color: rgba(37,99,235,.20);
+    }
+
+    .grid2{ display:grid; gap:10px; grid-template-columns: 1fr 1fr; }
     @media (max-width:700px){ .grid2{ grid-template-columns:1fr; } }
 
-    label{
-      display:block; font-size:12px; color:var(--muted); margin-bottom:6px;
-    }
+    label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
     input, select, textarea{
       width:100%;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.14);
+      background: #fff;
+      border: 1px solid rgba(15,23,42,.14);
       color: var(--txt);
       padding:10px 12px;
-      border-radius:12px;
+      border-radius: 12px;
       outline:none;
     }
     textarea{ min-height:84px; resize:vertical; }
 
     .q{
       padding:12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
+      border-radius: 14px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.02);
       margin-bottom:10px;
     }
     .q-title{
-      font-weight:750;
+      font-weight: 850;
+      margin:0 0 8px;
+      line-height:1.35;
+      font-size:13px;
+    }
+    .q-sub{
       margin:0 0 10px;
+      color:var(--muted);
+      font-size:12px;
       line-height:1.35;
     }
-    .opts{
-      display:grid; gap:8px;
+
+    .scale{
+      display:flex; align-items:center; gap:10px;
     }
-    .opt{
-      display:flex; gap:10px; align-items:flex-start;
-      padding:10px 10px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      cursor:pointer;
-      transition:.15s transform, .15s background;
+    .scale input[type="range"]{
+      flex:1;
+      accent-color: rgba(37,99,235,.9);
     }
-    .opt:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); }
-    .opt input{ width:auto; margin-top:2px; }
-    .opt b{ font-size:12px; opacity:.9; }
-    .opt span{ display:block; color:var(--muted); font-size:12px; line-height:1.35; margin-top:2px; }
+    .scale .v{
+      min-width:38px;
+      text-align:center;
+      font-weight:900;
+      background: rgba(15,23,42,.05);
+      border:1px solid rgba(15,23,42,.10);
+      border-radius: 10px;
+      padding:6px 8px;
+    }
+    .scaleHints{
+      display:flex; justify-content:space-between;
+      font-size:11px; color:var(--muted);
+      margin-top:6px;
+    }
 
     .bar{
       height:10px; border-radius:999px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(15,23,42,.07);
+      border: 1px solid rgba(15,23,42,.10);
       overflow:hidden;
     }
-    .bar > i{ display:block; height:100%; width:0%; background: linear-gradient(90deg, rgba(96,165,250,.9), rgba(167,139,250,.9)); }
-
-    .legend{
-      display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
-      color:var(--muted); font-size:12px;
+    .bar > i{
+      display:block; height:100%; width:0%;
+      background: linear-gradient(90deg, rgba(37,99,235,.85), rgba(124,58,237,.75));
     }
-    .tag{
-      display:flex; gap:8px; align-items:center;
-      padding:6px 10px; border-radius:999px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .dot{ width:10px; height:10px; border-radius:999px; background: white; }
 
     .kpis{
       display:grid; grid-template-columns:1fr 1fr; gap:10px;
@@ -193,41 +212,67 @@
     .kpi{
       padding:10px 12px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.02);
     }
-    .kpi .v{ font-size:22px; font-weight:850; }
-    .kpi .l{ font-size:12px; color:var(--muted); margin-top:2px; }
+    .kpi .v{ font-size:20px; font-weight:950; }
+    .kpi .l{ font-size:12px; color:var(--muted); margin-top:2px; line-height:1.3; }
 
     .story{
       padding:12px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.14);
-      line-height:1.55;
-      color: rgba(234,240,255,.92);
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.02);
+      line-height:1.6;
       font-size:13px;
+      color: rgba(15,23,42,.92);
     }
     .story b{ color:var(--txt); }
-
-    .micro{
-      display:grid; gap:10px; margin-top:10px;
+    .quote{
+      margin-top:10px;
+      padding:12px;
+      border-radius:14px;
+      border:1px dashed rgba(15,23,42,.16);
+      background: rgba(37,99,235,.05);
+      font-size:13px;
+      line-height:1.55;
     }
+
+    .micro{ display:grid; gap:10px; margin-top:10px; }
     .move{
       padding:10px 12px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+      border:1px solid rgba(15,23,42,.10);
+      background: #fff;
     }
-    .move .ttl{ font-weight:850; margin:0 0 4px; }
-    .move .txt{ color:var(--muted); font-size:12px; margin:0; line-height:1.45; }
+    .move .ttl{ font-weight:950; margin:0 0 4px; }
+    .move .txt{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
+
+    .checklist{
+      margin-top:10px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.02);
+    }
+    .checklist h3{
+      margin:0 0 8px;
+      font-size:13px;
+    }
+    .ck{
+      display:flex; gap:8px; align-items:flex-start;
+      margin:8px 0;
+      font-size:13px;
+      color: rgba(15,23,42,.90);
+    }
+    .ck input{ margin-top:3px; }
 
     canvas{
       width:100%;
-      height:360px;
+      height:320px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.14);
+      border:1px solid rgba(15,23,42,.10);
+      background: #fff;
       display:block;
     }
     .small{
@@ -236,10 +281,23 @@
       line-height:1.35;
     }
 
-    .row-actions{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-      margin-top:10px;
+    .split{
+      display:grid; gap:10px;
+      grid-template-columns: 1fr 1fr;
     }
+    @media (max-width:980px){ .split{ grid-template-columns:1fr; } }
+
+    .tagrow{
+      display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
+      color:var(--muted); font-size:12px;
+    }
+    .tag{
+      display:flex; gap:8px; align-items:center;
+      padding:6px 10px; border-radius:999px;
+      background: rgba(15,23,42,.03);
+      border:1px solid rgba(15,23,42,.08);
+    }
+    .dot{ width:10px; height:10px; border-radius:999px; background: #111; }
   </style>
 </head>
 <body>
@@ -247,451 +305,365 @@
     <div class="brand">
       <div class="logo" aria-hidden="true"></div>
       <div>
-        <h1>Ecossistema Docente — um jogo de identidade universitária</h1>
+        <h1>Ecossistema Docente — V2 (Diagnóstico Crítico + Plano de Ação)</h1>
         <p class="subtitle">
-          Você não “é” um papel — você está em um <b>equilíbrio instável</b> entre pesquisa, extensão, ensino, gestão e inovação.
-          A burocracia não é vocação: é <b>atrito</b>. Este app te mostra seu mapa hoje, seu mapa desejado e movimentos práticos.
+          Um jogo para professores refletirem: <b>o que eu faço</b>, <b>o que eu quero ser</b> e <b>o que o sistema me puxa para ser</b>.
+          Aqui, burocracia é atrito (não vocação). O resultado entrega <b>passo a passo</b> (7/30/90 dias).
         </p>
       </div>
     </div>
+
     <div class="top-actions">
-      <button class="btn-primary" id="btnRun">Gerar diagnóstico</button>
+      <button class="primary" id="btnRun">Gerar diagnóstico</button>
       <button id="btnSave">Salvar</button>
       <button id="btnLoad">Carregar</button>
       <button id="btnExport">Exportar imagem</button>
-      <button class="btn-danger" id="btnReset">Resetar</button>
+      <button class="danger" id="btnReset">Resetar</button>
     </div>
   </header>
 
   <main>
-    <!-- ESQUERDA: FORM + PERGUNTAS -->
+    <!-- ESQUERDA -->
     <section class="card">
-      <div class="card-h">
-        <h2>🧾 Identidade & Contexto</h2>
-        <span class="pill">V1 — ajustável, transparente</span>
+      <div class="tabs">
+        <div class="tab active" data-tab="responder">Responder</div>
+        <div class="tab" data-tab="metas">Metas</div>
+        <div class="tab" data-tab="perguntas">Perguntas</div>
       </div>
-      <div class="card-b">
-        <div class="grid2">
-          <div>
-            <label>Nome</label>
-            <input id="name" placeholder="Ex.: Ernandes"/>
-          </div>
-          <div>
-            <label>Universidade</label>
-            <input id="uni" placeholder="Ex.: UNEMAT"/>
-          </div>
-          <div>
-            <label>Departamento</label>
-            <input id="dept" placeholder="Ex.: Ciências Ambientais"/>
-          </div>
-          <div>
-            <label>Programa(s)</label>
-            <input id="prog" placeholder="Ex.: PPGCA, PPGEO..."/>
-          </div>
-          <div>
-            <label>Fase da carreira</label>
-            <select id="phase">
-              <option value="early">Início (0–5 anos)</option>
-              <option value="mid">Meio (6–15 anos)</option>
-              <option value="senior">Sênior (16+ anos)</option>
-            </select>
-          </div>
-          <div>
-            <label>Tempo “real” semanal disponível (h)</label>
-            <input id="hours" type="number" min="1" max="120" value="45"/>
-          </div>
-        </div>
 
-        <div style="margin-top:12px;">
-          <label>Notas livres (opcional): o que você sente que te puxa / te prende?</label>
-          <textarea id="notes" placeholder="Ex.: reuniões, sistemas, cobrança por papers, falta de equipe, vontade de fazer impacto..."></textarea>
+      <div id="tab-responder">
+        <div class="card-h">
+          <h2>🧾 Identidade & Contexto</h2>
+          <span class="pill">V2 — escalas (1–5) + pesos ocultos</span>
+        </div>
+        <div class="card-b">
+          <div class="grid2">
+            <div><label>Nome</label><input id="name" placeholder="Ex.: Ernandes"/></div>
+            <div><label>Universidade</label><input id="uni" placeholder="Ex.: UNEMAT"/></div>
+            <div><label>Departamento</label><input id="dept" placeholder="Ex.: Ciências Ambientais"/></div>
+            <div><label>Programa(s)</label><input id="prog" placeholder="Ex.: PPGCA, PPGEO..."/></div>
+            <div>
+              <label>Fase da carreira</label>
+              <select id="phase">
+                <option value="early">Início (0–5 anos)</option>
+                <option value="mid">Meio (6–15 anos)</option>
+                <option value="senior">Sênior (16+ anos)</option>
+              </select>
+            </div>
+            <div><label>Horas “reais” de trabalho por semana</label><input id="hours" type="number" min="1" max="120" value="45"/></div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <label>O que mais te puxa / te prende hoje? (opcional)</label>
+            <textarea id="notes" placeholder="Ex.: reuniões, sistemas, falta de equipe, pressão por papers, excesso de orientações, etc."></textarea>
+          </div>
+
+          <div style="margin-top:12px;">
+            <div class="bar"><i id="pbar"></i></div>
+            <div class="small">Progresso: <b><span id="answered">0</span>/<span id="totalQ">0</span></b> questões respondidas.</div>
+          </div>
         </div>
       </div>
 
-      <div class="card-h">
-        <h2>🎯 Quem você quer ser em 5 anos?</h2>
-        <span class="pill">Defina suas metas (0–100)</span>
-      </div>
-      <div class="card-b">
-        <div class="grid2">
-          <div><label>Pesquisa 🔬</label><input id="goalR" type="number" min="0" max="100" value="70"></div>
-          <div><label>Extensão 🌱</label><input id="goalE" type="number" min="0" max="100" value="75"></div>
-          <div><label>Ensino 🎓</label><input id="goalT" type="number" min="0" max="100" value="70"></div>
-          <div><label>Gestão 🧭</label><input id="goalG" type="number" min="0" max="100" value="40"></div>
-          <div><label>Inovação 🚀</label><input id="goalI" type="number" min="0" max="100" value="60"></div>
-          <div><label>Tolerância à burocracia (0–100)</label><input id="tolB" type="number" min="0" max="100" value="45"></div>
+      <div id="tab-metas" style="display:none;">
+        <div class="card-h">
+          <h2>🎯 Metas em 5 anos</h2>
+          <span class="pill">defina seu “norte” (0–100)</span>
         </div>
-        <div class="small">
-          A “tolerância à burocracia” não é submissão — é quanto você aceita operar sistemas sem perder alma.
-          Quanto menor, mais você precisa de <b>proteções</b> (delegar, automatizar, recusar, simplificar).
+        <div class="card-b">
+          <div class="grid2">
+            <div><label>Pesquisa 🔬</label><input id="goalR" type="number" min="0" max="100" value="70"></div>
+            <div><label>Extensão 🌱</label><input id="goalE" type="number" min="0" max="100" value="75"></div>
+            <div><label>Ensino 🎓</label><input id="goalT" type="number" min="0" max="100" value="70"></div>
+            <div><label>Gestão 🧭</label><input id="goalG" type="number" min="0" max="100" value="40"></div>
+            <div><label>Inovação 🚀</label><input id="goalI" type="number" min="0" max="100" value="60"></div>
+            <div><label>Limite de burocracia aceitável (0–100)</label><input id="tolB" type="number" min="0" max="100" value="35"></div>
+          </div>
+          <div class="small">
+            “Limite de burocracia aceitável” = quanto atrito você tolera <b>sem perder foco e saúde</b>.
+            Quanto menor, mais você precisa blindar agenda, automatizar e dizer “não” com elegância.
+          </div>
+        </div>
+
+        <div class="card-h">
+          <h2>🕰️ Seu “ideal de semana”</h2>
+          <span class="pill">distribuição percentual</span>
+        </div>
+        <div class="card-b">
+          <div class="grid2">
+            <div><label>% Pesquisa</label><input id="idealR" type="number" min="0" max="100" value="25"></div>
+            <div><label>% Extensão</label><input id="idealE" type="number" min="0" max="100" value="25"></div>
+            <div><label>% Ensino</label><input id="idealT" type="number" min="0" max="100" value="25"></div>
+            <div><label>% Gestão</label><input id="idealG" type="number" min="0" max="100" value="15"></div>
+            <div><label>% Inovação</label><input id="idealI" type="number" min="0" max="100" value="10"></div>
+            <div><label>% Burocracia (máx.)</label><input id="idealB" type="number" min="0" max="100" value="15"></div>
+          </div>
+          <div class="small">
+            A soma não precisa dar 100 agora — o sistema normaliza. Mas se você exagera em Burocracia, o app vai te chamar atenção.
+          </div>
         </div>
       </div>
 
-      <div class="card-h">
-        <h2>🧠 15 dilemas reais (responda no instinto)</h2>
-        <span class="pill"><span id="answered">0</span>/15</span>
-      </div>
-      <div class="card-b" id="quiz"></div>
-
-      <div class="card-b">
-        <div class="bar" title="Progresso">
-          <i id="pbar"></i>
+      <div id="tab-perguntas" style="display:none;">
+        <div class="card-h">
+          <h2>🧠 Perguntas em régua (1–5)</h2>
+          <span class="pill">mais reflexão, menos “acerto”</span>
         </div>
-        <div class="row-actions">
-          <button class="btn-primary" id="btnRun2">Gerar diagnóstico</button>
-          <button id="btnRandom">Preencher aleatório (teste)</button>
-        </div>
-        <div class="small">
-          Dica: este jogo fica muito mais forte quando você responde pensando em <b>como você age sob pressão</b>, não no que seria “ideal”.
+        <div class="card-b" id="quiz"></div>
+        <div class="card-b">
+          <button class="primary" id="btnRun2">Gerar diagnóstico</button>
+          <div class="small">
+            Regra do jogo: responda como você age <b>quando está sob pressão</b>.
+            Se responder como “deveria ser”, você não vê o sistema te puxando.
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- DIREITA: DIAGRAMAS + RESULTADOS -->
+    <!-- DIREITA -->
     <aside class="card">
-      <div class="card-h">
-        <h2>📍 Seu Mapa (Atual vs. Desejado)</h2>
-        <span class="pill" id="statusPill">aguardando…</span>
+      <div class="tabs">
+        <div class="tab active" data-rtab="resultados">Resultados</div>
+        <div class="tab" data-rtab="planos">Plano</div>
       </div>
-      <div class="card-b">
-        <canvas id="radar" width="900" height="420"></canvas>
-        <div class="legend">
-          <span class="tag"><i class="dot" style="background:rgba(255,255,255,.85)"></i> Atual</span>
-          <span class="tag"><i class="dot" style="background:rgba(255,255,255,.25)"></i> Desejado</span>
-          <span class="tag"><i class="dot" style="background:var(--b)"></i> Burocracia (atrito)</span>
+
+      <div id="rtab-resultados">
+        <div class="card-h">
+          <h2>📍 Gráficos (claro + robusto)</h2>
+          <span class="pill" id="statusPill">aguardando…</span>
         </div>
+        <div class="card-b">
+          <div class="split">
+            <div>
+              <canvas id="radar" width="900" height="420"></canvas>
+              <div class="tagrow">
+                <span class="tag"><i class="dot" style="background:rgba(15,23,42,.85)"></i> Atual</span>
+                <span class="tag"><i class="dot" style="background:rgba(15,23,42,.25)"></i> Desejado</span>
+              </div>
+              <div class="small">Radar mostra perfil (vetores) — não mede “qualidade”, mede <b>distribuição de energia</b>.</div>
+            </div>
 
-        <div style="height:10px"></div>
-
-        <canvas id="mapa" width="900" height="420"></canvas>
-        <div class="small">
-          O “Mapa de Tensões” mostra sua energia indo para 5 direções e a burocracia como dreno.
-          O objetivo não é zerar burocracia — é impedir que ela vire <b>identidade</b>.
-        </div>
-      </div>
-
-      <div class="card-h">
-        <h2>📊 Indicadores & Diagnóstico</h2>
-        <span class="pill">texto interpretativo</span>
-      </div>
-      <div class="card-b">
-        <div class="kpis">
-          <div class="kpi">
-            <div class="v" id="kpiCore">—</div>
-            <div class="l">Identidade predominante (hoje)</div>
+            <div>
+              <canvas id="timeBars" width="900" height="420"></canvas>
+              <div class="small">
+                “Balanço de Semana”: onde você está gastando energia hoje vs. onde você quer estar.
+                Isso resolve sua crítica da Figura 2: aqui fica óbvio onde está o desvio.
+              </div>
+            </div>
           </div>
-          <div class="kpi">
-            <div class="v" id="kpiRisk">—</div>
-            <div class="l">Risco de captura burocrática</div>
+
+          <div style="height:10px"></div>
+          <canvas id="bureau" width="900" height="360"></canvas>
+          <div class="small">
+            Burocracia aqui vira: <b>termômetro + drenos principais + ações imediatas</b>.
           </div>
         </div>
 
-        <div style="height:10px"></div>
-        <div class="story" id="story">
-          Responda as perguntas e clique em <b>Gerar diagnóstico</b>.
+        <div class="card-h">
+          <h2>📊 Diagnóstico narrativo + criticidade</h2>
+          <span class="pill">com filosofia do ofício</span>
         </div>
+        <div class="card-b">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="v" id="kpiCore">—</div>
+              <div class="l">Seu eixo dominante hoje</div>
+            </div>
+            <div class="kpi">
+              <div class="v" id="kpiRisk">—</div>
+              <div class="l">Risco de captura burocrática</div>
+            </div>
+          </div>
 
-        <div class="micro" id="moves"></div>
+          <div style="height:10px"></div>
+          <div class="story" id="story">
+            Responda as perguntas e clique em <b>Gerar diagnóstico</b>.
+          </div>
+
+          <div class="quote" id="quote"></div>
+        </div>
+      </div>
+
+      <div id="rtab-planos" style="display:none;">
+        <div class="card-h">
+          <h2>🧭 Passo a passo (7 / 30 / 90 dias)</h2>
+          <span class="pill">plano executável</span>
+        </div>
+        <div class="card-b">
+          <div class="micro" id="moves"></div>
+
+          <div class="checklist">
+            <h3>✅ Checklist prático (marque e volte amanhã)</h3>
+            <label style="margin:0 0 8px;color:var(--muted);font-size:12px;">Esses itens não são “motivacionais”. São engenharia de sobrevivência docente.</label>
+            <div class="ck"><input type="checkbox"> <div>Eu protegi <b>2 blocos semanais</b> inegociáveis para meu eixo principal.</div></div>
+            <div class="ck"><input type="checkbox"> <div>Eu escolhi <b>1 dreno burocrático</b> e criei template/automação/checklist.</div></div>
+            <div class="ck"><input type="checkbox"> <div>Eu disse <b>um “não” elegante</b> para algo que só alimentava ruído.</div></div>
+            <div class="ck"><input type="checkbox"> <div>Eu transformei uma ação (ensino/extensão/pesquisa) em <b>processo contínuo</b> (ritual).</div></div>
+            <div class="ck"><input type="checkbox"> <div>Eu documentei meu projeto em 1 página: objetivo, público, rotina, indicadores, entregas.</div></div>
+            <div class="ck"><input type="checkbox"> <div>Eu fiz 1 conversa “de verdade” sobre <b>saúde mental e inclusão</b> com minha turma/equipe.</div></div>
+          </div>
+
+          <div class="checklist">
+            <h3>🧩 O que é ser professor universitário (frases para fechar)</h3>
+            <div id="closing"></div>
+          </div>
+        </div>
       </div>
     </aside>
   </main>
 
 <script>
 /**
- * ECOSSISTEMA DOCENTE — V1
- * Vetores:
- * R Pesquisa, E Extensão, T Ensino, G Gestão, I Inovação
- * B Burocracia (atrito)
- *
- * A lógica foi feita para você ajustar fácil: edite QUESTIONS e WEIGHTS.
+ * ECOSSISTEMA DOCENTE V2
+ * - Perguntas em escala 1..5
+ * - Pesos ocultos
+ * - Gráficos: Radar, Balanço de Semana, Termômetro de Burocracia
  */
 
-const V = ["R","E","T","G","I","B"];
-const LABEL = {R:"Pesquisa",E:"Extensão",T:"Ensino",G:"Gestão",I:"Inovação",B:"Burocracia"};
 const EMOJI = {R:"🔬",E:"🌱",T:"🎓",G:"🧭",I:"🚀",B:"⚫"};
+const LABEL = {R:"Pesquisa",E:"Extensão",T:"Ensino",G:"Gestão",I:"Inovação",B:"Burocracia"};
 
 const QUESTIONS = [
-  {
-    t: "1) Chega um edital grande, com dinheiro, mas desalinhado com seu eixo. O que você faz?",
-    o: [
-      {k:"A",txt:"Submeto e ajusto depois (o sistema é assim).", w:{R:2,G:1,B:2}},
-      {k:"B",txt:"Submeto pensando em bolsas/estrutura para alunos, mesmo que o tema mude.", w:{T:2,G:1,B:2}},
-      {k:"C",txt:"Recuso. Coerência de trajetória > oportunidade.", w:{R:2,I:1,B:0}},
-      {k:"D",txt:"Encaminho para colega e me coloco como apoio pontual.", w:{G:1,E:1,B:1}},
-      {k:"E",txt:"Transformo o edital em laboratório de inovação (produto/serviço/tecnologia).", w:{I:3,R:1,B:1}}
-    ]
-  },
-  {
-    t: "2) Você está exausto e precisa escolher UM foco por 60 dias. O que você escolhe sem culpa?",
-    o: [
-      {k:"A",txt:"Escrita científica intensa (artigo/projeto).", w:{R:3,B:0}},
-      {k:"B",txt:"Ações com território/comunidade (impacto direto).", w:{E:3,B:0}},
-      {k:"C",txt:"Preparar aulas impecáveis e formar gente.", w:{T:3,B:0}},
-      {k:"D",txt:"Arrumar processos, equipe, rotinas e governança.", w:{G:3,B:1}},
-      {k:"E",txt:"Prototipar ferramenta/plataforma e testar com usuários.", w:{I:3,B:0}}
-    ]
-  },
-  {
-    t: "3) Quando um estudante te procura, o que você faz primeiro?",
-    o: [
-      {k:"A",txt:"Pergunto qual pergunta científica real ele quer responder.", w:{R:2,T:1,B:0}},
-      {k:"B",txt:"Pergunto qual problema do mundo real ele quer tocar.", w:{E:2,T:1,B:0}},
-      {k:"C",txt:"Pergunto quais lacunas de formação ele tem e monto trilha.", w:{T:3,B:0}},
-      {k:"D",txt:"Pergunto qual é o papel dele na equipe e prazos.", w:{G:2,T:1,B:1}},
-      {k:"E",txt:"Pergunto que produto/solução ele quer construir e validar.", w:{I:2,T:1,B:0}}
-    ]
-  },
-  {
-    t: "4) O que mais te irrita na universidade (mas também te revela)?",
-    o: [
-      {k:"A",txt:"Produção medida por contagem, não por contribuição.", w:{R:2,B:1}},
-      {k:"B",txt:"Impacto social vira evento, não processo continuado.", w:{E:2,B:1}},
-      {k:"C",txt:"Ensino vira obrigação, não artesanato intelectual.", w:{T:2,B:1}},
-      {k:"D",txt:"Gestão é invisível até dar problema.", w:{G:2,B:1}},
-      {k:"E",txt:"Inovar é tratado como ‘extra’, não como eixo.", w:{I:2,B:1}}
-    ]
-  },
-  {
-    t: "5) Seu calendário real é mais controlado por…",
-    o: [
-      {k:"A",txt:"Prazos de submissão/publicação.", w:{R:2,B:1}},
-      {k:"B",txt:"Agenda de campo, território, encontros.", w:{E:2,B:0}},
-      {k:"C",txt:"Semanas de aula, correções, materiais.", w:{T:2,B:1}},
-      {k:"D",txt:"Reuniões, comissões, pareceres, sistemas.", w:{G:2,B:3}},
-      {k:"E",txt:"Entregas de protótipo, teste, usuário.", w:{I:2,B:1}}
-    ]
-  },
-  {
-    t: "6) Você recebe um pedido administrativo urgente, mas sem sentido. Você…",
-    o: [
-      {k:"A",txt:"Faz rápido e volta ao foco (evita conflito).", w:{G:1,B:3}},
-      {k:"B",txt:"Negocia: faço se isso destravar uma ação com impacto.", w:{E:1,G:1,B:2}},
-      {k:"C",txt:"Recusa educadamente e oferece alternativa mais simples.", w:{I:1,R:1,B:0}},
-      {k:"D",txt:"Cria um template/processo para nunca mais perder tempo nisso.", w:{G:2,I:1,B:1}},
-      {k:"E",txt:"Aceita e transforma em “caso pedagógico” (ensina o sistema).", w:{T:2,G:1,B:2}}
-    ]
-  },
-  {
-    t: "7) Seu melhor dia de trabalho é aquele em que…",
-    o: [
-      {k:"A",txt:"Você produz uma ideia que vira artigo forte.", w:{R:3,B:0}},
-      {k:"B",txt:"A comunidade leva algo que muda prática.", w:{E:3,B:0}},
-      {k:"C",txt:"A turma sai diferente do que entrou.", w:{T:3,B:0}},
-      {k:"D",txt:"Um processo institucional para de travar.", w:{G:3,B:1}},
-      {k:"E",txt:"Um protótipo funciona e alguém usa de verdade.", w:{I:3,B:0}}
-    ]
-  },
-  {
-    t: "8) Se você pudesse cortar UMA coisa sem culpa, seria…",
-    o: [
-      {k:"A",txt:"Reuniões sem decisão.", w:{R:1,B:3}},
-      {k:"B",txt:"Eventos sem continuidade.", w:{E:1,B:2}},
-      {k:"C",txt:"Burocracia duplicada de ensino.", w:{T:1,B:3}},
-      {k:"D",txt:"Prestação de contas manual e repetitiva.", w:{G:1,B:3,I:1}},
-      {k:"E",txt:"Exigência de formalismo que mata inovação.", w:{I:2,B:2}}
-    ]
-  },
-  {
-    t: "9) Você tem que escolher: reconhecimento interno ou impacto externo?",
-    o: [
-      {k:"A",txt:"Reconhecimento interno (progressão, edital, prestígio).", w:{R:2,G:1,B:1}},
-      {k:"B",txt:"Impacto externo (território, políticas, transformação social).", w:{E:3,B:0}},
-      {k:"C",txt:"Impacto formativo (egressos, docência, legado humano).", w:{T:3,B:0}},
-      {k:"D",txt:"Estruturar a casa (gestão forte hoje para liberdade amanhã).", w:{G:3,B:1}},
-      {k:"E",txt:"Produto escalável (algo que sobreviva além de você).", w:{I:3,B:0}}
-    ]
-  },
-  {
-    t: "10) Onde você mais se perde hoje?",
-    o: [
-      {k:"A",txt:"Em ‘fazer tudo’ e não escrever.", w:{R:2,B:1}},
-      {k:"B",txt:"Em demandas comunitárias maiores que a equipe.", w:{E:2,B:1}},
-      {k:"C",txt:"Em corrigir demais e criar de menos.", w:{T:2,B:1}},
-      {k:"D",txt:"Em sistema, formulário, parecer, reunião.", w:{G:1,B:4}},
-      {k:"E",txt:"Em prototipar sem institucionalizar.", w:{I:2,B:1}}
-    ]
-  },
-  {
-    t: "11) O que você faz quando algo dá errado (projeto atrasou, recurso travou)?",
-    o: [
-      {k:"A",txt:"Volto ao método e reorganizo hipóteses/dados.", w:{R:2,G:1,B:1}},
-      {k:"B",txt:"Reforço alianças e adapto com o território.", w:{E:2,G:1,B:0}},
-      {k:"C",txt:"Transformo o erro em aprendizagem para turma/equipe.", w:{T:2,G:1,B:0}},
-      {k:"D",txt:"Ataco o gargalo do processo e documento tudo.", w:{G:2,B:2}},
-      {k:"E",txt:"Crio workaround tecnológico/automação/protótipo.", w:{I:2,G:1,B:1}}
-    ]
-  },
-  {
-    t: "12) Você acredita mais em…",
-    o: [
-      {k:"A",txt:"Conhecimento que resiste a revisões e crítica.", w:{R:3,B:0}},
-      {k:"B",txt:"Conhecimento que muda vida aqui e agora.", w:{E:3,B:0}},
-      {k:"C",txt:"Conhecimento que forma pensamento e linguagem.", w:{T:3,B:0}},
-      {k:"D",txt:"Conhecimento que vira estrutura para muitos.", w:{G:2,T:1,B:1}},
-      {k:"E",txt:"Conhecimento que vira ferramenta replicável.", w:{I:3,B:0}}
-    ]
-  },
-  {
-    t: "13) Se alguém te chama para uma palestra, você topa quando…",
-    o: [
-      {k:"A",txt:"Isso pode virar paper/projeto e consolidar eixo.", w:{R:2,T:1,B:0}},
-      {k:"B",txt:"É com comunidade e tem continuidade real.", w:{E:2,T:1,B:0}},
-      {k:"C",txt:"É aula/palestra que te dá prazer intelectual.", w:{T:3,B:0}},
-      {k:"D",txt:"É estratégica para parcerias e governança.", w:{G:2,T:1,B:1}},
-      {k:"E",txt:"É vitrine de uma solução/ferramenta.", w:{I:2,T:1,B:0}}
-    ]
-  },
-  {
-    t: "14) Seu medo oculto (profissional) é mais parecido com…",
-    o: [
-      {k:"A",txt:"Virar ‘produtor de paper’ sem sentido.", w:{R:1,B:1}},
-      {k:"B",txt:"Virar ‘animador de evento’ sem transformação.", w:{E:1,B:1}},
-      {k:"C",txt:"Virar ‘repetidor de conteúdo’ sem autoria.", w:{T:1,B:1}},
-      {k:"D",txt:"Virar ‘operador de sistema’ (burocrata de luxo).", w:{G:1,B:4}},
-      {k:"E",txt:"Virar ‘inovador solitário’ sem adesão institucional.", w:{I:2,B:1}}
-    ]
-  },
-  {
-    t: "15) Se você tivesse que deixar uma frase como legado, seria…",
-    o: [
-      {k:"A",txt:"“Eu aumentei a qualidade do que sabemos.”", w:{R:3,B:0}},
-      {k:"B",txt:"“Eu conectei universidade e sociedade de verdade.”", w:{E:3,B:0}},
-      {k:"C",txt:"“Eu formei pessoas livres e competentes.”", w:{T:3,B:0}},
-      {k:"D",txt:"“Eu deixei a casa funcionando para muitos.”", w:{G:3,B:1}},
-      {k:"E",txt:"“Eu criei soluções que sobreviveram ao meu nome.”", w:{I:3,B:0}}
-    ]
-  }
+  // 1) Identidade acadêmica e autoria
+  { id:"q1",  t:"Eu uso meus próprios artigos e projetos como material vivo de aula (com transparência, crítica e método).", a:"Nunca", b:"Sempre",
+    w:{R:1.2,T:1.1} },
+  { id:"q2",  t:"Eu consigo transformar extensão em processo contínuo (não só evento) com indicadores simples e parceiros fixos.", a:"Nunca", b:"Sempre",
+    w:{E:1.4,G:0.6} },
+  { id:"q3",  t:"Eu tenho rotina de escrita/produção (mesmo pequena) e ela sobrevive à semana real.", a:"Nunca", b:"Sempre",
+    w:{R:1.5,G:0.2} },
+  { id:"q4",  t:"Eu assumo gestão apenas quando ela libera o coletivo (e eu coloco limite claro de tempo).", a:"Nunca", b:"Sempre",
+    w:{G:1.1,B:-0.4} },
+
+  // 2) Burocracia (atrito real)
+  { id:"q5",  t:"Minha semana é engolida por sistemas, formulários, relatórios duplicados e reuniões sem decisão.", a:"Nada", b:"Totalmente",
+    w:{B:1.6} },
+  { id:"q6",  t:"Eu consigo dizer “não” de modo institucionalmente inteligente quando uma demanda só gera ruído.", a:"Nunca", b:"Sempre",
+    w:{G:0.7,B:-0.9} },
+  { id:"q7",  t:"Eu automatizo/templatizo rotinas (orientações, relatórios, planilhas, e-mails, fluxos) para não repetir dor.", a:"Nunca", b:"Sempre",
+    w:{I:0.7,G:0.6,B:-0.7} },
+
+  // 3) Ensino contemporâneo + inclusão + neurodiversidade
+  { id:"q8",  t:"Eu preparo aulas considerando alunos neurodivergentes (TDAH/TEA) com estrutura, previsibilidade e múltiplas formas de participação.", a:"Nunca", b:"Sempre",
+    w:{T:1.1,G:0.2} },
+  { id:"q9",  t:"Eu sei adaptar materiais para acessibilidade (surdos, cegos, baixa visão, dislexia) ou buscar apoio/recursos para isso.", a:"Nada", b:"Muito",
+    w:{T:1.2,G:0.3,B:0.2} },
+  { id:"q10", t:"Eu trato avaliação como formação (feedback, rubricas, refação), não como punição ou burocracia.", a:"Nunca", b:"Sempre",
+    w:{T:1.3,B:-0.2} },
+
+  // 4) IA e ética
+  { id:"q11", t:"Eu uso IA de forma ética e pedagógica (como ferramenta de rascunho/explicação) e ensino os limites dela.", a:"Nunca", b:"Sempre",
+    w:{I:1.0,T:0.6,G:0.2} },
+  { id:"q12", t:"Eu tenho política clara para IA na disciplina (o que pode, o que não pode, e como citar/relatar uso).", a:"Nunca", b:"Sempre",
+    w:{G:0.6,T:0.8} },
+
+  // 5) Extensão crítica + sociologia da universidade
+  { id:"q13", t:"Eu enxergo extensão como coprodução de conhecimento (não assistência). O território muda a pergunta científica.", a:"Nada", b:"Totalmente",
+    w:{E:1.3,R:0.4} },
+  { id:"q14", t:"Eu consigo trabalhar conflitos de interesse e poder na universidade (autoria, créditos, hierarquias) com firmeza e ética.", a:"Nunca", b:"Sempre",
+    w:{G:0.9,B:0.2} },
+
+  // 6) Gestão do tempo / saúde / limites
+  { id:"q15", t:"Eu protejo blocos de foco profundo (90–120 min) pelo menos 2x por semana.", a:"Nunca", b:"Sempre",
+    w:{R:0.7,T:0.5,I:0.5,B:-0.4} },
+  { id:"q16", t:"Eu sei reconhecer sinais de exaustão e ajustar o sistema (não só ‘aguentar’).", a:"Nunca", b:"Sempre",
+    w:{G:0.6,B:-0.6} },
+
+  // 7) Inovação (sem virar “hobby”)
+  { id:"q17", t:"Eu transformo ideias em protótipos e valido com usuários (alunos, território, gestores) antes de “fechar” solução.", a:"Nunca", b:"Sempre",
+    w:{I:1.4,E:0.2} },
+  { id:"q18", t:"Eu consigo institucionalizar o que crio (documento, treino pessoas, deixo replicável).", a:"Nunca", b:"Sempre",
+    w:{G:0.8,I:0.8} },
+
+  // 8) Pesquisa com sentido
+  { id:"q19", t:"Minha pesquisa tem uma pergunta-mãe que dá coerência a projetos e evita dispersão por edital.", a:"Nada", b:"Totalmente",
+    w:{R:1.4,G:0.2} },
+  { id:"q20", t:"Eu consigo transformar dados e rotina de laboratório/campo em oportunidades formativas (ensino-pesquisa integrado).", a:"Nunca", b:"Sempre",
+    w:{R:0.8,T:0.9} },
+
+  // 9) Ensino como autoria intelectual (não repetição)
+  { id:"q21", t:"Eu evito virar repetidor de slides: eu construo autoria didática (casos, atividades, projetos, perguntas).", a:"Nunca", b:"Sempre",
+    w:{T:1.3,I:0.2} },
+
+  // 10) Universidade como espaço político (reflexão)
+  { id:"q22", t:"Eu entendo que a universidade é um campo de disputa (recursos, prestígio, tempo) e ajo com estratégia sem perder valores.", a:"Nada", b:"Totalmente",
+    w:{G:1.0,B:0.2} },
+
+  // 11) Burocracia fina (o que mata a ciência)
+  { id:"q23", t:"Eu faço tarefas administrativas repetitivas que poderiam ser simplificadas/automatizadas, mas sigo fazendo do mesmo jeito.", a:"Nunca", b:"Sempre",
+    w:{B:1.2} },
+  { id:"q24", t:"Reuniões ocupam meu melhor horário cognitivo.", a:"Nunca", b:"Sempre",
+    w:{B:1.1} },
+
+  // 12) Liderança
+  { id:"q25", t:"Eu formo pessoas para serem melhores que eu (delegação com confiança + critério), não ‘dependentes’ de mim.", a:"Nunca", b:"Sempre",
+    w:{G:0.8,T:0.6,E:0.3} }
 ];
 
-// ------------------ UI BUILD ------------------
 const quizEl = document.getElementById("quiz");
-const answeredEl = document.getElementById("answered");
-const pbar = document.getElementById("pbar");
+document.getElementById("totalQ").textContent = QUESTIONS.length;
 
 function buildQuiz(){
   quizEl.innerHTML = "";
-  QUESTIONS.forEach((q, idx) => {
+  QUESTIONS.forEach((q, idx)=>{
     const wrap = document.createElement("div");
     wrap.className = "q";
     wrap.dataset.q = idx;
 
     const title = document.createElement("p");
     title.className = "q-title";
-    title.textContent = q.t;
+    title.textContent = (idx+1) + ") " + q.t;
 
-    const opts = document.createElement("div");
-    opts.className = "opts";
+    const sub = document.createElement("p");
+    sub.className = "q-sub";
+    sub.textContent = "Use a régua: 1 (discordo/ausente) → 5 (concordo/presente).";
 
-    q.o.forEach((opt, j) => {
-      const id = `q${idx}_${j}`;
-      const label = document.createElement("label");
-      label.className = "opt";
-      label.setAttribute("for", id);
+    const scale = document.createElement("div");
+    scale.className = "scale";
 
-      const radio = document.createElement("input");
-      radio.type = "radio";
-      radio.name = `q${idx}`;
-      radio.id = id;
-      radio.value = j;
+    const range = document.createElement("input");
+    range.type = "range";
+    range.min = "1"; range.max = "5"; range.step = "1";
+    range.value = "";
+    range.id = q.id;
 
-      radio.addEventListener("change", updateProgress);
+    const v = document.createElement("div");
+    v.className = "v";
+    v.textContent = "—";
 
-      const textBox = document.createElement("div");
-      const top = document.createElement("div");
-      top.innerHTML = `<b>${opt.k}</b> — ${opt.txt}`;
-      const weights = document.createElement("span");
-      weights.textContent = `Efeito: ${formatWeights(opt.w)}`;
-      textBox.appendChild(top);
-      textBox.appendChild(weights);
-
-      label.appendChild(radio);
-      label.appendChild(textBox);
-      opts.appendChild(label);
+    range.addEventListener("input", ()=>{
+      v.textContent = range.value;
+      updateProgress();
     });
 
+    scale.appendChild(range);
+    scale.appendChild(v);
+
+    const hints = document.createElement("div");
+    hints.className = "scaleHints";
+    hints.innerHTML = `<span>${q.a}</span><span>${q.b}</span>`;
+
     wrap.appendChild(title);
-    wrap.appendChild(opts);
+    wrap.appendChild(sub);
+    wrap.appendChild(scale);
+    wrap.appendChild(hints);
     quizEl.appendChild(wrap);
   });
 }
 
-function formatWeights(w){
-  // exibe pesos sem virar “dica fácil”
-  const order = ["R","E","T","G","I","B"];
-  const parts = [];
-  order.forEach(k=>{
-    if(w[k]) parts.push(`${EMOJI[k]}+${w[k]}`);
-  });
-  return parts.join("  ");
-}
-
 function countAnswered(){
-  let n = 0;
-  QUESTIONS.forEach((_, i)=>{
-    const picked = document.querySelector(`input[name="q${i}"]:checked`);
-    if(picked) n++;
+  let n=0;
+  QUESTIONS.forEach(q=>{
+    const v = document.getElementById(q.id).value;
+    if(v && Number(v)>=1) n++;
   });
   return n;
 }
 
 function updateProgress(){
   const n = countAnswered();
-  answeredEl.textContent = n;
-  const pct = Math.round((n / QUESTIONS.length) * 100);
-  pbar.style.width = pct + "%";
-}
-
-// ------------------ SCORING ------------------
-function compute(){
-  const raw = {R:0,E:0,T:0,G:0,I:0,B:0};
-  const missing = [];
-
-  QUESTIONS.forEach((q, i)=>{
-    const picked = document.querySelector(`input[name="q${i}"]:checked`);
-    if(!picked){ missing.push(i+1); return; }
-    const opt = q.o[Number(picked.value)];
-    Object.keys(opt.w).forEach(k => raw[k] += opt.w[k]);
-  });
-
-  // normalização 0..100 para R,E,T,G,I baseado no máximo possível aproximado
-  // (como pesos variam pouco, normalizar por soma total ajuda e evita “superpontos”)
-  const mainSum = raw.R + raw.E + raw.T + raw.G + raw.I;
-  const base = Math.max(1, mainSum);
-
-  const cur = {
-    R: Math.round((raw.R / base) * 100),
-    E: Math.round((raw.E / base) * 100),
-    T: Math.round((raw.T / base) * 100),
-    G: Math.round((raw.G / base) * 100),
-    I: Math.round((raw.I / base) * 100),
-    B: Math.min(100, Math.round((raw.B / (QUESTIONS.length*4)) * 100)) // 0..~100
-  };
-
-  // metas desejadas
-  const goal = {
-    R: clampNum("goalR"),
-    E: clampNum("goalE"),
-    T: clampNum("goalT"),
-    G: clampNum("goalG"),
-    I: clampNum("goalI"),
-    B: clampNum("tolB")
-  };
-
-  // atrito: burocracia alta reduz “potencial entregue”
-  // quanto menor tolerância, maior a dor percebida.
-  const tol = goal.B;
-  const friction = Math.round((cur.B * (100 - tol)) / 100); // 0..100
-  // energia líquida: reduz um pouco os vetores quando friction é alto (somente para diagnóstico narrativo)
-  const net = {
-    R: Math.max(0, cur.R - Math.round(friction*0.18)),
-    E: Math.max(0, cur.E - Math.round(friction*0.18)),
-    T: Math.max(0, cur.T - Math.round(friction*0.18)),
-    G: Math.max(0, cur.G - Math.round(friction*0.18)),
-    I: Math.max(0, cur.I - Math.round(friction*0.18)),
-    B: cur.B
-  };
-
-  return {raw, cur, goal, net, friction, missing};
+  document.getElementById("answered").textContent = n;
+  const pct = Math.round((n/QUESTIONS.length)*100);
+  document.getElementById("pbar").style.width = pct + "%";
 }
 
 function clampNum(id){
@@ -703,6 +675,95 @@ function clampNum(id){
   return v;
 }
 
+function normalizeWeek(ideal){
+  // normaliza distribuição em 100
+  const sum = Object.values(ideal).reduce((a,b)=>a+b,0);
+  const base = Math.max(1, sum);
+  const out = {};
+  for(const k in ideal) out[k] = Math.round((ideal[k]/base)*100);
+  return out;
+}
+
+function compute(){
+  const missing = [];
+  // score acumulado
+  const raw = {R:0,E:0,T:0,G:0,I:0,B:0};
+
+  QUESTIONS.forEach((q, i)=>{
+    const v = Number(document.getElementById(q.id).value);
+    if(!Number.isFinite(v) || v<1){
+      missing.push(i+1);
+      return;
+    }
+    // escala 1..5 -> centrada em 0..1 (0 a 1)
+    // 1=>0, 5=>1
+    const x = (v - 1) / 4;
+    // aplica pesos (ocultos)
+    for(const k in q.w){
+      raw[k] += x * q.w[k];
+    }
+  });
+
+  // converte em percentuais: pega apenas R,E,T,G,I para perfil e B separado
+  const mainKeys = ["R","E","T","G","I"];
+  const mainSum = mainKeys.reduce((a,k)=>a + Math.max(0, raw[k]), 0);
+  const base = Math.max(0.0001, mainSum);
+
+  const cur = {
+    R: Math.round((Math.max(0,raw.R)/base)*100),
+    E: Math.round((Math.max(0,raw.E)/base)*100),
+    T: Math.round((Math.max(0,raw.T)/base)*100),
+    G: Math.round((Math.max(0,raw.G)/base)*100),
+    I: Math.round((Math.max(0,raw.I)/base)*100),
+    B: Math.max(0, Math.min(100, Math.round( (raw.B + 1.8) * 28 ))) // escala heurística
+  };
+
+  const goal = {
+    R: clampNum("goalR"),
+    E: clampNum("goalE"),
+    T: clampNum("goalT"),
+    G: clampNum("goalG"),
+    I: clampNum("goalI"),
+    tolB: clampNum("tolB")
+  };
+
+  // ideal de semana
+  const ideal = normalizeWeek({
+    R: clampNum("idealR"),
+    E: clampNum("idealE"),
+    T: clampNum("idealT"),
+    G: clampNum("idealG"),
+    I: clampNum("idealI"),
+    B: clampNum("idealB")
+  });
+
+  // atrito percebido (burocracia x limite tolerável)
+  const friction = Math.round((cur.B * (100 - goal.tolB))/100);
+
+  // estimativa de “semana atual” (heurística):
+  // usa o perfil para estimar distribuição + burocracia drena um bloco extra
+  let currentWeek = {
+    R: cur.R,
+    E: cur.E,
+    T: cur.T,
+    G: cur.G,
+    I: cur.I,
+    B: Math.min(45, Math.max(10, Math.round(cur.B*0.40))) // B em % da semana (heurístico)
+  };
+  currentWeek = normalizeWeek(currentWeek);
+
+  // gaps
+  const gap = {
+    R: goal.R - cur.R,
+    E: goal.E - cur.E,
+    T: goal.T - cur.T,
+    G: goal.G - cur.G,
+    I: goal.I - cur.I
+  };
+
+  return {raw, cur, goal, ideal, currentWeek, friction, missing, gap};
+}
+
 function topRole(vec){
   const keys = ["R","E","T","G","I"];
   let best = keys[0];
@@ -711,195 +772,228 @@ function topRole(vec){
 }
 
 function riskLabel(friction, B){
-  // captura burocrática: quando B alto e friction alto
   const score = Math.round((B*0.55) + (friction*0.45));
   if(score >= 70) return {txt:"ALTO 🔥", cls:"bad"};
   if(score >= 40) return {txt:"MÉDIO ⚠️", cls:"warn"};
   return {txt:"BAIXO ✅", cls:"ok"};
 }
-
 function clsColor(cls){
-  if(cls==="bad") return "var(--bad)";
-  if(cls==="warn") return "var(--warn)";
-  return "var(--ok)";
+  return cls==="bad" ? "var(--bad)" : (cls==="warn" ? "var(--warn)" : "var(--ok)");
 }
 
-// ------------------ DIAGNOSTIC TEXT ------------------
-function buildStory(data){
+// ---------- Diagnóstico narrativo (mais “filosofia” + criticidade) ----------
+function phaseTxt(){
+  const p = document.getElementById("phase").value;
+  return p==="early" ? "início de carreira" : (p==="mid" ? "meio de carreira" : "fase sênior");
+}
+
+function buildNarrative(data){
   const name = (document.getElementById("name").value || "Visitante").trim();
-  const uni = (document.getElementById("uni").value || "sua universidade").trim();
+  const uni  = (document.getElementById("uni").value  || "sua universidade").trim();
   const dept = (document.getElementById("dept").value || "seu departamento").trim();
   const prog = (document.getElementById("prog").value || "seu programa").trim();
   const hours = clampNum("hours");
 
   const core = topRole(data.cur);
-  const desired = topRole(data.goal);
-  const risk = riskLabel(data.friction, data.cur.B);
-
-  const gap = {
-    R: data.goal.R - data.cur.R,
-    E: data.goal.E - data.cur.E,
-    T: data.goal.T - data.cur.T,
-    G: data.goal.G - data.cur.G,
-    I: data.goal.I - data.cur.I
-  };
-
-  const biggestGap = Object.keys(gap).reduce((a,k)=> Math.abs(gap[k]) > Math.abs(gap[a]) ? k : a, "R");
-  const gapDir = gap[biggestGap] >= 0 ? "crescer" : "reduzir";
-  const gapAbs = Math.abs(gap[biggestGap]);
-
-  // leitura “sem moralismo”
-  const phase = document.getElementById("phase").value;
-  const phaseTxt = phase==="early" ? "início de carreira" : (phase==="mid" ? "meio de carreira" : "fase sênior");
-
-  const bureaucracyNote =
-    data.cur.B >= 65 ? "A burocracia está alta e aparece como força dominante do seu cenário — isso é perigoso porque ela pode virar identidade sem você perceber." :
-    data.cur.B >= 35 ? "A burocracia está presente como atrito relevante — não é sobre ‘aguentar’, é sobre criar proteções e automações." :
-    "A burocracia parece relativamente controlada — o risco aqui é subestimar o atrito quando projetos crescerem.";
-
-  const alignment =
-    core === desired ? "Boa notícia: seu ‘centro’ atual conversa com seu desejo de 5 anos. O trabalho agora é proteger o foco e impedir vazamentos." :
-    "Seu perfil atual e seu desejo de 5 anos não estão alinhados — isso não é falha, é dado. O jogo está te mostrando onde você está pagando custo invisível.";
-
-  const story = `
-  <b>${name}</b>, em <b>${uni}</b> (${dept}; ${prog}), fase: <b>${phaseTxt}</b>, com <b>${hours}h/semana</b> “reais”.<br/><br/>
-  Hoje, seu vetor predominante é <b>${EMOJI[core]} ${LABEL[core]}</b>. Seu desejo de 5 anos aponta para <b>${EMOJI[desired]} ${LABEL[desired]}</b>.<br/>
-  <b>${alignment}</b><br/><br/>
-  <b>Burocracia (atrito):</b> ${data.cur.B}/100. <b>Fricção percebida</b> (burocracia × baixa tolerância): <b>${data.friction}/100</b>.<br/>
-  ${bureaucracyNote}<br/><br/>
-  O maior ponto de ajuste é <b>${gapDir}</b> em <b>${EMOJI[biggestGap]} ${LABEL[biggestGap]}</b> (gap de <b>${gapAbs}</b> pontos).
-  O objetivo não é virar “um novo eu” — é redesenhar <b>agenda, compromissos e sistemas</b> para que sua identidade real tenha espaço.
-  `;
-
-  return {story, core, desired, risk, biggestGap, gap};
-}
-
-function buildMoves(data, meta){
-  // micro-movimentos: 3 ações “antiburocracia” + 1 ação para gap
-  const moves = [];
-  const B = data.cur.B;
-  const friction = data.friction;
-  const core = meta.core;
-  const desired = meta.desired;
-
-  // Movimento 1: proteção de agenda
-  moves.push({
-    ttl:"1) Proteção de agenda (blindagem de 2 blocos)",
-    txt:"Crie dois blocos fixos por semana (90–120 min) inegociáveis para seu eixo principal. Não é ‘tempo livre’: é o motor. Se alguém pedir reunião, ofereça outra janela."
+  const desired = topRole({
+    R:data.goal.R, E:data.goal.E, T:data.goal.T, G:data.goal.G, I:data.goal.I
   });
 
-  // Movimento 2: anti-atrito (burocracia)
+  const rk = riskLabel(data.friction, data.cur.B);
+
+  // maior gap
+  const biggestGap = Object.keys(data.gap).reduce((a,k)=> Math.abs(data.gap[k]) > Math.abs(data.gap[a]) ? k : a, "R");
+  const gapAbs = Math.abs(data.gap[biggestGap]);
+  const gapDir = data.gap[biggestGap] >= 0 ? "crescer" : "reduzir";
+
+  const bureaucracyTone =
+    data.cur.B >= 65 ? "O sistema está tentando te transformar em operador de processos. Se você não reagir, sua identidade acadêmica vira função administrativa." :
+    data.cur.B >= 35 ? "A burocracia já é um atrito relevante. O perigo não é ela existir — é ela ocupar seu melhor horário cognitivo." :
+    "A burocracia parece controlada, mas cuidado: quando projetos escalam, o atrito cresce. Proteja processos antes do caos.";
+
+  const alignment =
+    core === desired
+      ? "Seu eixo atual conversa com seu desejo. Agora é menos sobre ‘mudar de identidade’ e mais sobre blindar foco e criar continuidade."
+      : "Seu eixo atual não conversa com seu desejo. Isso não é defeito — é diagnóstico: você está pagando custo invisível. A pergunta é: o que você está sacrificando para sustentar o que faz hoje?";
+
+  // pergunta filosófica final (curta, mas forte)
+  const phi = [
+    "A universidade não te mede pelo que você é — te mede pelo que consegue registrar. Seu trabalho é não virar refém do registro.",
+    "Ser professor é sustentar um espaço de pensamento quando o mundo só quer entrega.",
+    "Quando a burocracia vira identidade, a universidade perde o sentido e ganha apenas funcionamento."
+  ];
+  const phiPick = phi[(data.cur.B + data.friction + data.cur.R) % phi.length | 0];
+
+  const txt = `
+    <b>${name}</b> — <b>${uni}</b> (${dept}; ${prog}) · <b>${phaseTxt()}</b> · <b>${hours}h/semana reais</b><br><br>
+    Seu eixo hoje: <b>${EMOJI[core]} ${LABEL[core]}</b>. Seu desejo (meta dominante): <b>${EMOJI[desired]} ${LABEL[desired]}</b>.<br>
+    <b>${alignment}</b><br><br>
+    <b>Burocracia:</b> ${data.cur.B}/100 · <b>Fricção percebida:</b> ${data.friction}/100 · <b>Risco:</b> <span style="color:${clsColor(rk.cls)}"><b>${rk.txt}</b></span><br>
+    ${bureaucracyTone}<br><br>
+    Maior ajuste necessário: <b>${gapDir}</b> em <b>${EMOJI[biggestGap]} ${LABEL[biggestGap]}</b> (~<b>${gapAbs}</b> pontos).<br>
+    Próximo passo: parar de tentar “fazer tudo” e redesenhar <b>agenda, processos e compromissos</b> para o seu objetivo caber na semana real.
+  `;
+
+  return {txt, core, desired, rk, biggestGap};
+}
+
+function buildQuotes(data){
+  // frases finais: o que é ser professor universitário (bem “manifesto”)
+  const list = [
+    "Professor universitário não é um cargo: é um sistema de escolhas sobre tempo, sentido e compromisso público.",
+    "Pesquisa sem ensino vira especialização muda. Ensino sem pesquisa vira repetição. Extensão sem criticidade vira evento. Gestão sem limite vira captura. Inovação sem instituição vira hobby.",
+    "O trabalho invisível do docente não é fracasso — é terreno político. O problema é quando o invisível ocupa o lugar do essencial.",
+    "Você não precisa ser tudo. Precisa ser coerente, contínuo e justo consigo e com os outros.",
+    "A pergunta mais séria não é ‘o que eu produzi?’, é ‘o que eu sustentei de humano e de conhecimento apesar do sistema?’"
+  ];
+
+  // escolhe 3 com base no perfil
+  const idx1 = (data.cur.R + data.cur.E + data.cur.T) % list.length;
+  const idx2 = (data.cur.G + data.cur.I + data.cur.B) % list.length;
+  const idx3 = (data.friction + data.cur.B) % list.length;
+
+  return [list[idx1], list[idx2], list[idx3]];
+}
+
+// ---------- Plano 7/30/90 dias (passo a passo) ----------
+function buildMoves(data, meta){
+  const moves = [];
+  const core = meta.core;
+  const desired = meta.desired;
+  const B = data.cur.B;
+  const friction = data.friction;
+  const gapKey = meta.biggestGap;
+
+  // 7 dias: arrumar agenda + dreno
+  moves.push({
+    ttl:"7 dias — Organizar o chão (sem isso, nada escala)",
+    txt:"(1) Bloqueie 2 sessões de foco (90–120 min) no seu melhor horário. (2) Liste 5 drenos burocráticos da semana e ataque 1 com template/automação. (3) Marque uma reunião ‘com decisão’ (pauta + saída) e recuse reunião sem pauta."
+  });
+
+  // 30 dias: transformar eixo em processo (ritual)
+  const ritual = {
+    R:"Defina pipeline: pergunta→dados→rascunho→submissão. Uma entrega por semana (mesmo pequena).",
+    E:"Defina ritual mensal com parceiros fixos + 3 indicadores simples de impacto (não só fotos).",
+    T:"Defina 1 disciplina como ‘laboratório autoral’: casos, projetos, rubricas e feedback.",
+    G:"Defina limites formais: agenda de gestão e o que você não faz. Publique seu ‘manual de funcionamento’.",
+    I:"Defina usuário + problema + protótipo. Faça 2 testes com gente real antes de ‘finalizar’."
+  };
+
+  moves.push({
+    ttl:"30 dias — Transformar seu eixo em ritual (continuidade é poder)",
+    txt: ritual[desired] || "Escolha 1 processo que você repete e torne replicável (manual + checklist + template)."
+  });
+
+  // 90 dias: alinhar a semana real com a semana desejada
+  moves.push({
+    ttl:"90 dias — Reequilibrar a semana (e não viver apagando incêndio)",
+    txt:"Compare seu ‘Balanço de Semana’ (gráfico) com seu ideal. Escolha 2 mudanças estruturais: (a) cortar/encurtar reuniões, (b) delegar uma rotina, (c) automatizar relatório, (d) reduzir número de frentes abertas. Reavalie com este app no dia 90."
+  });
+
+  // Antiburocracia específica
   if(B >= 50 || friction >= 50){
     moves.push({
-      ttl:"2) Antiburocracia prática (automatizar ou delegar 1 dor)",
-      txt:"Escolha UM processo repetitivo (relatório, planilha, chamada, formulário) e transforme em template/automação. Se não der, delegue com padrão e checklist. A regra: nunca fazer manualmente duas vezes."
+      ttl:"Plano antiburocracia — 3 golpes objetivos",
+      txt:"1) Template de respostas (orientação, e-mail, relatórios). 2) ‘Reunião só com pauta + decisão’. 3) Uma lista pública do que você não faz (limites). Burocracia não pode virar identidade."
     });
   } else {
     moves.push({
-      ttl:"2) Guardião do atrito (prevenção)",
-      txt:"Documente seus processos antes que cresçam: templates, checklist e um ‘manual do projeto’. Burocracia controlada hoje vira caos amanhã se você escalar sem padrão."
+      ttl:"Prevenção antiburocracia — não espere piorar",
+      txt:"Antes de crescer projetos, documente: fluxos, arquivos, papéis, prazos, indicadores. A maioria dos docentes quebra por falta de processo, não por falta de ideia."
     });
   }
 
-  // Movimento 3: recusa estratégica
+  // Inclusão / IA — sempre presente
   moves.push({
-    ttl:"3) Recusa estratégica (sim para o eixo, não para o ruído)",
-    txt:"Antes de aceitar algo, aplique a pergunta: ‘isso alimenta qual vetor e por quê?’. Se alimentar só Burocracia, proponha formato mínimo ou recuse com gentileza e alternativa."
+    ttl:"Docência contemporânea — IA + inclusão sem romantizar",
+    txt:"Defina uma política de IA (o que pode, como declarar). Adapte material para acessibilidade (texto alternativo, linguagem clara, múltiplas formas de participação). Isso não é ‘extra’: é qualidade do ensino."
   });
 
-  // Movimento 4: gap
-  const k = meta.biggestGap;
-  const dir = meta.gap[k] >= 0 ? "aumentar" : "reduzir";
-  const gapAbs = Math.abs(meta.gap[k]);
-
-  const gapText = {
-    R: "Se quer mais pesquisa: proteja escrita, crie pipeline (idéia→dados→rascunho→submissão) e mate o mito de que ‘um dia eu sento e escrevo’.",
-    E: "Se quer mais extensão: transforme ação em programa contínuo (ritual mensal, parceiros fixos, indicadores simples) e evite virar ‘evento sem legado’.",
-    T: "Se quer mais ensino: projete experiências (não só conteúdo), crie material reaproveitável e use a sala como laboratório do seu eixo.",
-    G: "Se quer mais gestão: aceite que governança é liberdade futura — mas imponha limites claros para não virar operador do sistema.",
-    I: "Se quer mais inovação: defina usuário, problema e protótipo; depois institucionalize (manual, replicação, adoção). Inovação sem adesão vira esforço solo."
-  }[k];
-
-  moves.push({
-    ttl:`4) Ajuste do seu destino (${dir} ${LABEL[k]} em ~${gapAbs} pts)`,
-    txt: gapText
-  });
-
-  // Bônus: se core != desired, adicionar “ponte”
+  // Ponte se core != desired
   if(core !== desired){
     moves.push({
-      ttl:"BÔNUS) Construir ponte entre quem você é e quem você quer ser",
-      txt:"Escolha um projeto-ponte: algo que use seu vetor atual como motor para aproximar o vetor desejado (ex.: pesquisa que vira extensão; extensão que vira inovação; ensino que vira pesquisa)."
+      ttl:"Ponte identitária — do que você é ao que quer ser",
+      txt:"Crie 1 projeto-ponte: use seu eixo atual para alimentar o desejado. Ex.: pesquisa → extensão (coprodução); extensão → inovação (ferramenta); ensino → pesquisa (dados de aprendizagem)."
     });
   }
+
+  // Mostrar “onde mexer primeiro” pelo gap
+  const gapAdvice = {
+    R:"Para crescer pesquisa: proteja escrita e reduza frentes. Sem pipeline, tudo vira urgência.",
+    E:"Para crescer extensão: menos eventos, mais continuidade (ritual + parceiros + indicadores).",
+    T:"Para crescer ensino: transforme conteúdo em experiência (casos, projetos, rubricas).",
+    G:"Para crescer gestão: aceite que gestão é engenharia social — mas limite para não virar operador.",
+    I:"Para crescer inovação: valide com usuário e institucionalize para não morrer em você."
+  };
+
+  moves.push({
+    ttl:`Onde mexer primeiro (ajuste principal: ${EMOJI[gapKey]} ${LABEL[gapKey]})`,
+    txt: gapAdvice[gapKey] || "Ajuste seu eixo com uma mudança estrutural de agenda/processo, não com força de vontade."
+  });
 
   return moves;
 }
 
-// ------------------ DRAWING ------------------
+// ---------- Gráficos ----------
 const radar = document.getElementById("radar");
-const mapa = document.getElementById("mapa");
+const timeBars = document.getElementById("timeBars");
+const bureau = document.getElementById("bureau");
+
 const rctx = radar.getContext("2d");
-const mctx = mapa.getContext("2d");
+const tctx = timeBars.getContext("2d");
+const bctx = bureau.getContext("2d");
 
-function clear(ctx, c){
-  ctx.clearRect(0,0,c.width,c.height);
-}
+function clear(ctx, c){ ctx.clearRect(0,0,c.width,c.height); }
 
-function drawRadar(cur, goal, B){
+function drawRadar(cur, goal){
   clear(rctx, radar);
-
   const W = radar.width, H = radar.height;
-  const cx = W*0.36, cy = H*0.52;
-  const radius = Math.min(W*0.28, H*0.38);
-
+  const cx = W*0.50, cy = H*0.55;
+  const radius = Math.min(W*0.33, H*0.38);
   const axes = ["R","E","T","G","I"];
   const n = axes.length;
 
-  // background rings
+  // fundo
+  rctx.fillStyle = "#fff";
+  rctx.fillRect(0,0,W,H);
+
+  // rings
   rctx.save();
   rctx.translate(cx, cy);
-
-  rctx.strokeStyle = "rgba(255,255,255,.12)";
+  rctx.strokeStyle = "rgba(15,23,42,.10)";
   rctx.lineWidth = 1;
-  for(let r=1; r<=5; r++){
-    rctx.beginPath();
+  for(let r=1;r<=5;r++){
     const rr = radius*(r/5);
+    rctx.beginPath();
     for(let i=0;i<n;i++){
       const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
-      const x = Math.cos(ang)*rr;
-      const y = Math.sin(ang)*rr;
+      const x = Math.cos(ang)*rr, y = Math.sin(ang)*rr;
       if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
     }
-    rctx.closePath();
-    rctx.stroke();
+    rctx.closePath(); rctx.stroke();
   }
 
-  // axes lines + labels
-  axes.forEach((k, i)=>{
+  // axes + labels
+  axes.forEach((k,i)=>{
     const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
-    const x = Math.cos(ang)*radius;
-    const y = Math.sin(ang)*radius;
-
+    const x = Math.cos(ang)*radius, y = Math.sin(ang)*radius;
     rctx.beginPath();
-    rctx.moveTo(0,0);
-    rctx.lineTo(x,y);
-    rctx.strokeStyle = "rgba(255,255,255,.14)";
-    rctx.stroke();
+    rctx.moveTo(0,0); rctx.lineTo(x,y);
+    rctx.strokeStyle = "rgba(15,23,42,.12)"; rctx.stroke();
 
-    rctx.fillStyle = "rgba(234,240,255,.9)";
-    rctx.font = "700 14px ui-sans-serif, system-ui";
-    const lx = Math.cos(ang)*(radius+22);
-    const ly = Math.sin(ang)*(radius+22);
-    rctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, lx-30, ly+5);
+    rctx.fillStyle = "rgba(15,23,42,.90)";
+    rctx.font = "900 13px ui-sans-serif, system-ui";
+    const lx = Math.cos(ang)*(radius+26);
+    const ly = Math.sin(ang)*(radius+26);
+    rctx.textAlign = "center";
+    rctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, lx, ly+4);
   });
 
-  // polygon draw helper
   function poly(vec, stroke, fill, alpha){
     rctx.beginPath();
     axes.forEach((k,i)=>{
       const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
-      const val = vec[k]/100;
+      const val = (vec[k]||0)/100;
       const x = Math.cos(ang)*radius*val;
       const y = Math.sin(ang)*radius*val;
       if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
@@ -914,125 +1008,157 @@ function drawRadar(cur, goal, B){
     rctx.globalAlpha = 1;
   }
 
-  // desired (lighter)
-  poly(goal, "rgba(255,255,255,.25)", "rgba(255,255,255,.10)", 1);
+  // desired (leve)
+  poly(goal, "rgba(15,23,42,.25)", "rgba(15,23,42,.08)", 1);
+  // current (forte)
+  poly(cur, "rgba(15,23,42,.85)", "rgba(15,23,42,.14)", 1);
 
-  // current (strong)
-  poly(cur, "rgba(255,255,255,.85)", "rgba(255,255,255,.16)", 1);
-
-  // bureaucracy indicator bar
   rctx.restore();
-  const bx = W*0.70, by = H*0.22, bw = W*0.26, bh = 18;
-  rctx.fillStyle = "rgba(255,255,255,.08)";
-  rctx.strokeStyle = "rgba(255,255,255,.14)";
-  rctx.lineWidth = 1;
-  roundRect(rctx, bx, by, bw, bh, 10, true, true);
 
-  const fillW = (B/100)*bw;
-  rctx.fillStyle = "rgba(148,163,184,.75)";
-  roundRect(rctx, bx, by, fillW, bh, 10, true, false);
+  // titulo
+  rctx.fillStyle = "rgba(15,23,42,.92)";
+  rctx.font = "950 16px ui-sans-serif, system-ui";
+  rctx.textAlign = "left";
+  rctx.fillText("Perfil — Atual vs. Desejado", 14, 22);
 
-  rctx.fillStyle = "rgba(234,240,255,.92)";
-  rctx.font = "800 13px ui-sans-serif, system-ui";
-  rctx.fillText(`⚫ Burocracia: ${B}/100`, bx, by-8);
+  rctx.fillStyle = "rgba(15,23,42,.65)";
+  rctx.font = "700 12px ui-sans-serif, system-ui";
+  rctx.fillText("Isso mede distribuição de energia (não ‘qualidade’).", 14, 42);
 }
 
-function drawMap(cur, goal, B, friction){
-  clear(mctx, mapa);
-  const W = mapa.width, H = mapa.height;
+function drawTimeBars(curWeek, idealWeek){
+  clear(tctx, timeBars);
+  const W = timeBars.width, H = timeBars.height;
 
-  const center = {x: W*0.46, y: H*0.55};
-  const nodes = {
-    R: {x: W*0.18, y: H*0.22},
-    E: {x: W*0.12, y: H*0.78},
-    T: {x: W*0.46, y: H*0.10},
-    G: {x: W*0.78, y: H*0.25},
-    I: {x: W*0.84, y: H*0.78},
-    B: {x: W*0.92, y: H*0.52} // dreno
+  tctx.fillStyle="#fff";
+  tctx.fillRect(0,0,W,H);
+
+  tctx.fillStyle="rgba(15,23,42,.92)";
+  tctx.font="950 16px ui-sans-serif, system-ui";
+  tctx.fillText("Balanço de Semana — Hoje vs. Ideal", 14, 22);
+
+  tctx.fillStyle="rgba(15,23,42,.65)";
+  tctx.font="700 12px ui-sans-serif, system-ui";
+  tctx.fillText("Barras mostram % estimado de energia/tempo por eixo.", 14, 42);
+
+  const keys = ["R","E","T","G","I","B"];
+  const colors = {
+    R:"rgba(37,99,235,.80)",
+    E:"rgba(22,163,74,.80)",
+    T:"rgba(245,158,11,.85)",
+    G:"rgba(124,58,237,.80)",
+    I:"rgba(239,68,68,.78)",
+    B:"rgba(71,85,105,.70)"
   };
 
-  // arrows thickness based on current
-  function arrow(a,b,w, color){
-    mctx.strokeStyle = color;
-    mctx.lineWidth = w;
-    mctx.beginPath();
-    mctx.moveTo(a.x,a.y);
-    mctx.lineTo(b.x,b.y);
-    mctx.stroke();
+  const leftX = 80;
+  const barW = W - 120;
+  const rowH = 48;
+  const topY = 70;
 
-    // head
-    const ang = Math.atan2(b.y-a.y, b.x-a.x);
-    const size = 10 + w;
-    mctx.fillStyle = color;
-    mctx.beginPath();
-    mctx.moveTo(b.x, b.y);
-    mctx.lineTo(b.x - Math.cos(ang-0.35)*size, b.y - Math.sin(ang-0.35)*size);
-    mctx.lineTo(b.x - Math.cos(ang+0.35)*size, b.y - Math.sin(ang+0.35)*size);
-    mctx.closePath();
-    mctx.fill();
-  }
+  keys.forEach((k, idx)=>{
+    const y = topY + idx*rowH;
 
-  function node(p, title, sub, color, big=false){
-    const r = big ? 36 : 28;
-    mctx.fillStyle = "rgba(0,0,0,.18)";
-    mctx.strokeStyle = "rgba(255,255,255,.14)";
-    mctx.lineWidth = 1;
-    circle(mctx, p.x, p.y, r, true, true);
+    // label
+    tctx.fillStyle="rgba(15,23,42,.90)";
+    tctx.font="900 12px ui-sans-serif, system-ui";
+    tctx.textAlign="left";
+    tctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, 14, y+18);
 
-    // inner
-    mctx.fillStyle = color;
-    circle(mctx, p.x, p.y, r-10, true, false);
+    // back
+    tctx.fillStyle="rgba(15,23,42,.06)";
+    roundRect(tctx, leftX, y, barW, 14, 8, true, false);
 
-    mctx.fillStyle = "rgba(234,240,255,.95)";
-    mctx.font = "900 14px ui-sans-serif, system-ui";
-    mctx.textAlign = "center";
-    mctx.fillText(title, p.x, p.y+5);
+    // current
+    const cw = Math.round((curWeek[k]/100)*barW);
+    tctx.fillStyle=colors[k];
+    roundRect(tctx, leftX, y, cw, 14, 8, true, false);
 
-    if(sub){
-      mctx.fillStyle = "rgba(234,240,255,.75)";
-      mctx.font = "700 12px ui-sans-serif, system-ui";
-      mctx.fillText(sub, p.x, p.y+24);
-    }
-  }
+    // ideal marker line
+    const ix = leftX + Math.round((idealWeek[k]/100)*barW);
+    tctx.strokeStyle="rgba(15,23,42,.55)";
+    tctx.lineWidth=2;
+    tctx.beginPath();
+    tctx.moveTo(ix, y-4);
+    tctx.lineTo(ix, y+18);
+    tctx.stroke();
 
-  // center: You
-  node(center, "VOCÊ", "", "rgba(255,255,255,.28)", true);
+    // numbers
+    tctx.fillStyle="rgba(15,23,42,.70)";
+    tctx.font="800 12px ui-sans-serif, system-ui";
+    tctx.textAlign="right";
+    tctx.fillText(`hoje ${curWeek[k]}%  |  ideal ${idealWeek[k]}%`, W-14, y+18);
+  });
 
-  // role nodes
-  node(nodes.R, "🔬", `${cur.R}/${goal.R}`, "rgba(96,165,250,.75)");
-  node(nodes.E, "🌱", `${cur.E}/${goal.E}`, "rgba(52,211,153,.75)");
-  node(nodes.T, "🎓", `${cur.T}/${goal.T}`, "rgba(251,191,36,.75)");
-  node(nodes.G, "🧭", `${cur.G}/${goal.G}`, "rgba(167,139,250,.75)");
-  node(nodes.I, "🚀", `${cur.I}/${goal.I}`, "rgba(251,113,133,.75)");
-
-  // bureaucracy drain node
-  node(nodes.B, "⚫", `${B} | fric ${friction}`, "rgba(148,163,184,.70)");
-
-  // arrows from you to roles (thickness by cur)
-  arrow(center, nodes.R, 1 + cur.R/18, "rgba(96,165,250,.70)");
-  arrow(center, nodes.E, 1 + cur.E/18, "rgba(52,211,153,.70)");
-  arrow(center, nodes.T, 1 + cur.T/18, "rgba(251,191,36,.70)");
-  arrow(center, nodes.G, 1 + cur.G/18, "rgba(167,139,250,.70)");
-  arrow(center, nodes.I, 1 + cur.I/18, "rgba(251,113,133,.70)");
-
-  // drain arrow (burocracy pulls)
-  arrow(center, nodes.B, 2 + (B/12), "rgba(148,163,184,.75)");
-
-  // caption
-  mctx.fillStyle = "rgba(234,240,255,.92)";
-  mctx.font = "900 14px ui-sans-serif, system-ui";
-  mctx.textAlign = "left";
-  mctx.fillText("Mapa de Tensões — energia (atual/desejado) + dreno burocrático", 14, 22);
-
-  mctx.fillStyle = "rgba(234,240,255,.72)";
-  mctx.font = "700 12px ui-sans-serif, system-ui";
-  mctx.fillText("Setas mais grossas = mais energia atual. O dreno mostra quanto o sistema te puxa para operar processos.", 14, 42);
+  tctx.fillStyle="rgba(15,23,42,.70)";
+  tctx.font="700 12px ui-sans-serif, system-ui";
+  tctx.textAlign="left";
+  tctx.fillText("Linha vertical = ideal. Barra colorida = hoje.", 14, H-16);
 }
 
-function circle(ctx,x,y,r,fill,stroke){
-  ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
-  if(fill) ctx.fill();
-  if(stroke) ctx.stroke();
+function drawBureau(B, friction){
+  clear(bctx, bureau);
+  const W = bureau.width, H = bureau.height;
+
+  bctx.fillStyle="#fff";
+  bctx.fillRect(0,0,W,H);
+
+  bctx.fillStyle="rgba(15,23,42,.92)";
+  bctx.font="950 16px ui-sans-serif, system-ui";
+  bctx.fillText("Burocracia — Termômetro + Fricção", 14, 22);
+
+  bctx.fillStyle="rgba(15,23,42,.65)";
+  bctx.font="700 12px ui-sans-serif, system-ui";
+  bctx.fillText("Burocracia é atrito: quando sobe, drena foco e saúde.", 14, 42);
+
+  // thermometer
+  const tx = 60, ty = 70, th = H-120, tw = 26;
+  bctx.fillStyle="rgba(15,23,42,.06)";
+  roundRect(bctx, tx, ty, tw, th, 12, true, false);
+
+  const fillH = Math.round((B/100)*th);
+  bctx.fillStyle = B>=70 ? "rgba(239,68,68,.75)" : (B>=40 ? "rgba(245,158,11,.80)" : "rgba(22,163,74,.75)");
+  roundRect(bctx, tx, ty + (th - fillH), tw, fillH, 12, true, false);
+
+  bctx.fillStyle="rgba(15,23,42,.80)";
+  bctx.font="900 13px ui-sans-serif, system-ui";
+  bctx.fillText(`⚫ Burocracia: ${B}/100`, 110, 100);
+
+  // friction bar
+  const bx = 110, by = 120, bw = W-150, bh = 18;
+  bctx.fillStyle="rgba(15,23,42,.06)";
+  roundRect(bctx, bx, by, bw, bh, 10, true, false);
+
+  const fw = Math.round((friction/100)*bw);
+  bctx.fillStyle = friction>=70 ? "rgba(239,68,68,.70)" : (friction>=40 ? "rgba(245,158,11,.75)" : "rgba(22,163,74,.70)");
+  roundRect(bctx, bx, by, fw, bh, 10, true, false);
+
+  bctx.fillStyle="rgba(15,23,42,.75)";
+  bctx.font="900 12px ui-sans-serif, system-ui";
+  bctx.fillText(`Fricção percebida: ${friction}/100 (burocracia × limite tolerável)`, bx, by-8);
+
+  // “Drenos principais” (explicação fixa V2; depois podemos pedir seleção)
+  const drenos = [
+    "Reuniões sem pauta/decisão",
+    "Relatórios duplicados e sistemas que não conversam",
+    "Prestação de contas manual",
+    "E-mails e urgências que invadem foco",
+    "Comissões por inércia (ninguém tem coragem de encerrar)"
+  ];
+
+  bctx.fillStyle="rgba(15,23,42,.92)";
+  bctx.font="950 13px ui-sans-serif, system-ui";
+  bctx.fillText("Top drenos (o que normalmente mata a semana):", 110, 165);
+
+  bctx.fillStyle="rgba(15,23,42,.70)";
+  bctx.font="700 12px ui-sans-serif, system-ui";
+  drenos.forEach((d, i)=>{
+    bctx.fillText(`• ${d}`, 110, 190 + i*18);
+  });
+
+  bctx.fillStyle="rgba(15,23,42,.80)";
+  bctx.font="900 12px ui-sans-serif, system-ui";
+  bctx.fillText("Ação imediata: escolha 1 dreno e crie template/automação/checklist em 48h.", 110, H-26);
 }
 
 function roundRect(ctx, x, y, w, h, r, fill, stroke){
@@ -1048,40 +1174,59 @@ function roundRect(ctx, x, y, w, h, r, fill, stroke){
   if(stroke) ctx.stroke();
 }
 
-// ------------------ RUN ------------------
-const storyEl = document.getElementById("story");
-const movesEl = document.getElementById("moves");
-const kpiCore = document.getElementById("kpiCore");
-const kpiRisk = document.getElementById("kpiRisk");
+// ---------- UI: Tabs ----------
+document.querySelectorAll(".tab[data-tab]").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab[data-tab]").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    const tab = t.dataset.tab;
+    document.getElementById("tab-responder").style.display = (tab==="responder") ? "" : "none";
+    document.getElementById("tab-metas").style.display = (tab==="metas") ? "" : "none";
+    document.getElementById("tab-perguntas").style.display = (tab==="perguntas") ? "" : "none";
+  });
+});
+document.querySelectorAll(".tab[data-rtab]").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab[data-rtab]").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    const tab = t.dataset.rtab;
+    document.getElementById("rtab-resultados").style.display = (tab==="resultados") ? "" : "none";
+    document.getElementById("rtab-planos").style.display = (tab==="planos") ? "" : "none";
+  });
+});
+
+// ---------- Run ----------
 const statusPill = document.getElementById("statusPill");
 
 function run(){
   const data = compute();
   if(data.missing.length){
     statusPill.textContent = `faltam ${data.missing.length} respostas`;
-    statusPill.style.borderColor = "rgba(245,158,11,.35)";
     statusPill.style.background = "rgba(245,158,11,.12)";
-    storyEl.innerHTML = `Faltam respostas nas questões: <b>${data.missing.join(", ")}</b>. Preencha e gere o diagnóstico.`;
+    statusPill.style.borderColor = "rgba(245,158,11,.25)";
+    document.getElementById("story").innerHTML =
+      `Faltam respostas nas questões: <b>${data.missing.join(", ")}</b>. Vá na aba <b>Perguntas</b> e complete.`;
     return;
   }
 
-  const meta = buildStory(data);
+  const meta = buildNarrative(data);
   const moves = buildMoves(data, meta);
+  const quotes = buildQuotes(data);
 
   // KPIs
-  kpiCore.textContent = `${EMOJI[meta.core]} ${LABEL[meta.core]}`;
-  const rk = riskLabel(data.friction, data.cur.B);
-  kpiRisk.textContent = rk.txt;
-  kpiRisk.style.color = clsColor(rk.cls);
+  document.getElementById("kpiCore").textContent = `${EMOJI[meta.core]} ${LABEL[meta.core]}`;
+  document.getElementById("kpiRisk").textContent = meta.rk.txt;
+  document.getElementById("kpiRisk").style.color = clsColor(meta.rk.cls);
 
-  statusPill.textContent = "diagnóstico gerado";
-  statusPill.style.borderColor = "rgba(34,197,94,.35)";
-  statusPill.style.background = "rgba(34,197,94,.12)";
+  // Story
+  document.getElementById("story").innerHTML = meta.txt;
 
-  // narrative
-  storyEl.innerHTML = meta.story;
+  // Quote block
+  document.getElementById("quote").innerHTML =
+    `<b>Três frases para você não esquecer:</b><br>• ${quotes[0]}<br>• ${quotes[1]}<br>• ${quotes[2]}`;
 
-  // moves
+  // Plan
+  const movesEl = document.getElementById("moves");
   movesEl.innerHTML = "";
   moves.forEach(m=>{
     const d = document.createElement("div");
@@ -1090,149 +1235,163 @@ function run(){
     movesEl.appendChild(d);
   });
 
-  // draw
-  drawRadar(data.cur, data.goal, data.cur.B);
-  drawMap(data.cur, data.goal, data.cur.B, data.friction);
+  // Closing
+  const closing = document.getElementById("closing");
+  closing.innerHTML = `
+    <div style="line-height:1.6;">
+      <b>1)</b> Você é responsável por um <b>ecossistema</b>: conhecimento, pessoas, território e instituição.<br>
+      <b>2)</b> Seu recurso mais raro é <b>atenção</b> — proteja-a com agenda e processos.<br>
+      <b>3)</b> O professor universitário maduro escolhe: <b>continuidade > novidade</b> e <b>coerência > oportunismo</b>.<br>
+      <b>4)</b> Burocracia é inevitável, mas não pode ser <b>identidade</b>.<br>
+      <b>5)</b> O melhor docente não faz tudo: ele <b>forma pessoas</b> e cria estruturas para o trabalho sobreviver ao seu nome.
+    </div>
+  `;
 
-  // subtle feedback
+  // Draw graphs
+  drawRadar(data.cur, {R:data.goal.R,E:data.goal.E,T:data.goal.T,G:data.goal.G,I:data.goal.I});
+  drawTimeBars(data.currentWeek, data.ideal);
+  drawBureau(data.cur.B, data.friction);
+
+  statusPill.textContent = "diagnóstico gerado";
+  statusPill.style.background = "rgba(22,163,74,.12)";
+  statusPill.style.borderColor = "rgba(22,163,74,.25)";
+
   updateProgress();
 }
 
 document.getElementById("btnRun").addEventListener("click", run);
 document.getElementById("btnRun2").addEventListener("click", run);
 
-// ------------------ SAVE/LOAD ------------------
+// ---------- Save/Load ----------
 function collectState(){
-  const state = {
-    name: val("name"),
-    uni: val("uni"),
-    dept: val("dept"),
-    prog: val("prog"),
-    phase: val("phase"),
-    hours: val("hours"),
-    notes: val("notes"),
-    goalR: val("goalR"),
-    goalE: val("goalE"),
-    goalT: val("goalT"),
-    goalG: val("goalG"),
-    goalI: val("goalI"),
-    tolB: val("tolB"),
-    answers: QUESTIONS.map((_,i)=>{
-      const picked = document.querySelector(`input[name="q${i}"]:checked`);
-      return picked ? Number(picked.value) : null;
-    })
+  const answers = {};
+  QUESTIONS.forEach(q=>{ answers[q.id] = document.getElementById(q.id).value || ""; });
+  return {
+    name: val("name"), uni: val("uni"), dept: val("dept"), prog: val("prog"),
+    phase: val("phase"), hours: val("hours"), notes: val("notes"),
+    goalR: val("goalR"), goalE: val("goalE"), goalT: val("goalT"),
+    goalG: val("goalG"), goalI: val("goalI"), tolB: val("tolB"),
+    idealR: val("idealR"), idealE: val("idealE"), idealT: val("idealT"),
+    idealG: val("idealG"), idealI: val("idealI"), idealB: val("idealB"),
+    answers
   };
-  return state;
 }
-
 function applyState(s){
   if(!s) return;
-  setVal("name", s.name);
-  setVal("uni", s.uni);
-  setVal("dept", s.dept);
-  setVal("prog", s.prog);
-  setVal("phase", s.phase || "early");
-  setVal("hours", s.hours || 45);
-  setVal("notes", s.notes || "");
+  setVal("name", s.name); setVal("uni", s.uni); setVal("dept", s.dept); setVal("prog", s.prog);
+  setVal("phase", s.phase || "early"); setVal("hours", s.hours || 45); setVal("notes", s.notes || "");
+  setVal("goalR", s.goalR ?? 70); setVal("goalE", s.goalE ?? 75); setVal("goalT", s.goalT ?? 70);
+  setVal("goalG", s.goalG ?? 40); setVal("goalI", s.goalI ?? 60); setVal("tolB", s.tolB ?? 35);
+  setVal("idealR", s.idealR ?? 25); setVal("idealE", s.idealE ?? 25); setVal("idealT", s.idealT ?? 25);
+  setVal("idealG", s.idealG ?? 15); setVal("idealI", s.idealI ?? 10); setVal("idealB", s.idealB ?? 15);
 
-  setVal("goalR", s.goalR ?? 70);
-  setVal("goalE", s.goalE ?? 75);
-  setVal("goalT", s.goalT ?? 70);
-  setVal("goalG", s.goalG ?? 40);
-  setVal("goalI", s.goalI ?? 60);
-  setVal("tolB", s.tolB ?? 45);
-
-  (s.answers || []).forEach((ans,i)=>{
-    if(ans === null || ans === undefined) return;
-    const el = document.getElementById(`q${i}_${ans}`);
-    if(el){ el.checked = true; }
-  });
-
+  if(s.answers){
+    Object.keys(s.answers).forEach(id=>{
+      const el = document.getElementById(id);
+      if(el){
+        el.value = s.answers[id];
+        // atualizar o visor do valor
+        const vbox = el.parentElement.querySelector(".v");
+        if(vbox) vbox.textContent = el.value ? el.value : "—";
+      }
+    });
+  }
   updateProgress();
 }
-
 function val(id){ return document.getElementById(id).value; }
 function setVal(id,v){ document.getElementById(id).value = (v ?? ""); }
 
 document.getElementById("btnSave").addEventListener("click", ()=>{
-  const state = collectState();
-  localStorage.setItem("eco_docente_v1", JSON.stringify(state));
+  localStorage.setItem("eco_docente_v2", JSON.stringify(collectState()));
   statusPill.textContent = "salvo no navegador";
-  statusPill.style.borderColor = "rgba(96,165,250,.35)";
-  statusPill.style.background = "rgba(96,165,250,.12)";
+  statusPill.style.background = "rgba(37,99,235,.10)";
+  statusPill.style.borderColor = "rgba(37,99,235,.20)";
 });
-
 document.getElementById("btnLoad").addEventListener("click", ()=>{
-  const raw = localStorage.getItem("eco_docente_v1");
+  const raw = localStorage.getItem("eco_docente_v2");
   if(!raw){
     statusPill.textContent = "nada salvo ainda";
-    statusPill.style.borderColor = "rgba(245,158,11,.35)";
     statusPill.style.background = "rgba(245,158,11,.12)";
+    statusPill.style.borderColor = "rgba(245,158,11,.25)";
     return;
   }
   applyState(JSON.parse(raw));
   statusPill.textContent = "carregado";
-  statusPill.style.borderColor = "rgba(96,165,250,.35)";
-  statusPill.style.background = "rgba(96,165,250,.12)";
+  statusPill.style.background = "rgba(37,99,235,.10)";
+  statusPill.style.borderColor = "rgba(37,99,235,.20)";
 });
 
 document.getElementById("btnReset").addEventListener("click", ()=>{
-  localStorage.removeItem("eco_docente_v1");
+  localStorage.removeItem("eco_docente_v2");
   location.reload();
 });
 
-// ------------------ EXPORT IMAGE ------------------
+// ---------- Export image ----------
 document.getElementById("btnExport").addEventListener("click", ()=>{
-  // Exporta um PNG composto (radar + mapa) em um único canvas
   const out = document.createElement("canvas");
-  const pad = 18;
-  out.width = 1100;
-  out.height = 820;
+  out.width = 1200;
+  out.height = 980;
   const ctx = out.getContext("2d");
 
-  // background
-  ctx.fillStyle = "#0b1220";
+  ctx.fillStyle = "#ffffff";
   ctx.fillRect(0,0,out.width,out.height);
 
-  // title
-  ctx.fillStyle = "rgba(234,240,255,.95)";
-  ctx.font = "900 28px ui-sans-serif, system-ui";
-  ctx.fillText("Ecossistema Docente — Diagnóstico", 24, 46);
+  ctx.fillStyle = "rgba(15,23,42,.95)";
+  ctx.font = "950 28px ui-sans-serif, system-ui";
+  ctx.fillText("Ecossistema Docente — Diagnóstico (V2)", 24, 44);
 
-  ctx.fillStyle = "rgba(234,240,255,.70)";
+  ctx.fillStyle = "rgba(15,23,42,.65)";
   ctx.font = "700 14px ui-sans-serif, system-ui";
   const name = (val("name")||"Visitante").trim();
-  const uni = (val("uni")||"—").trim();
-  ctx.fillText(`${name} · ${uni} · ${new Date().toLocaleDateString()}`, 24, 70);
+  const uni  = (val("uni")||"—").trim();
+  ctx.fillText(`${name} · ${uni} · ${new Date().toLocaleDateString()}`, 24, 68);
 
-  // draw radar
-  ctx.drawImage(radar, 24, 90, 1050, 360);
-  // draw map
-  ctx.drawImage(mapa, 24, 470, 1050, 320);
+  // grids
+  ctx.drawImage(radar, 24, 90, 560, 320);
+  ctx.drawImage(timeBars, 616, 90, 560, 320);
+  ctx.drawImage(bureau, 24, 430, 1152, 260);
+
+  // add short story
+  ctx.fillStyle = "rgba(15,23,42,.92)";
+  ctx.font = "900 14px ui-sans-serif, system-ui";
+  ctx.fillText("Resumo:", 24, 720);
+
+  ctx.fillStyle = "rgba(15,23,42,.70)";
+  ctx.font = "700 13px ui-sans-serif, system-ui";
+  const story = document.getElementById("story").innerText.replace(/\s+/g," ").trim();
+  wrapText(ctx, story.slice(0, 520) + (story.length>520 ? "…" : ""), 24, 744, 1152, 18);
 
   const link = document.createElement("a");
-  link.download = "ecossistema-docente-diagnostico.png";
+  link.download = "ecossistema-docente-v2.png";
   link.href = out.toDataURL("image/png");
   link.click();
 });
 
-// ------------------ DEV: RANDOM FILL ------------------
-document.getElementById("btnRandom").addEventListener("click", ()=>{
-  QUESTIONS.forEach((q,i)=>{
-    const pick = Math.floor(Math.random()*q.o.length);
-    const el = document.getElementById(`q${i}_${pick}`);
-    if(el) el.checked = true;
-  });
-  updateProgress();
-});
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  const words = text.split(" ");
+  let line = "";
+  for(let n=0;n<words.length;n++){
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+    if(metrics.width > maxWidth && n>0){
+      ctx.fillText(line, x, y);
+      line = words[n] + " ";
+      y += lineHeight;
+    } else line = testLine;
+  }
+  ctx.fillText(line, x, y);
+}
 
 // init
 buildQuiz();
 updateProgress();
+drawRadar({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
+drawTimeBars({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0});
+drawBureau(0,0);
 
-// start with blank drawing
-drawRadar({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0},0);
-drawMap({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0},0,0);
+// load if exists
+const saved = localStorage.getItem("eco_docente_v2");
+if(saved) applyState(JSON.parse(saved));
 </script>
 </body>
 </html>
