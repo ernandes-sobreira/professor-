@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Ecossistema Docente — V2 (Jogo Crítico)</title>
+  <title>Ecossistema Docente — V3 (Diagnóstico + Debate)</title>
   <style>
     :root{
-      /* Paleta clara (menos “noite”) */
+      /* Visual claro, elegante, sem “noite” */
       --bg0:#f6f7fb;
       --bg1:#eef2ff;
       --card:#ffffff;
@@ -14,19 +14,23 @@
       --txt:#0f172a;
       --muted: rgba(15,23,42,.70);
 
+      --accent:#2563eb;
+      --accent2:#7c3aed;
+
       --r:#2563eb; /* pesquisa */
       --e:#16a34a; /* extensão */
       --t:#f59e0b; /* ensino */
       --g:#7c3aed; /* gestão */
       --i:#ef4444; /* inovação */
       --b:#475569; /* burocracia */
+      --m:#0ea5e9; /* saúde mental */
 
       --ok:#16a34a;
       --warn:#f59e0b;
       --bad:#ef4444;
 
-      --shadow: 0 10px 30px rgba(15,23,42,.08);
-      --radius: 16px;
+      --shadow: 0 12px 34px rgba(15,23,42,.10);
+      --radius: 18px;
     }
 
     *{ box-sizing:border-box; }
@@ -34,32 +38,46 @@
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       background:
-        radial-gradient(1000px 700px at 12% 10%, rgba(37,99,235,.10) 0%, transparent 55%),
-        radial-gradient(900px 650px at 85% 20%, rgba(124,58,237,.10) 0%, transparent 55%),
+        radial-gradient(1100px 760px at 15% 10%, rgba(37,99,235,.10) 0%, transparent 55%),
+        radial-gradient(1000px 720px at 85% 15%, rgba(124,58,237,.10) 0%, transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
       color:var(--txt);
     }
 
     header{
-      max-width:1200px; margin:0 auto;
+      max-width:1250px;
+      margin:0 auto;
       padding:18px 16px 10px;
-      display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
       flex-wrap:wrap;
     }
+
     .brand{ display:flex; gap:12px; align-items:center; }
     .logo{
       width:46px; height:46px; border-radius:14px;
-      background: conic-gradient(from 180deg, var(--r), var(--e), var(--t), var(--g), var(--i), var(--r));
-      box-shadow: var(--shadow);
+      background: linear-gradient(135deg, rgba(37,99,235,.22), rgba(124,58,237,.18));
       border:1px solid rgba(15,23,42,.10);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
     }
+    .logo:before{
+      content:"";
+      position:absolute; inset:-20px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 45%);
+      transform: rotate(12deg);
+    }
+
     h1{ margin:0; font-size:18px; letter-spacing:.2px; }
     .subtitle{
       margin:4px 0 0;
       color:var(--muted);
       font-size:13px;
       line-height:1.35;
-      max-width:760px;
+      max-width:820px;
     }
 
     .top-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
@@ -71,13 +89,13 @@
       border-radius: 12px;
       cursor:pointer;
       transition: .15s transform, .15s box-shadow, .15s background;
-      font-weight: 750;
+      font-weight: 850;
       box-shadow: 0 6px 18px rgba(15,23,42,.06);
     }
     button:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,23,42,.10); }
     button:active{ transform: translateY(0px); }
     .primary{
-      background: linear-gradient(135deg, rgba(37,99,235,.14), rgba(124,58,237,.14));
+      background: linear-gradient(135deg, rgba(37,99,235,.14), rgba(124,58,237,.12));
       border-color: rgba(37,99,235,.18);
     }
     .danger{
@@ -86,11 +104,11 @@
     }
 
     main{
-      max-width:1200px;
+      max-width:1250px;
       margin:0 auto;
-      padding:0 16px 40px;
+      padding:0 16px 44px;
       display:grid; gap:14px;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.08fr .92fr;
     }
     @media (max-width: 980px){ main{ grid-template-columns:1fr; } }
 
@@ -129,7 +147,7 @@
       border: 1px solid rgba(15,23,42,.10);
       background: rgba(15,23,42,.03);
       cursor:pointer;
-      font-weight:750;
+      font-weight:900;
       font-size:12px;
       user-select:none;
     }
@@ -161,7 +179,7 @@
       margin-bottom:10px;
     }
     .q-title{
-      font-weight: 850;
+      font-weight: 950;
       margin:0 0 8px;
       line-height:1.35;
       font-size:13px;
@@ -172,18 +190,12 @@
       font-size:12px;
       line-height:1.35;
     }
-
-    .scale{
-      display:flex; align-items:center; gap:10px;
-    }
-    .scale input[type="range"]{
-      flex:1;
-      accent-color: rgba(37,99,235,.9);
-    }
+    .scale{ display:flex; align-items:center; gap:10px; }
+    .scale input[type="range"]{ flex:1; accent-color: rgba(37,99,235,.9); }
     .scale .v{
-      min-width:38px;
+      min-width:40px;
       text-align:center;
-      font-weight:900;
+      font-weight:950;
       background: rgba(15,23,42,.05);
       border:1px solid rgba(15,23,42,.10);
       border-radius: 10px;
@@ -215,7 +227,7 @@
       border:1px solid rgba(15,23,42,.10);
       background: rgba(15,23,42,.02);
     }
-    .kpi .v{ font-size:20px; font-weight:950; }
+    .kpi .v{ font-size:20px; font-weight:990; }
     .kpi .l{ font-size:12px; color:var(--muted); margin-top:2px; line-height:1.3; }
 
     .story{
@@ -227,15 +239,59 @@
       font-size:13px;
       color: rgba(15,23,42,.92);
     }
-    .story b{ color:var(--txt); }
     .quote{
       margin-top:10px;
       padding:12px;
       border-radius:14px;
-      border:1px dashed rgba(15,23,42,.16);
+      border:1px dashed rgba(15,23,42,.18);
       background: rgba(37,99,235,.05);
       font-size:13px;
       line-height:1.55;
+    }
+
+    /* ✅ CANVAS sem deformar: altura via aspect-ratio e resize real em JS */
+    .vizGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:980px){ .vizGrid{ grid-template-columns:1fr; } }
+
+    .viz{
+      border-radius: 16px;
+      border:1px solid rgba(15,23,42,.10);
+      background: #fff;
+      padding:10px;
+    }
+    .viz h3{
+      margin:0 0 8px;
+      font-size:13px;
+      font-weight:980;
+      letter-spacing:.1px;
+      color: rgba(15,23,42,.92);
+      display:flex; gap:8px; align-items:center;
+    }
+    .viz p{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .canvasWrap{
+      position:relative;
+      width:100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 14px;
+      overflow:hidden;
+      border:1px solid rgba(15,23,42,.10);
+      background:#fff;
+    }
+    canvas{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      display:block;
     }
 
     .micro{ display:grid; gap:10px; margin-top:10px; }
@@ -245,47 +301,56 @@
       border:1px solid rgba(15,23,42,.10);
       background: #fff;
     }
-    .move .ttl{ font-weight:950; margin:0 0 4px; }
+    .move .ttl{ font-weight:990; margin:0 0 4px; }
     .move .txt{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
 
-    .checklist{
-      margin-top:10px;
+    /* ✅ Checklist elegante e grande */
+    .checkGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:980px){ .checkGrid{ grid-template-columns:1fr; } }
+
+    .checkCard{
       padding:12px;
-      border-radius:14px;
+      border-radius:16px;
       border:1px solid rgba(15,23,42,.10);
       background: rgba(15,23,42,.02);
     }
-    .checklist h3{
+    .checkCard h3{
       margin:0 0 8px;
       font-size:13px;
+      font-weight:990;
+      display:flex; gap:8px; align-items:center;
+    }
+    .checkCard .hint{
+      margin:0 0 10px;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.4;
     }
     .ck{
-      display:flex; gap:8px; align-items:flex-start;
-      margin:8px 0;
-      font-size:13px;
-      color: rgba(15,23,42,.90);
-    }
-    .ck input{ margin-top:3px; }
-
-    canvas{
-      width:100%;
-      height:320px;
-      border-radius:14px;
-      border:1px solid rgba(15,23,42,.10);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:8px 10px;
+      border-radius: 12px;
       background: #fff;
-      display:block;
+      border:1px solid rgba(15,23,42,.08);
+      margin:8px 0;
     }
-    .small{
-      font-size:12px; color:var(--muted);
-      margin-top:8px;
+    .ck input{
+      width:18px; height:18px;
+      margin-top:2px;
+      accent-color: rgba(37,99,235,.90);
+    }
+    .ck .txt{
+      font-size:13px;
       line-height:1.35;
+      color: rgba(15,23,42,.92);
     }
-
-    .split{
-      display:grid; gap:10px;
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width:980px){ .split{ grid-template-columns:1fr; } }
+    .ck .txt b{ font-weight:990; }
 
     .tagrow{
       display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
@@ -297,359 +362,344 @@
       background: rgba(15,23,42,.03);
       border:1px solid rgba(15,23,42,.08);
     }
-    .dot{ width:10px; height:10px; border-radius:999px; background: #111; }
+    .dot{ width:10px; height:10px; border-radius:999px; background:#111; }
+
+    .small{
+      font-size:12px; color:var(--muted);
+      margin-top:8px;
+      line-height:1.35;
+    }
   </style>
 </head>
+
 <body>
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>Ecossistema Docente — V2 (Diagnóstico Crítico + Plano de Ação)</h1>
-        <p class="subtitle">
-          Um jogo para professores refletirem: <b>o que eu faço</b>, <b>o que eu quero ser</b> e <b>o que o sistema me puxa para ser</b>.
-          Aqui, burocracia é atrito (não vocação). O resultado entrega <b>passo a passo</b> (7/30/90 dias).
-        </p>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>Ecossistema Docente — V3 (Diagnóstico visual + plano executável)</h1>
+      <p class="subtitle">
+        Um game crítico para professores: <b>o que eu faço</b>, <b>o que eu quero ser</b> e <b>o que me captura</b>.
+        Aqui, burocracia e saúde mental não são “rodapé”: são eixo.
+      </p>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <button class="primary" id="btnRun">Gerar diagnóstico</button>
+    <button id="btnSave">Salvar</button>
+    <button id="btnLoad">Carregar</button>
+    <button id="btnExport">Exportar painel</button>
+    <button class="danger" id="btnReset">Resetar</button>
+  </div>
+</header>
+
+<main>
+  <!-- ESQUERDA -->
+  <section class="card">
+    <div class="tabs">
+      <div class="tab active" data-tab="responder">Responder</div>
+      <div class="tab" data-tab="metas">Metas</div>
+      <div class="tab" data-tab="perguntas">Perguntas</div>
+    </div>
+
+    <div id="tab-responder">
+      <div class="card-h">
+        <h2>🧾 Identidade & contexto</h2>
+        <span class="pill">V3 — gráficos estáveis (sem deformar)</span>
+      </div>
+      <div class="card-b">
+        <div class="grid2">
+          <div><label>Nome</label><input id="name" placeholder="Ex.: Ernandes"/></div>
+          <div><label>Universidade</label><input id="uni" placeholder="Ex.: UNEMAT"/></div>
+          <div><label>Departamento</label><input id="dept" placeholder="Ex.: Ciências Ambientais"/></div>
+          <div><label>Programa(s)</label><input id="prog" placeholder="Ex.: PPGCA, PPGEO..."/></div>
+
+          <div>
+            <label>Fase da carreira</label>
+            <select id="phase">
+              <option value="early">Início (0–5 anos)</option>
+              <option value="mid">Meio (6–15 anos)</option>
+              <option value="senior">Sênior (16+ anos)</option>
+            </select>
+          </div>
+
+          <div><label>Horas “reais” por semana</label><input id="hours" type="number" min="1" max="120" value="45"/></div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>O que mais te puxa hoje? (opcional)</label>
+          <textarea id="notes" placeholder="Ex.: reuniões, sistemas, falta de equipe, pressão por papers, orientações, comissões, etc."></textarea>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div class="bar"><i id="pbar"></i></div>
+          <div class="small">Progresso: <b><span id="answered">0</span>/<span id="totalQ">0</span></b> respondidas.</div>
+        </div>
       </div>
     </div>
 
-    <div class="top-actions">
-      <button class="primary" id="btnRun">Gerar diagnóstico</button>
-      <button id="btnSave">Salvar</button>
-      <button id="btnLoad">Carregar</button>
-      <button id="btnExport">Exportar imagem</button>
-      <button class="danger" id="btnReset">Resetar</button>
+    <div id="tab-metas" style="display:none;">
+      <div class="card-h">
+        <h2>🎯 Metas em 5 anos</h2>
+        <span class="pill">defina seu norte (0–100)</span>
+      </div>
+      <div class="card-b">
+        <div class="grid2">
+          <div><label>Pesquisa 🔬</label><input id="goalR" type="number" min="0" max="100" value="70"></div>
+          <div><label>Extensão 🌱</label><input id="goalE" type="number" min="0" max="100" value="75"></div>
+          <div><label>Ensino 🎓</label><input id="goalT" type="number" min="0" max="100" value="70"></div>
+          <div><label>Gestão 🧭</label><input id="goalG" type="number" min="0" max="100" value="40"></div>
+          <div><label>Inovação 🚀</label><input id="goalI" type="number" min="0" max="100" value="60"></div>
+          <div><label>Limite de burocracia aceitável (0–100)</label><input id="tolB" type="number" min="0" max="100" value="35"></div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Limite de carga mental tolerável (0–100)</label>
+          <input id="tolM" type="number" min="0" max="100" value="45">
+          <div class="small">
+            Isso serve para o app mostrar: “você está acima do que considera sustentável?”.
+          </div>
+        </div>
+      </div>
+
+      <div class="card-h">
+        <h2>🕰️ Seu “ideal de semana” (distribuição %)</h2>
+        <span class="pill">o app normaliza a soma</span>
+      </div>
+      <div class="card-b">
+        <div class="grid2">
+          <div><label>% Pesquisa</label><input id="idealR" type="number" min="0" max="100" value="25"></div>
+          <div><label>% Extensão</label><input id="idealE" type="number" min="0" max="100" value="25"></div>
+          <div><label>% Ensino</label><input id="idealT" type="number" min="0" max="100" value="25"></div>
+          <div><label>% Gestão</label><input id="idealG" type="number" min="0" max="100" value="15"></div>
+          <div><label>% Inovação</label><input id="idealI" type="number" min="0" max="100" value="10"></div>
+          <div><label>% Burocracia (máx.)</label><input id="idealB" type="number" min="0" max="100" value="15"></div>
+        </div>
+      </div>
     </div>
-  </header>
 
-  <main>
-    <!-- ESQUERDA -->
-    <section class="card">
-      <div class="tabs">
-        <div class="tab active" data-tab="responder">Responder</div>
-        <div class="tab" data-tab="metas">Metas</div>
-        <div class="tab" data-tab="perguntas">Perguntas</div>
+    <div id="tab-perguntas" style="display:none;">
+      <div class="card-h">
+        <h2>🧠 Perguntas (régua 1–5) — pesos ocultos</h2>
+        <span class="pill">menos “quiz”, mais espelho</span>
       </div>
-
-      <div id="tab-responder">
-        <div class="card-h">
-          <h2>🧾 Identidade & Contexto</h2>
-          <span class="pill">V2 — escalas (1–5) + pesos ocultos</span>
-        </div>
-        <div class="card-b">
-          <div class="grid2">
-            <div><label>Nome</label><input id="name" placeholder="Ex.: Ernandes"/></div>
-            <div><label>Universidade</label><input id="uni" placeholder="Ex.: UNEMAT"/></div>
-            <div><label>Departamento</label><input id="dept" placeholder="Ex.: Ciências Ambientais"/></div>
-            <div><label>Programa(s)</label><input id="prog" placeholder="Ex.: PPGCA, PPGEO..."/></div>
-            <div>
-              <label>Fase da carreira</label>
-              <select id="phase">
-                <option value="early">Início (0–5 anos)</option>
-                <option value="mid">Meio (6–15 anos)</option>
-                <option value="senior">Sênior (16+ anos)</option>
-              </select>
-            </div>
-            <div><label>Horas “reais” de trabalho por semana</label><input id="hours" type="number" min="1" max="120" value="45"/></div>
-          </div>
-
-          <div style="margin-top:12px;">
-            <label>O que mais te puxa / te prende hoje? (opcional)</label>
-            <textarea id="notes" placeholder="Ex.: reuniões, sistemas, falta de equipe, pressão por papers, excesso de orientações, etc."></textarea>
-          </div>
-
-          <div style="margin-top:12px;">
-            <div class="bar"><i id="pbar"></i></div>
-            <div class="small">Progresso: <b><span id="answered">0</span>/<span id="totalQ">0</span></b> questões respondidas.</div>
-          </div>
+      <div class="card-b" id="quiz"></div>
+      <div class="card-b">
+        <button class="primary" id="btnRun2">Gerar diagnóstico</button>
+        <div class="small">
+          Regra do jogo: responda como você age <b>sob pressão</b>.
+          Se responder como “ideal”, você não verá o sistema te capturando.
         </div>
       </div>
+    </div>
+  </section>
 
-      <div id="tab-metas" style="display:none;">
-        <div class="card-h">
-          <h2>🎯 Metas em 5 anos</h2>
-          <span class="pill">defina seu “norte” (0–100)</span>
-        </div>
-        <div class="card-b">
-          <div class="grid2">
-            <div><label>Pesquisa 🔬</label><input id="goalR" type="number" min="0" max="100" value="70"></div>
-            <div><label>Extensão 🌱</label><input id="goalE" type="number" min="0" max="100" value="75"></div>
-            <div><label>Ensino 🎓</label><input id="goalT" type="number" min="0" max="100" value="70"></div>
-            <div><label>Gestão 🧭</label><input id="goalG" type="number" min="0" max="100" value="40"></div>
-            <div><label>Inovação 🚀</label><input id="goalI" type="number" min="0" max="100" value="60"></div>
-            <div><label>Limite de burocracia aceitável (0–100)</label><input id="tolB" type="number" min="0" max="100" value="35"></div>
-          </div>
-          <div class="small">
-            “Limite de burocracia aceitável” = quanto atrito você tolera <b>sem perder foco e saúde</b>.
-            Quanto menor, mais você precisa blindar agenda, automatizar e dizer “não” com elegância.
-          </div>
-        </div>
+  <!-- DIREITA -->
+  <aside class="card">
+    <div class="tabs">
+      <div class="tab active" data-rtab="resultados">Resultados</div>
+      <div class="tab" data-rtab="plano">Plano</div>
+      <div class="tab" data-rtab="check">Checklist</div>
+    </div>
 
-        <div class="card-h">
-          <h2>🕰️ Seu “ideal de semana”</h2>
-          <span class="pill">distribuição percentual</span>
-        </div>
-        <div class="card-b">
-          <div class="grid2">
-            <div><label>% Pesquisa</label><input id="idealR" type="number" min="0" max="100" value="25"></div>
-            <div><label>% Extensão</label><input id="idealE" type="number" min="0" max="100" value="25"></div>
-            <div><label>% Ensino</label><input id="idealT" type="number" min="0" max="100" value="25"></div>
-            <div><label>% Gestão</label><input id="idealG" type="number" min="0" max="100" value="15"></div>
-            <div><label>% Inovação</label><input id="idealI" type="number" min="0" max="100" value="10"></div>
-            <div><label>% Burocracia (máx.)</label><input id="idealB" type="number" min="0" max="100" value="15"></div>
-          </div>
-          <div class="small">
-            A soma não precisa dar 100 agora — o sistema normaliza. Mas se você exagera em Burocracia, o app vai te chamar atenção.
-          </div>
-        </div>
+    <div id="rtab-resultados">
+      <div class="card-h">
+        <h2>📍 Painel visual (robusto e legível)</h2>
+        <span class="pill" id="statusPill">aguardando…</span>
       </div>
+      <div class="card-b">
 
-      <div id="tab-perguntas" style="display:none;">
-        <div class="card-h">
-          <h2>🧠 Perguntas em régua (1–5)</h2>
-          <span class="pill">mais reflexão, menos “acerto”</span>
-        </div>
-        <div class="card-b" id="quiz"></div>
-        <div class="card-b">
-          <button class="primary" id="btnRun2">Gerar diagnóstico</button>
-          <div class="small">
-            Regra do jogo: responda como você age <b>quando está sob pressão</b>.
-            Se responder como “deveria ser”, você não vê o sistema te puxando.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- DIREITA -->
-    <aside class="card">
-      <div class="tabs">
-        <div class="tab active" data-rtab="resultados">Resultados</div>
-        <div class="tab" data-rtab="planos">Plano</div>
-      </div>
-
-      <div id="rtab-resultados">
-        <div class="card-h">
-          <h2>📍 Gráficos (claro + robusto)</h2>
-          <span class="pill" id="statusPill">aguardando…</span>
-        </div>
-        <div class="card-b">
-          <div class="split">
-            <div>
-              <canvas id="radar" width="900" height="420"></canvas>
-              <div class="tagrow">
-                <span class="tag"><i class="dot" style="background:rgba(15,23,42,.85)"></i> Atual</span>
-                <span class="tag"><i class="dot" style="background:rgba(15,23,42,.25)"></i> Desejado</span>
-              </div>
-              <div class="small">Radar mostra perfil (vetores) — não mede “qualidade”, mede <b>distribuição de energia</b>.</div>
-            </div>
-
-            <div>
-              <canvas id="timeBars" width="900" height="420"></canvas>
-              <div class="small">
-                “Balanço de Semana”: onde você está gastando energia hoje vs. onde você quer estar.
-                Isso resolve sua crítica da Figura 2: aqui fica óbvio onde está o desvio.
-              </div>
+        <div class="vizGrid">
+          <div class="viz">
+            <h3>🕸️ Perfil (Atual vs Desejado)</h3>
+            <p>Distribuição de energia por eixo. Não mede “qualidade”. Mede <b>onde você vive</b>.</p>
+            <div class="canvasWrap"><canvas id="cvRadar"></canvas></div>
+            <div class="tagrow">
+              <span class="tag"><i class="dot" style="background:rgba(15,23,42,.90)"></i> Atual</span>
+              <span class="tag"><i class="dot" style="background:rgba(15,23,42,.25)"></i> Desejado</span>
             </div>
           </div>
 
-          <div style="height:10px"></div>
-          <canvas id="bureau" width="900" height="360"></canvas>
-          <div class="small">
-            Burocracia aqui vira: <b>termômetro + drenos principais + ações imediatas</b>.
+          <div class="viz">
+            <h3>📊 Semana (Hoje vs Ideal)</h3>
+            <p>Você vê o desvio em segundos. Linha = ideal. Barra = hoje.</p>
+            <div class="canvasWrap"><canvas id="cvWeek"></canvas></div>
+          </div>
+
+          <div class="viz">
+            <h3>⚫ Burocracia (termômetro + fricção)</h3>
+            <p>Quando isso sobe, o resto vira sobrevivência. Sem romantizar.</p>
+            <div class="canvasWrap"><canvas id="cvBureau"></canvas></div>
+          </div>
+
+          <div class="viz">
+            <h3>🧠 Saúde mental (carga + risco)</h3>
+            <p>Indicador de “captura”: se você só apaga incêndio, nada floresce.</p>
+            <div class="canvasWrap"><canvas id="cvMental"></canvas></div>
+          </div>
+
+          <div class="viz">
+            <h3>🧭 Impacto × Energia</h3>
+            <p>Quadrante para decidir: o que dá retorno (impacto) sem te destruir (energia).</p>
+            <div class="canvasWrap"><canvas id="cvQuad"></canvas></div>
+          </div>
+
+          <div class="viz">
+            <h3>⏳ Funil de drenos da semana</h3>
+            <p>Uma visão simples do que rouba o seu melhor horário cognitivo.</p>
+            <div class="canvasWrap"><canvas id="cvFunnel"></canvas></div>
           </div>
         </div>
 
-        <div class="card-h">
-          <h2>📊 Diagnóstico narrativo + criticidade</h2>
-          <span class="pill">com filosofia do ofício</span>
+        <div style="height:12px"></div>
+
+        <div class="card-h" style="border:0; padding:0 0 10px;">
+          <h2>📌 Diagnóstico narrativo</h2>
+          <span class="pill">com criticidade</span>
         </div>
-        <div class="card-b">
-          <div class="kpis">
-            <div class="kpi">
-              <div class="v" id="kpiCore">—</div>
-              <div class="l">Seu eixo dominante hoje</div>
-            </div>
-            <div class="kpi">
-              <div class="v" id="kpiRisk">—</div>
-              <div class="l">Risco de captura burocrática</div>
-            </div>
-          </div>
 
-          <div style="height:10px"></div>
-          <div class="story" id="story">
-            Responda as perguntas e clique em <b>Gerar diagnóstico</b>.
+        <div class="kpis">
+          <div class="kpi">
+            <div class="v" id="kpiCore">—</div>
+            <div class="l">Seu eixo dominante hoje</div>
           </div>
+          <div class="kpi">
+            <div class="v" id="kpiRisk">—</div>
+            <div class="l">Risco de captura (burocracia + carga mental)</div>
+          </div>
+        </div>
 
-          <div class="quote" id="quote"></div>
+        <div style="height:10px"></div>
+        <div class="story" id="story">Responda e gere o diagnóstico.</div>
+        <div class="quote" id="quote"></div>
+      </div>
+    </div>
+
+    <div id="rtab-plano" style="display:none;">
+      <div class="card-h">
+        <h2>🧭 Plano (7 / 30 / 90 dias)</h2>
+        <span class="pill">executável</span>
+      </div>
+      <div class="card-b">
+        <div class="micro" id="moves"></div>
+      </div>
+    </div>
+
+    <div id="rtab-check" style="display:none;">
+      <div class="card-h">
+        <h2>✅ Checklist grande (bonito e útil)</h2>
+        <span class="pill">marque e volte amanhã</span>
+      </div>
+      <div class="card-b">
+        <div class="checkGrid" id="checkGrid"></div>
+
+        <div class="checkCard" style="margin-top:12px;">
+          <h3>🧩 O que é ser professor universitário (para fechar)</h3>
+          <p class="hint">Frases para imprimir/colocar no app como “manifesto” (sem autoajuda).</p>
+          <div id="closing"></div>
         </div>
       </div>
-
-      <div id="rtab-planos" style="display:none;">
-        <div class="card-h">
-          <h2>🧭 Passo a passo (7 / 30 / 90 dias)</h2>
-          <span class="pill">plano executável</span>
-        </div>
-        <div class="card-b">
-          <div class="micro" id="moves"></div>
-
-          <div class="checklist">
-            <h3>✅ Checklist prático (marque e volte amanhã)</h3>
-            <label style="margin:0 0 8px;color:var(--muted);font-size:12px;">Esses itens não são “motivacionais”. São engenharia de sobrevivência docente.</label>
-            <div class="ck"><input type="checkbox"> <div>Eu protegi <b>2 blocos semanais</b> inegociáveis para meu eixo principal.</div></div>
-            <div class="ck"><input type="checkbox"> <div>Eu escolhi <b>1 dreno burocrático</b> e criei template/automação/checklist.</div></div>
-            <div class="ck"><input type="checkbox"> <div>Eu disse <b>um “não” elegante</b> para algo que só alimentava ruído.</div></div>
-            <div class="ck"><input type="checkbox"> <div>Eu transformei uma ação (ensino/extensão/pesquisa) em <b>processo contínuo</b> (ritual).</div></div>
-            <div class="ck"><input type="checkbox"> <div>Eu documentei meu projeto em 1 página: objetivo, público, rotina, indicadores, entregas.</div></div>
-            <div class="ck"><input type="checkbox"> <div>Eu fiz 1 conversa “de verdade” sobre <b>saúde mental e inclusão</b> com minha turma/equipe.</div></div>
-          </div>
-
-          <div class="checklist">
-            <h3>🧩 O que é ser professor universitário (frases para fechar)</h3>
-            <div id="closing"></div>
-          </div>
-        </div>
-      </div>
-    </aside>
-  </main>
+    </div>
+  </aside>
+</main>
 
 <script>
-/**
- * ECOSSISTEMA DOCENTE V2
- * - Perguntas em escala 1..5
- * - Pesos ocultos
- * - Gráficos: Radar, Balanço de Semana, Termômetro de Burocracia
- */
+/* =========================
+   DADOS
+========================= */
+const EMOJI = {R:"🔬",E:"🌱",T:"🎓",G:"🧭",I:"🚀",B:"⚫",M:"🧠"};
+const LABEL = {R:"Pesquisa",E:"Extensão",T:"Ensino",G:"Gestão",I:"Inovação",B:"Burocracia",M:"Saúde mental"};
 
-const EMOJI = {R:"🔬",E:"🌱",T:"🎓",G:"🧭",I:"🚀",B:"⚫"};
-const LABEL = {R:"Pesquisa",E:"Extensão",T:"Ensino",G:"Gestão",I:"Inovação",B:"Burocracia"};
+const COLORS = {
+  R:"rgba(37,99,235,.85)",
+  E:"rgba(22,163,74,.82)",
+  T:"rgba(245,158,11,.88)",
+  G:"rgba(124,58,237,.82)",
+  I:"rgba(239,68,68,.78)",
+  B:"rgba(71,85,105,.75)",
+  M:"rgba(14,165,233,.78)",
+  ink:"rgba(15,23,42,.92)",
+  soft:"rgba(15,23,42,.10)",
+  soft2:"rgba(15,23,42,.06)"
+};
 
 const QUESTIONS = [
-  // 1) Identidade acadêmica e autoria
-  { id:"q1",  t:"Eu uso meus próprios artigos e projetos como material vivo de aula (com transparência, crítica e método).", a:"Nunca", b:"Sempre",
-    w:{R:1.2,T:1.1} },
-  { id:"q2",  t:"Eu consigo transformar extensão em processo contínuo (não só evento) com indicadores simples e parceiros fixos.", a:"Nunca", b:"Sempre",
-    w:{E:1.4,G:0.6} },
-  { id:"q3",  t:"Eu tenho rotina de escrita/produção (mesmo pequena) e ela sobrevive à semana real.", a:"Nunca", b:"Sempre",
-    w:{R:1.5,G:0.2} },
-  { id:"q4",  t:"Eu assumo gestão apenas quando ela libera o coletivo (e eu coloco limite claro de tempo).", a:"Nunca", b:"Sempre",
-    w:{G:1.1,B:-0.4} },
+  /* Pesquisa / autoria */
+  { id:"q1",  t:"Eu uso meus próprios artigos e projetos como material vivo de aula (com método e crítica).", a:"Nunca", b:"Sempre", w:{R:1.2,T:1.0} },
+  { id:"q2",  t:"Eu tenho rotina de escrita/produção que sobrevive à semana real.", a:"Nunca", b:"Sempre", w:{R:1.5,G:0.2,M:-0.2} },
+  { id:"q3",  t:"Minha pesquisa tem uma pergunta-mãe que dá coerência aos projetos (evita dispersão por edital).", a:"Nada", b:"Totalmente", w:{R:1.4,G:0.2,M:-0.2} },
 
-  // 2) Burocracia (atrito real)
-  { id:"q5",  t:"Minha semana é engolida por sistemas, formulários, relatórios duplicados e reuniões sem decisão.", a:"Nada", b:"Totalmente",
-    w:{B:1.6} },
-  { id:"q6",  t:"Eu consigo dizer “não” de modo institucionalmente inteligente quando uma demanda só gera ruído.", a:"Nunca", b:"Sempre",
-    w:{G:0.7,B:-0.9} },
-  { id:"q7",  t:"Eu automatizo/templatizo rotinas (orientações, relatórios, planilhas, e-mails, fluxos) para não repetir dor.", a:"Nunca", b:"Sempre",
-    w:{I:0.7,G:0.6,B:-0.7} },
+  /* Extensão crítica */
+  { id:"q4",  t:"Eu enxergo extensão como coprodução de conhecimento (não só evento).", a:"Nada", b:"Totalmente", w:{E:1.3,R:0.4} },
+  { id:"q5",  t:"Eu consigo transformar extensão em processo contínuo com indicadores simples e parceiros fixos.", a:"Nunca", b:"Sempre", w:{E:1.4,G:0.6} },
 
-  // 3) Ensino contemporâneo + inclusão + neurodiversidade
-  { id:"q8",  t:"Eu preparo aulas considerando alunos neurodivergentes (TDAH/TEA) com estrutura, previsibilidade e múltiplas formas de participação.", a:"Nunca", b:"Sempre",
-    w:{T:1.1,G:0.2} },
-  { id:"q9",  t:"Eu sei adaptar materiais para acessibilidade (surdos, cegos, baixa visão, dislexia) ou buscar apoio/recursos para isso.", a:"Nada", b:"Muito",
-    w:{T:1.2,G:0.3,B:0.2} },
-  { id:"q10", t:"Eu trato avaliação como formação (feedback, rubricas, refação), não como punição ou burocracia.", a:"Nunca", b:"Sempre",
-    w:{T:1.3,B:-0.2} },
+  /* Ensino contemporâneo + inclusão */
+  { id:"q6",  t:"Eu preparo aulas considerando neurodivergência (TDAH/TEA) com estrutura e múltiplas formas de participação.", a:"Nunca", b:"Sempre", w:{T:1.2,M:-0.1} },
+  { id:"q7",  t:"Eu adapto materiais para acessibilidade (surdos/cegos/baixa visão/dislexia) ou busco apoio para isso.", a:"Nada", b:"Muito", w:{T:1.2,G:0.3,B:0.1} },
+  { id:"q8",  t:"Avaliação é formativa (feedback, rubricas, refação), não punição nem burocracia.", a:"Nunca", b:"Sempre", w:{T:1.3,B:-0.2,M:-0.1} },
 
-  // 4) IA e ética
-  { id:"q11", t:"Eu uso IA de forma ética e pedagógica (como ferramenta de rascunho/explicação) e ensino os limites dela.", a:"Nunca", b:"Sempre",
-    w:{I:1.0,T:0.6,G:0.2} },
-  { id:"q12", t:"Eu tenho política clara para IA na disciplina (o que pode, o que não pode, e como citar/relatar uso).", a:"Nunca", b:"Sempre",
-    w:{G:0.6,T:0.8} },
+  /* IA + inovação */
+  { id:"q9",  t:"Eu uso IA de modo ético/pedagógico e ensino limites e transparência.", a:"Nunca", b:"Sempre", w:{I:1.0,T:0.6,G:0.2} },
+  { id:"q10", t:"Eu tenho política clara para IA na disciplina (o que pode, como declarar e citar uso).", a:"Nunca", b:"Sempre", w:{G:0.6,T:0.8} },
+  { id:"q11", t:"Eu transformo ideias em protótipos e valido com usuários (alunos/território/gestão) antes de “fechar” solução.", a:"Nunca", b:"Sempre", w:{I:1.4,E:0.2} },
+  { id:"q12", t:"Eu institucionalizo o que crio (documento, treino pessoas, deixo replicável).", a:"Nunca", b:"Sempre", w:{G:0.8,I:0.8} },
 
-  // 5) Extensão crítica + sociologia da universidade
-  { id:"q13", t:"Eu enxergo extensão como coprodução de conhecimento (não assistência). O território muda a pergunta científica.", a:"Nada", b:"Totalmente",
-    w:{E:1.3,R:0.4} },
-  { id:"q14", t:"Eu consigo trabalhar conflitos de interesse e poder na universidade (autoria, créditos, hierarquias) com firmeza e ética.", a:"Nunca", b:"Sempre",
-    w:{G:0.9,B:0.2} },
+  /* Gestão e política universitária */
+  { id:"q13", t:"Eu entendo a universidade como campo de disputa (tempo/recursos/prestígio) e ajo com estratégia sem perder valores.", a:"Nada", b:"Totalmente", w:{G:1.0,B:0.2} },
+  { id:"q14", t:"Eu lido com autoria/créditos/hierarquias com firmeza e ética (sem virar cínico).", a:"Nunca", b:"Sempre", w:{G:0.9,M:-0.1} },
+  { id:"q15", t:"Eu formo pessoas para serem melhores que eu (delegação com confiança + critério).", a:"Nunca", b:"Sempre", w:{G:0.8,T:0.6,E:0.3} },
 
-  // 6) Gestão do tempo / saúde / limites
-  { id:"q15", t:"Eu protejo blocos de foco profundo (90–120 min) pelo menos 2x por semana.", a:"Nunca", b:"Sempre",
-    w:{R:0.7,T:0.5,I:0.5,B:-0.4} },
-  { id:"q16", t:"Eu sei reconhecer sinais de exaustão e ajustar o sistema (não só ‘aguentar’).", a:"Nunca", b:"Sempre",
-    w:{G:0.6,B:-0.6} },
+  /* Burocracia real */
+  { id:"q16", t:"Minha semana é engolida por sistemas, formulários, relatórios duplicados e reuniões sem decisão.", a:"Nada", b:"Totalmente", w:{B:1.7,M:0.4} },
+  { id:"q17", t:"Reuniões ocupam meu melhor horário cognitivo.", a:"Nunca", b:"Sempre", w:{B:1.2,M:0.4} },
+  { id:"q18", t:"Eu automatizo/templatizo rotinas (relatórios, e-mails, fluxos) para não repetir dor.", a:"Nunca", b:"Sempre", w:{I:0.6,G:0.6,B:-0.7,M:-0.2} },
+  { id:"q19", t:"Eu consigo dizer “não” de modo institucionalmente inteligente quando a demanda só gera ruído.", a:"Nunca", b:"Sempre", w:{G:0.7,B:-0.9,M:-0.2} },
 
-  // 7) Inovação (sem virar “hobby”)
-  { id:"q17", t:"Eu transformo ideias em protótipos e valido com usuários (alunos, território, gestores) antes de “fechar” solução.", a:"Nunca", b:"Sempre",
-    w:{I:1.4,E:0.2} },
-  { id:"q18", t:"Eu consigo institucionalizar o que crio (documento, treino pessoas, deixo replicável).", a:"Nunca", b:"Sempre",
-    w:{G:0.8,I:0.8} },
-
-  // 8) Pesquisa com sentido
-  { id:"q19", t:"Minha pesquisa tem uma pergunta-mãe que dá coerência a projetos e evita dispersão por edital.", a:"Nada", b:"Totalmente",
-    w:{R:1.4,G:0.2} },
-  { id:"q20", t:"Eu consigo transformar dados e rotina de laboratório/campo em oportunidades formativas (ensino-pesquisa integrado).", a:"Nunca", b:"Sempre",
-    w:{R:0.8,T:0.9} },
-
-  // 9) Ensino como autoria intelectual (não repetição)
-  { id:"q21", t:"Eu evito virar repetidor de slides: eu construo autoria didática (casos, atividades, projetos, perguntas).", a:"Nunca", b:"Sempre",
-    w:{T:1.3,I:0.2} },
-
-  // 10) Universidade como espaço político (reflexão)
-  { id:"q22", t:"Eu entendo que a universidade é um campo de disputa (recursos, prestígio, tempo) e ajo com estratégia sem perder valores.", a:"Nada", b:"Totalmente",
-    w:{G:1.0,B:0.2} },
-
-  // 11) Burocracia fina (o que mata a ciência)
-  { id:"q23", t:"Eu faço tarefas administrativas repetitivas que poderiam ser simplificadas/automatizadas, mas sigo fazendo do mesmo jeito.", a:"Nunca", b:"Sempre",
-    w:{B:1.2} },
-  { id:"q24", t:"Reuniões ocupam meu melhor horário cognitivo.", a:"Nunca", b:"Sempre",
-    w:{B:1.1} },
-
-  // 12) Liderança
-  { id:"q25", t:"Eu formo pessoas para serem melhores que eu (delegação com confiança + critério), não ‘dependentes’ de mim.", a:"Nunca", b:"Sempre",
-    w:{G:0.8,T:0.6,E:0.3} }
+  /* Saúde mental (sem romantizar) */
+  { id:"q20", t:"Eu durmo o suficiente e não trabalho sempre no modo ‘urgência’ (meu corpo não virou ferramenta).", a:"Nunca", b:"Sempre", w:{M:-0.9,B:-0.1,G:0.2} },
+  { id:"q21", t:"Eu reconheço sinais de exaustão e ajusto o sistema (não só ‘aguento’).", a:"Nunca", b:"Sempre", w:{G:0.6,M:-0.7,B:-0.2} },
+  { id:"q22", t:"Eu protejo blocos de foco profundo (90–120 min) pelo menos 2x por semana.", a:"Nunca", b:"Sempre", w:{R:0.7,T:0.5,I:0.5,B:-0.4,M:-0.2} }
 ];
 
-const quizEl = document.getElementById("quiz");
 document.getElementById("totalQ").textContent = QUESTIONS.length;
 
+/* =========================
+   QUIZ UI
+========================= */
+const quizEl = document.getElementById("quiz");
+
 function buildQuiz(){
-  quizEl.innerHTML = "";
+  quizEl.innerHTML="";
   QUESTIONS.forEach((q, idx)=>{
     const wrap = document.createElement("div");
     wrap.className = "q";
-    wrap.dataset.q = idx;
 
-    const title = document.createElement("p");
-    title.className = "q-title";
-    title.textContent = (idx+1) + ") " + q.t;
+    wrap.innerHTML = `
+      <p class="q-title">${idx+1}) ${q.t}</p>
+      <p class="q-sub">Use a régua: 1 (discordo/ausente) → 5 (concordo/presente). As pontuações ficam ocultas.</p>
+      <div class="scale">
+        <input type="range" min="1" max="5" step="1" id="${q.id}">
+        <div class="v" id="${q.id}_v">—</div>
+      </div>
+      <div class="scaleHints"><span>${q.a}</span><span>${q.b}</span></div>
+    `;
 
-    const sub = document.createElement("p");
-    sub.className = "q-sub";
-    sub.textContent = "Use a régua: 1 (discordo/ausente) → 5 (concordo/presente).";
-
-    const scale = document.createElement("div");
-    scale.className = "scale";
-
-    const range = document.createElement("input");
-    range.type = "range";
-    range.min = "1"; range.max = "5"; range.step = "1";
-    range.value = "";
-    range.id = q.id;
-
-    const v = document.createElement("div");
-    v.className = "v";
-    v.textContent = "—";
-
-    range.addEventListener("input", ()=>{
-      v.textContent = range.value;
+    const rng = wrap.querySelector(`#${q.id}`);
+    const valBox = wrap.querySelector(`#${q.id}_v`);
+    rng.addEventListener("input", ()=>{
+      valBox.textContent = rng.value;
       updateProgress();
     });
 
-    scale.appendChild(range);
-    scale.appendChild(v);
-
-    const hints = document.createElement("div");
-    hints.className = "scaleHints";
-    hints.innerHTML = `<span>${q.a}</span><span>${q.b}</span>`;
-
-    wrap.appendChild(title);
-    wrap.appendChild(sub);
-    wrap.appendChild(scale);
-    wrap.appendChild(hints);
     quizEl.appendChild(wrap);
   });
 }
+buildQuiz();
 
+/* =========================
+   PROGRESS
+========================= */
 function countAnswered(){
   let n=0;
   QUESTIONS.forEach(q=>{
@@ -658,101 +708,85 @@ function countAnswered(){
   });
   return n;
 }
-
 function updateProgress(){
   const n = countAnswered();
   document.getElementById("answered").textContent = n;
   const pct = Math.round((n/QUESTIONS.length)*100);
   document.getElementById("pbar").style.width = pct + "%";
 }
+updateProgress();
 
-function clampNum(id){
+function clampNum(id, min=0, max=100){
   const el = document.getElementById(id);
   let v = Number(el.value);
   if(!Number.isFinite(v)) v = 0;
-  v = Math.max(0, Math.min(100, Math.round(v)));
+  v = Math.max(min, Math.min(max, Math.round(v)));
   el.value = v;
   return v;
 }
-
-function normalizeWeek(ideal){
-  // normaliza distribuição em 100
-  const sum = Object.values(ideal).reduce((a,b)=>a+b,0);
+function normalize100(obj){
+  const sum = Object.values(obj).reduce((a,b)=>a+b,0);
   const base = Math.max(1, sum);
-  const out = {};
-  for(const k in ideal) out[k] = Math.round((ideal[k]/base)*100);
+  const out={};
+  for(const k in obj) out[k] = Math.round((obj[k]/base)*100);
   return out;
 }
 
+/* =========================
+   COMPUTE
+========================= */
 function compute(){
-  const missing = [];
-  // score acumulado
-  const raw = {R:0,E:0,T:0,G:0,I:0,B:0};
+  const missing=[];
+  const raw = {R:0,E:0,T:0,G:0,I:0,B:0,M:0};
 
-  QUESTIONS.forEach((q, i)=>{
+  QUESTIONS.forEach((q, idx)=>{
     const v = Number(document.getElementById(q.id).value);
-    if(!Number.isFinite(v) || v<1){
-      missing.push(i+1);
-      return;
-    }
-    // escala 1..5 -> centrada em 0..1 (0 a 1)
-    // 1=>0, 5=>1
-    const x = (v - 1) / 4;
-    // aplica pesos (ocultos)
+    if(!Number.isFinite(v) || v<1){ missing.push(idx+1); return; }
+    const x = (v-1)/4; // 0..1
     for(const k in q.w){
       raw[k] += x * q.w[k];
     }
   });
 
-  // converte em percentuais: pega apenas R,E,T,G,I para perfil e B separado
-  const mainKeys = ["R","E","T","G","I"];
-  const mainSum = mainKeys.reduce((a,k)=>a + Math.max(0, raw[k]), 0);
+  // Perfil (R,E,T,G,I) normalizado
+  const mainKeys=["R","E","T","G","I"];
+  const mainSum = mainKeys.reduce((a,k)=>a + Math.max(0,raw[k]), 0);
   const base = Math.max(0.0001, mainSum);
-
   const cur = {
     R: Math.round((Math.max(0,raw.R)/base)*100),
     E: Math.round((Math.max(0,raw.E)/base)*100),
     T: Math.round((Math.max(0,raw.T)/base)*100),
     G: Math.round((Math.max(0,raw.G)/base)*100),
     I: Math.round((Math.max(0,raw.I)/base)*100),
-    B: Math.max(0, Math.min(100, Math.round( (raw.B + 1.8) * 28 ))) // escala heurística
+    // B e M em 0..100 por heurística (escala ajustada)
+    B: Math.max(0, Math.min(100, Math.round((raw.B + 1.4) * 30))),
+    M: Math.max(0, Math.min(100, Math.round((raw.M + 1.2) * 30)))
   };
 
   const goal = {
-    R: clampNum("goalR"),
-    E: clampNum("goalE"),
-    T: clampNum("goalT"),
-    G: clampNum("goalG"),
-    I: clampNum("goalI"),
-    tolB: clampNum("tolB")
+    R: clampNum("goalR"), E: clampNum("goalE"), T: clampNum("goalT"),
+    G: clampNum("goalG"), I: clampNum("goalI"),
+    tolB: clampNum("tolB"),
+    tolM: clampNum("tolM")
   };
 
-  // ideal de semana
-  const ideal = normalizeWeek({
-    R: clampNum("idealR"),
-    E: clampNum("idealE"),
-    T: clampNum("idealT"),
-    G: clampNum("idealG"),
-    I: clampNum("idealI"),
-    B: clampNum("idealB")
+  const ideal = normalize100({
+    R: clampNum("idealR"), E: clampNum("idealE"), T: clampNum("idealT"),
+    G: clampNum("idealG"), I: clampNum("idealI"), B: clampNum("idealB")
   });
 
-  // atrito percebido (burocracia x limite tolerável)
-  const friction = Math.round((cur.B * (100 - goal.tolB))/100);
-
-  // estimativa de “semana atual” (heurística):
-  // usa o perfil para estimar distribuição + burocracia drena um bloco extra
+  // Semana “atual” (heurística: perfil + burocracia drena)
   let currentWeek = {
-    R: cur.R,
-    E: cur.E,
-    T: cur.T,
-    G: cur.G,
-    I: cur.I,
-    B: Math.min(45, Math.max(10, Math.round(cur.B*0.40))) // B em % da semana (heurístico)
+    R: cur.R, E: cur.E, T: cur.T, G: cur.G, I: cur.I,
+    B: Math.min(45, Math.max(10, Math.round(cur.B*0.42)))
   };
-  currentWeek = normalizeWeek(currentWeek);
+  currentWeek = normalize100(currentWeek);
 
-  // gaps
+  // Fricções: quanto está acima do tolerável
+  const frictionB = Math.max(0, Math.round((cur.B - goal.tolB)));
+  const frictionM = Math.max(0, Math.round((cur.M - goal.tolM)));
+  const capture = Math.min(100, Math.round((cur.B*0.45) + (cur.M*0.40) + (frictionB*0.10) + (frictionM*0.05)));
+
   const gap = {
     R: goal.R - cur.R,
     E: goal.E - cur.E,
@@ -761,420 +795,624 @@ function compute(){
     I: goal.I - cur.I
   };
 
-  return {raw, cur, goal, ideal, currentWeek, friction, missing, gap};
+  // “impacto” e “energia” por eixo (para quadrante) — heurística útil
+  const impact = {R:cur.R*0.9 + goal.R*0.1, E:cur.E*0.8 + goal.E*0.2, T:cur.T*0.85 + goal.T*0.15, G:cur.G*0.7 + goal.G*0.3, I:cur.I*0.8 + goal.I*0.2};
+  const energy = {
+    R: Math.max(10, 60 - cur.B*0.2 - cur.M*0.25),
+    E: Math.max(10, 58 - cur.B*0.2 - cur.M*0.18),
+    T: Math.max(10, 55 - cur.B*0.18 - cur.M*0.22),
+    G: Math.max(10, 50 - cur.B*0.10 - cur.M*0.12),
+    I: Math.max(10, 56 - cur.B*0.18 - cur.M*0.16)
+  };
+
+  return {missing, raw, cur, goal, ideal, currentWeek, frictionB, frictionM, capture, gap, impact, energy};
 }
 
 function topRole(vec){
-  const keys = ["R","E","T","G","I"];
-  let best = keys[0];
-  keys.forEach(k=>{ if(vec[k] > vec[best]) best = k; });
-  return best;
+  const keys=["R","E","T","G","I"];
+  return keys.reduce((best,k)=> vec[k] > vec[best] ? k : best, "R");
 }
-
-function riskLabel(friction, B){
-  const score = Math.round((B*0.55) + (friction*0.45));
-  if(score >= 70) return {txt:"ALTO 🔥", cls:"bad"};
-  if(score >= 40) return {txt:"MÉDIO ⚠️", cls:"warn"};
+function riskLabel(capture){
+  if(capture >= 70) return {txt:"ALTO 🔥", cls:"bad"};
+  if(capture >= 40) return {txt:"MÉDIO ⚠️", cls:"warn"};
   return {txt:"BAIXO ✅", cls:"ok"};
 }
 function clsColor(cls){
   return cls==="bad" ? "var(--bad)" : (cls==="warn" ? "var(--warn)" : "var(--ok)");
 }
-
-// ---------- Diagnóstico narrativo (mais “filosofia” + criticidade) ----------
 function phaseTxt(){
   const p = document.getElementById("phase").value;
   return p==="early" ? "início de carreira" : (p==="mid" ? "meio de carreira" : "fase sênior");
 }
 
-function buildNarrative(data){
-  const name = (document.getElementById("name").value || "Visitante").trim();
-  const uni  = (document.getElementById("uni").value  || "sua universidade").trim();
-  const dept = (document.getElementById("dept").value || "seu departamento").trim();
-  const prog = (document.getElementById("prog").value || "seu programa").trim();
-  const hours = clampNum("hours");
+/* =========================
+   CANVAS ENGINE (SEM DEFORMAR)
+========================= */
+function setupCanvas(canvas){
+  const ctx = canvas.getContext("2d");
+  function resize(){
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.max(10, Math.round(rect.width * dpr));
+    const h = Math.max(10, Math.round(rect.height * dpr));
+    if(canvas.width !== w || canvas.height !== h){
+      canvas.width = w;
+      canvas.height = h;
+    }
+    ctx.setTransform(dpr,0,0,dpr,0,0); // desenhar em CSS pixels
+  }
+  return {ctx, resize};
+}
 
-  const core = topRole(data.cur);
-  const desired = topRole({
-    R:data.goal.R, E:data.goal.E, T:data.goal.T, G:data.goal.G, I:data.goal.I
+const C = {
+  radar: setupCanvas(document.getElementById("cvRadar")),
+  week: setupCanvas(document.getElementById("cvWeek")),
+  bureau: setupCanvas(document.getElementById("cvBureau")),
+  mental: setupCanvas(document.getElementById("cvMental")),
+  quad: setupCanvas(document.getElementById("cvQuad")),
+  funnel: setupCanvas(document.getElementById("cvFunnel"))
+};
+
+function clear(ctx, canvas){
+  const w = canvas.getBoundingClientRect().width;
+  const h = canvas.getBoundingClientRect().height;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0,0,w,h);
+}
+
+function roundRect(ctx, x,y,w,h,r, fill=true, stroke=false){
+  const rr = Math.min(r, w/2, h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+rr,y);
+  ctx.arcTo(x+w,y,x+w,y+h,rr);
+  ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr);
+  ctx.arcTo(x,y,x+w,y,rr);
+  ctx.closePath();
+  if(fill) ctx.fill();
+  if(stroke) ctx.stroke();
+}
+
+function drawRadar(cur, goal){
+  const canvas = document.getElementById("cvRadar");
+  const {ctx, resize} = C.radar;
+  resize();
+  clear(ctx, canvas);
+
+  const W = canvas.getBoundingClientRect().width;
+  const H = canvas.getBoundingClientRect().height;
+
+  const cx = W*0.50, cy = H*0.56;
+  const radius = Math.min(W*0.34, H*0.40);
+  const axes = ["R","E","T","G","I"];
+  const n = axes.length;
+
+  // rings
+  ctx.strokeStyle = COLORS.soft;
+  ctx.lineWidth = 1;
+  for(let r=1;r<=5;r++){
+    const rr = radius*(r/5);
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
+      const x = cx + Math.cos(ang)*rr;
+      const y = cy + Math.sin(ang)*rr;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.stroke();
+  }
+
+  // axes + labels
+  axes.forEach((k,i)=>{
+    const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
+    const x = cx + Math.cos(ang)*radius;
+    const y = cy + Math.sin(ang)*radius;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy); ctx.lineTo(x,y);
+    ctx.strokeStyle = "rgba(15,23,42,.12)";
+    ctx.stroke();
+
+    const lx = cx + Math.cos(ang)*(radius+22);
+    const ly = cy + Math.sin(ang)*(radius+22);
+    ctx.fillStyle = COLORS.ink;
+    ctx.font = "900 12px ui-sans-serif, system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, lx, ly+4);
   });
 
-  const rk = riskLabel(data.friction, data.cur.B);
+  function poly(vec, stroke, fill){
+    ctx.beginPath();
+    axes.forEach((k,i)=>{
+      const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
+      const val = (vec[k]||0)/100;
+      const x = cx + Math.cos(ang)*radius*val;
+      const y = cy + Math.sin(ang)*radius*val;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    ctx.strokeStyle = stroke; ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
+
+  poly(goal, "rgba(15,23,42,.25)", "rgba(15,23,42,.06)");
+  poly(cur, "rgba(15,23,42,.90)", "rgba(15,23,42,.12)");
+
+  // title
+  ctx.fillStyle = COLORS.ink;
+  ctx.font = "950 13px ui-sans-serif, system-ui";
+  ctx.textAlign="left";
+  ctx.fillText("Atual vs Desejado", 10, 18);
+}
+
+function drawWeekBars(curW, idealW){
+  const canvas = document.getElementById("cvWeek");
+  const {ctx, resize} = C.week;
+  resize();
+  clear(ctx, canvas);
+
+  const W = canvas.getBoundingClientRect().width;
+  const H = canvas.getBoundingClientRect().height;
+
+  const keys = ["R","E","T","G","I","B"];
+  const left = 92;
+  const rightPad = 10;
+  const barW = W - left - rightPad;
+  const top = 36;
+  const rowH = (H-54)/keys.length;
+
+  ctx.fillStyle = COLORS.ink;
+  ctx.font = "950 13px ui-sans-serif, system-ui";
+  ctx.fillText("Semana — Hoje (barra) vs Ideal (linha)", 10, 18);
+
+  keys.forEach((k, idx)=>{
+    const y = top + idx*rowH + 10;
+
+    // label
+    ctx.fillStyle = COLORS.ink;
+    ctx.font = "900 12px ui-sans-serif, system-ui";
+    ctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, 10, y+10);
+
+    // back
+    ctx.fillStyle = COLORS.soft2;
+    roundRect(ctx, left, y, barW, 14, 8, true, false);
+
+    // bar (hoje)
+    const bw = Math.round((curW[k]/100)*barW);
+    ctx.fillStyle = COLORS[k] || "rgba(15,23,42,.50)";
+    roundRect(ctx, left, y, bw, 14, 8, true, false);
+
+    // ideal line
+    const ix = left + Math.round((idealW[k]/100)*barW);
+    ctx.strokeStyle = "rgba(15,23,42,.55)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(ix, y-4);
+    ctx.lineTo(ix, y+18);
+    ctx.stroke();
+
+    // numbers
+    ctx.fillStyle = "rgba(15,23,42,.70)";
+    ctx.font = "800 11px ui-sans-serif, system-ui";
+    ctx.textAlign = "right";
+    ctx.fillText(`hoje ${curW[k]}% | ideal ${idealW[k]}%`, W-10, y+11);
+    ctx.textAlign = "left";
+  });
+}
+
+function drawGauge(canvasId, value, label, color){
+  const canvas = document.getElementById(canvasId);
+  const pack = canvasId==="cvBureau" ? C.bureau : C.mental;
+  const {ctx, resize} = pack;
+  resize();
+  clear(ctx, canvas);
+
+  const W = canvas.getBoundingClientRect().width;
+  const H = canvas.getBoundingClientRect().height;
+
+  const cx = W*0.50, cy = H*0.70;
+  const r = Math.min(W*0.38, H*0.55);
+  const start = Math.PI*1.02;
+  const end = Math.PI*1.98;
+
+  // base arc
+  ctx.lineWidth = 16;
+  ctx.strokeStyle = COLORS.soft2;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, start, end);
+  ctx.stroke();
+
+  // segments (verde/amarelo/vermelho)
+  const seg = [
+    {to: 0.40, c:"rgba(22,163,74,.65)"},
+    {to: 0.70, c:"rgba(245,158,11,.70)"},
+    {to: 1.00, c:"rgba(239,68,68,.65)"}
+  ];
+  let prev = 0;
+  seg.forEach(s=>{
+    const a0 = start + (end-start)*prev;
+    const a1 = start + (end-start)*s.to;
+    ctx.strokeStyle = s.c;
+    ctx.beginPath(); ctx.arc(cx,cy,r,a0,a1); ctx.stroke();
+    prev = s.to;
+  });
+
+  // value arc
+  const pct = Math.max(0, Math.min(100, value))/100;
+  ctx.strokeStyle = color;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, start, start + (end-start)*pct);
+  ctx.stroke();
+
+  // needle
+  const ang = start + (end-start)*pct;
+  const nx = cx + Math.cos(ang)*(r-6);
+  const ny = cy + Math.sin(ang)*(r-6);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "rgba(15,23,42,.75)";
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(nx,ny); ctx.stroke();
+  ctx.fillStyle = "rgba(15,23,42,.85)";
+  ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fill();
+
+  // texts
+  ctx.fillStyle = COLORS.ink;
+  ctx.font = "950 13px ui-sans-serif, system-ui";
+  ctx.textAlign="center";
+  ctx.fillText(label, cx, 18);
+
+  ctx.font = "990 30px ui-sans-serif, system-ui";
+  ctx.fillText(`${Math.round(value)}`, cx, cy-18);
+
+  ctx.fillStyle = "rgba(15,23,42,.65)";
+  ctx.font = "800 12px ui-sans-serif, system-ui";
+  ctx.fillText("/100", cx, cy+2);
+}
+
+function drawQuad(impact, energy){
+  const canvas = document.getElementById("cvQuad");
+  const {ctx, resize} = C.quad;
+  resize();
+  clear(ctx, canvas);
+
+  const W = canvas.getBoundingClientRect().width;
+  const H = canvas.getBoundingClientRect().height;
+
+  const pad = 42;
+  const x0 = pad, y0 = pad;
+  const x1 = W-pad, y1 = H-pad;
+
+  // axes
+  ctx.strokeStyle = COLORS.soft;
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(x0, y1); ctx.lineTo(x1, y1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x0, y1); ctx.lineTo(x0, y0); ctx.stroke();
+
+  // mid lines
+  const mx = x0 + (x1-x0)/2;
+  const my = y0 + (y1-y0)/2;
+  ctx.strokeStyle = "rgba(15,23,42,.10)";
+  ctx.beginPath(); ctx.moveTo(mx, y0); ctx.lineTo(mx, y1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x0, my); ctx.lineTo(x1, my); ctx.stroke();
+
+  // labels
+  ctx.fillStyle = COLORS.ink;
+  ctx.font = "950 13px ui-sans-serif, system-ui";
+  ctx.fillText("Impacto × Energia (onde investir)", 10, 18);
+
+  ctx.fillStyle = "rgba(15,23,42,.65)";
+  ctx.font = "800 11px ui-sans-serif, system-ui";
+  ctx.fillText("Impacto →", x1-70, y1+24);
+  ctx.save();
+  ctx.translate(x0-28, y0+70);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText("Energia (sustentável) →", 0, 0);
+  ctx.restore();
+
+  const keys=["R","E","T","G","I"];
+  keys.forEach(k=>{
+    const ix = (impact[k]||0)/100;
+    const ey = (energy[k]||0)/100;
+    const px = x0 + ix*(x1-x0);
+    const py = y1 - ey*(y1-y0);
+
+    ctx.fillStyle = COLORS[k];
+    ctx.beginPath(); ctx.arc(px,py,7,0,Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = "rgba(15,23,42,.85)";
+    ctx.font = "900 11px ui-sans-serif, system-ui";
+    ctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, px+10, py+4);
+  });
+
+  // quadrant hints
+  ctx.fillStyle = "rgba(15,23,42,.60)";
+  ctx.font = "800 10px ui-sans-serif, system-ui";
+  ctx.fillText("Alto impacto / alta energia = ouro", mx+6, my-6);
+  ctx.fillText("Alto impacto / baixa energia = risco de burnout", mx+6, y1-10);
+}
+
+function drawFunnel(curW, B, M){
+  const canvas = document.getElementById("cvFunnel");
+  const {ctx, resize} = C.funnel;
+  resize();
+  clear(ctx, canvas);
+
+  const W = canvas.getBoundingClientRect().width;
+  const H = canvas.getBoundingClientRect().height;
+
+  ctx.fillStyle = COLORS.ink;
+  ctx.font = "950 13px ui-sans-serif, system-ui";
+  ctx.fillText("Drenos (visão simples da semana)", 10, 18);
+
+  const items = [
+    {k:"B", name:"Burocracia", v: curW.B, c: COLORS.B},
+    {k:"T", name:"Ensino (operacional)", v: curW.T, c: COLORS.T},
+    {k:"G", name:"Gestão (processos)", v: curW.G, c: COLORS.G},
+    {k:"R", name:"Pesquisa (profundo)", v: curW.R, c: COLORS.R},
+    {k:"E", name:"Extensão (campo)", v: curW.E, c: COLORS.E},
+    {k:"I", name:"Inovação (criação)", v: curW.I, c: COLORS.I}
+  ].sort((a,b)=>b.v-a.v);
+
+  const left=16, top=36, rowH=(H-56)/items.length, maxW=W-32;
+
+  items.forEach((it, idx)=>{
+    const y = top + idx*rowH + 10;
+    // bar back
+    ctx.fillStyle = COLORS.soft2;
+    roundRect(ctx, left, y, maxW, 14, 8, true, false);
+
+    // bar fill
+    ctx.fillStyle = it.c;
+    roundRect(ctx, left, y, Math.round((it.v/100)*maxW), 14, 8, true, false);
+
+    // label
+    ctx.fillStyle = "rgba(15,23,42,.85)";
+    ctx.font = "900 11px ui-sans-serif, system-ui";
+    ctx.fillText(`${EMOJI[it.k]} ${it.name}`, left, y-3);
+
+    // value
+    ctx.fillStyle = "rgba(15,23,42,.65)";
+    ctx.font = "800 11px ui-sans-serif, system-ui";
+    ctx.textAlign="right";
+    ctx.fillText(`${it.v}%`, W-16, y+11);
+    ctx.textAlign="left";
+  });
+
+  // small note
+  ctx.fillStyle = "rgba(15,23,42,.60)";
+  ctx.font = "800 11px ui-sans-serif, system-ui";
+  ctx.fillText(`Burocracia=${B}/100 · Carga mental=${M}/100`, 16, H-10);
+}
+
+/* =========================
+   NARRATIVA + PLANO + CHECKLIST
+========================= */
+function buildNarrative(data){
+  const name = (val("name") || "Visitante").trim();
+  const uni  = (val("uni") || "sua universidade").trim();
+  const dept = (val("dept") || "seu departamento").trim();
+  const prog = (val("prog") || "seu programa").trim();
+  const hours = clampNum("hours",1,120);
+
+  const core = topRole(data.cur);
+  const desired = topRole({R:data.goal.R,E:data.goal.E,T:data.goal.T,G:data.goal.G,I:data.goal.I});
+  const rk = riskLabel(data.capture);
 
   // maior gap
   const biggestGap = Object.keys(data.gap).reduce((a,k)=> Math.abs(data.gap[k]) > Math.abs(data.gap[a]) ? k : a, "R");
   const gapAbs = Math.abs(data.gap[biggestGap]);
   const gapDir = data.gap[biggestGap] >= 0 ? "crescer" : "reduzir";
 
-  const bureaucracyTone =
-    data.cur.B >= 65 ? "O sistema está tentando te transformar em operador de processos. Se você não reagir, sua identidade acadêmica vira função administrativa." :
-    data.cur.B >= 35 ? "A burocracia já é um atrito relevante. O perigo não é ela existir — é ela ocupar seu melhor horário cognitivo." :
-    "A burocracia parece controlada, mas cuidado: quando projetos escalam, o atrito cresce. Proteja processos antes do caos.";
+  const captureTxt =
+    data.capture >= 70 ? "Seu sistema está em modo incêndio. Se você não redesenhar agenda e processos, sua identidade vira sobrevivência." :
+    data.capture >= 40 ? "Você está no limite do sustentável. Sem corte/automação, o essencial vira opcional." :
+    "Sua carga parece administrável, mas o risco é crescer projeto sem criar processo. Previna.";
 
   const alignment =
-    core === desired
-      ? "Seu eixo atual conversa com seu desejo. Agora é menos sobre ‘mudar de identidade’ e mais sobre blindar foco e criar continuidade."
-      : "Seu eixo atual não conversa com seu desejo. Isso não é defeito — é diagnóstico: você está pagando custo invisível. A pergunta é: o que você está sacrificando para sustentar o que faz hoje?";
-
-  // pergunta filosófica final (curta, mas forte)
-  const phi = [
-    "A universidade não te mede pelo que você é — te mede pelo que consegue registrar. Seu trabalho é não virar refém do registro.",
-    "Ser professor é sustentar um espaço de pensamento quando o mundo só quer entrega.",
-    "Quando a burocracia vira identidade, a universidade perde o sentido e ganha apenas funcionamento."
-  ];
-  const phiPick = phi[(data.cur.B + data.friction + data.cur.R) % phi.length | 0];
+    core===desired
+      ? "Seu eixo atual conversa com seu desejo. Agora é blindar tempo e transformar em ritual contínuo."
+      : "Seu eixo atual não conversa com seu desejo. Isso não é defeito: é diagnóstico de custo invisível. O que você está sacrificando para sustentar o presente?";
 
   const txt = `
-    <b>${name}</b> — <b>${uni}</b> (${dept}; ${prog}) · <b>${phaseTxt()}</b> · <b>${hours}h/semana reais</b><br><br>
-    Seu eixo hoje: <b>${EMOJI[core]} ${LABEL[core]}</b>. Seu desejo (meta dominante): <b>${EMOJI[desired]} ${LABEL[desired]}</b>.<br>
+    <b>${name}</b> — <b>${uni}</b> (${dept}; ${prog}) · <b>${phaseTxt()}</b> · <b>${hours}h/semana</b><br><br>
+    Eixo atual: <b>${EMOJI[core]} ${LABEL[core]}</b> · Eixo desejado: <b>${EMOJI[desired]} ${LABEL[desired]}</b><br>
     <b>${alignment}</b><br><br>
-    <b>Burocracia:</b> ${data.cur.B}/100 · <b>Fricção percebida:</b> ${data.friction}/100 · <b>Risco:</b> <span style="color:${clsColor(rk.cls)}"><b>${rk.txt}</b></span><br>
-    ${bureaucracyTone}<br><br>
-    Maior ajuste necessário: <b>${gapDir}</b> em <b>${EMOJI[biggestGap]} ${LABEL[biggestGap]}</b> (~<b>${gapAbs}</b> pontos).<br>
-    Próximo passo: parar de tentar “fazer tudo” e redesenhar <b>agenda, processos e compromissos</b> para o seu objetivo caber na semana real.
+    <b>⚫ Burocracia:</b> ${data.cur.B}/100 (tolerância: ${data.goal.tolB}) · <b>🧠 Carga mental:</b> ${data.cur.M}/100 (tolerância: ${data.goal.tolM})<br>
+    <b>Risco de captura:</b> <span style="color:${clsColor(rk.cls)}"><b>${rk.txt}</b></span> — ${captureTxt}<br><br>
+    Maior ajuste: <b>${gapDir}</b> em <b>${EMOJI[biggestGap]} ${LABEL[biggestGap]}</b> (~<b>${gapAbs}</b> pts).<br>
+    A saída não é “trabalhar mais”. É <b>trabalhar com arquitetura</b>: agenda, processos, limites e delegação.
   `;
 
   return {txt, core, desired, rk, biggestGap};
 }
 
-function buildQuotes(data){
-  // frases finais: o que é ser professor universitário (bem “manifesto”)
-  const list = [
-    "Professor universitário não é um cargo: é um sistema de escolhas sobre tempo, sentido e compromisso público.",
-    "Pesquisa sem ensino vira especialização muda. Ensino sem pesquisa vira repetição. Extensão sem criticidade vira evento. Gestão sem limite vira captura. Inovação sem instituição vira hobby.",
-    "O trabalho invisível do docente não é fracasso — é terreno político. O problema é quando o invisível ocupa o lugar do essencial.",
-    "Você não precisa ser tudo. Precisa ser coerente, contínuo e justo consigo e com os outros.",
-    "A pergunta mais séria não é ‘o que eu produzi?’, é ‘o que eu sustentei de humano e de conhecimento apesar do sistema?’"
-  ];
-
-  // escolhe 3 com base no perfil
-  const idx1 = (data.cur.R + data.cur.E + data.cur.T) % list.length;
-  const idx2 = (data.cur.G + data.cur.I + data.cur.B) % list.length;
-  const idx3 = (data.friction + data.cur.B) % list.length;
-
-  return [list[idx1], list[idx2], list[idx3]];
-}
-
-// ---------- Plano 7/30/90 dias (passo a passo) ----------
 function buildMoves(data, meta){
-  const moves = [];
-  const core = meta.core;
-  const desired = meta.desired;
-  const B = data.cur.B;
-  const friction = data.friction;
-  const gapKey = meta.biggestGap;
+  const moves=[];
+  const core=meta.core, desired=meta.desired, gapKey=meta.biggestGap;
 
-  // 7 dias: arrumar agenda + dreno
   moves.push({
-    ttl:"7 dias — Organizar o chão (sem isso, nada escala)",
-    txt:"(1) Bloqueie 2 sessões de foco (90–120 min) no seu melhor horário. (2) Liste 5 drenos burocráticos da semana e ataque 1 com template/automação. (3) Marque uma reunião ‘com decisão’ (pauta + saída) e recuse reunião sem pauta."
+    ttl:"48 horas — parar a hemorragia (sem heroísmo)",
+    txt:"1) Corte 1 reunião sem decisão. 2) Crie 1 template para o dreno que mais se repete. 3) Bloqueie 2 sessões de foco (90–120 min) no melhor horário."
   });
 
-  // 30 dias: transformar eixo em processo (ritual)
+  moves.push({
+    ttl:"7 dias — proteger o essencial",
+    txt:"Defina seu ‘horário sagrado’ (foco). Crie pauta padrão para reuniões. Faça uma lista do que você NÃO faz. A burocracia precisa de limite formal."
+  });
+
   const ritual = {
-    R:"Defina pipeline: pergunta→dados→rascunho→submissão. Uma entrega por semana (mesmo pequena).",
-    E:"Defina ritual mensal com parceiros fixos + 3 indicadores simples de impacto (não só fotos).",
-    T:"Defina 1 disciplina como ‘laboratório autoral’: casos, projetos, rubricas e feedback.",
-    G:"Defina limites formais: agenda de gestão e o que você não faz. Publique seu ‘manual de funcionamento’.",
-    I:"Defina usuário + problema + protótipo. Faça 2 testes com gente real antes de ‘finalizar’."
+    R:"Pipeline semanal: pergunta→dados→rascunho→submissão. Uma micro-entrega/semana.",
+    E:"Ritual mensal com parceiros fixos + 3 indicadores simples (não só fotos).",
+    T:"Uma disciplina vira ‘laboratório autoral’: casos, projetos, rubricas e feedback.",
+    G:"Gestão com limite: agenda de gestão, decisões registradas, delegação e encerramento de comissões inúteis.",
+    I:"Inovação com usuário: protótipo→teste→ajuste. Depois institucionalize (manual + replicação)."
   };
+  moves.push({ ttl:"30 dias — transformar eixo em ritual", txt: ritual[desired] || "Crie um processo replicável que sobreviva à sua semana." });
 
   moves.push({
-    ttl:"30 dias — Transformar seu eixo em ritual (continuidade é poder)",
-    txt: ritual[desired] || "Escolha 1 processo que você repete e torne replicável (manual + checklist + template)."
+    ttl:"90 dias — reequilibrar semana real vs ideal",
+    txt:"Compare o gráfico Semana (Hoje vs Ideal). Faça 2 mudanças estruturais: (a) reduzir reuniões, (b) automatizar relatório, (c) delegar rotina, (d) fechar uma frente. Refaça o diagnóstico no dia 90."
   });
 
-  // 90 dias: alinhar a semana real com a semana desejada
-  moves.push({
-    ttl:"90 dias — Reequilibrar a semana (e não viver apagando incêndio)",
-    txt:"Compare seu ‘Balanço de Semana’ (gráfico) com seu ideal. Escolha 2 mudanças estruturais: (a) cortar/encurtar reuniões, (b) delegar uma rotina, (c) automatizar relatório, (d) reduzir número de frentes abertas. Reavalie com este app no dia 90."
-  });
-
-  // Antiburocracia específica
-  if(B >= 50 || friction >= 50){
+  if(data.capture >= 40){
     moves.push({
-      ttl:"Plano antiburocracia — 3 golpes objetivos",
-      txt:"1) Template de respostas (orientação, e-mail, relatórios). 2) ‘Reunião só com pauta + decisão’. 3) Uma lista pública do que você não faz (limites). Burocracia não pode virar identidade."
-    });
-  } else {
-    moves.push({
-      ttl:"Prevenção antiburocracia — não espere piorar",
-      txt:"Antes de crescer projetos, documente: fluxos, arquivos, papéis, prazos, indicadores. A maioria dos docentes quebra por falta de processo, não por falta de ideia."
+      ttl:"Plano antiburnout (objetivo, não motivacional)",
+      txt:"Sono e foco viram política. Tire reuniões do melhor horário cognitivo. Pare de aceitar urgência como normal. Sem isso, você perde ciência, ensino e saúde."
     });
   }
 
-  // Inclusão / IA — sempre presente
-  moves.push({
-    ttl:"Docência contemporânea — IA + inclusão sem romantizar",
-    txt:"Defina uma política de IA (o que pode, como declarar). Adapte material para acessibilidade (texto alternativo, linguagem clara, múltiplas formas de participação). Isso não é ‘extra’: é qualidade do ensino."
-  });
-
-  // Ponte se core != desired
   if(core !== desired){
     moves.push({
-      ttl:"Ponte identitária — do que você é ao que quer ser",
-      txt:"Crie 1 projeto-ponte: use seu eixo atual para alimentar o desejado. Ex.: pesquisa → extensão (coprodução); extensão → inovação (ferramenta); ensino → pesquisa (dados de aprendizagem)."
+      ttl:"Ponte identitária (do que você é ao que quer ser)",
+      txt:"Crie 1 projeto-ponte: seu eixo atual deve alimentar o desejado. Ex.: pesquisa → ensino (aula autoral); ensino → pesquisa (dados didáticos); extensão → inovação (ferramentas)."
     });
   }
 
-  // Mostrar “onde mexer primeiro” pelo gap
   const gapAdvice = {
-    R:"Para crescer pesquisa: proteja escrita e reduza frentes. Sem pipeline, tudo vira urgência.",
-    E:"Para crescer extensão: menos eventos, mais continuidade (ritual + parceiros + indicadores).",
-    T:"Para crescer ensino: transforme conteúdo em experiência (casos, projetos, rubricas).",
-    G:"Para crescer gestão: aceite que gestão é engenharia social — mas limite para não virar operador.",
-    I:"Para crescer inovação: valide com usuário e institucionalize para não morrer em você."
+    R:"Crescer pesquisa = proteger escrita e reduzir frentes. Sem pipeline, tudo vira urgência.",
+    E:"Crescer extensão = menos evento e mais continuidade (parceria + indicadores).",
+    T:"Crescer ensino = autoria didática (casos, projetos, rubricas) e inclusão real.",
+    G:"Crescer gestão = decidir e delegar, não ‘segurar tudo’. Gestão sem limite captura.",
+    I:"Crescer inovação = testar com usuários e institucionalizar (senão morre em você)."
   };
-
-  moves.push({
-    ttl:`Onde mexer primeiro (ajuste principal: ${EMOJI[gapKey]} ${LABEL[gapKey]})`,
-    txt: gapAdvice[gapKey] || "Ajuste seu eixo com uma mudança estrutural de agenda/processo, não com força de vontade."
-  });
+  moves.push({ ttl:`Onde mexer primeiro: ${EMOJI[gapKey]} ${LABEL[gapKey]}`, txt: gapAdvice[gapKey] });
 
   return moves;
 }
 
-// ---------- Gráficos ----------
-const radar = document.getElementById("radar");
-const timeBars = document.getElementById("timeBars");
-const bureau = document.getElementById("bureau");
+function buildChecklist(data, meta){
+  const blocks = [];
 
-const rctx = radar.getContext("2d");
-const tctx = timeBars.getContext("2d");
-const bctx = bureau.getContext("2d");
-
-function clear(ctx, c){ ctx.clearRect(0,0,c.width,c.height); }
-
-function drawRadar(cur, goal){
-  clear(rctx, radar);
-  const W = radar.width, H = radar.height;
-  const cx = W*0.50, cy = H*0.55;
-  const radius = Math.min(W*0.33, H*0.38);
-  const axes = ["R","E","T","G","I"];
-  const n = axes.length;
-
-  // fundo
-  rctx.fillStyle = "#fff";
-  rctx.fillRect(0,0,W,H);
-
-  // rings
-  rctx.save();
-  rctx.translate(cx, cy);
-  rctx.strokeStyle = "rgba(15,23,42,.10)";
-  rctx.lineWidth = 1;
-  for(let r=1;r<=5;r++){
-    const rr = radius*(r/5);
-    rctx.beginPath();
-    for(let i=0;i<n;i++){
-      const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
-      const x = Math.cos(ang)*rr, y = Math.sin(ang)*rr;
-      if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
-    }
-    rctx.closePath(); rctx.stroke();
-  }
-
-  // axes + labels
-  axes.forEach((k,i)=>{
-    const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
-    const x = Math.cos(ang)*radius, y = Math.sin(ang)*radius;
-    rctx.beginPath();
-    rctx.moveTo(0,0); rctx.lineTo(x,y);
-    rctx.strokeStyle = "rgba(15,23,42,.12)"; rctx.stroke();
-
-    rctx.fillStyle = "rgba(15,23,42,.90)";
-    rctx.font = "900 13px ui-sans-serif, system-ui";
-    const lx = Math.cos(ang)*(radius+26);
-    const ly = Math.sin(ang)*(radius+26);
-    rctx.textAlign = "center";
-    rctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, lx, ly+4);
+  blocks.push({
+    title:"🧯 48 horas (anticaos)",
+    hint:"Ações pequenas que mudam o sistema rapidamente.",
+    items:[
+      "Corte <b>1 reunião</b> sem pauta/decisão (ou reduza pela metade).",
+      "Crie <b>1 template</b> (e-mail, relatório, orientação, ata) para o dreno mais frequente.",
+      "Bloqueie <b>2 sessões</b> de foco profundo (90–120 min) no melhor horário da semana.",
+      "Escolha <b>1 tarefa</b> repetitiva e transforme em checklist (passo a passo).",
+      "Tire as notificações do celular por <b>4 horas</b> no período de foco."
+    ]
   });
 
-  function poly(vec, stroke, fill, alpha){
-    rctx.beginPath();
-    axes.forEach((k,i)=>{
-      const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
-      const val = (vec[k]||0)/100;
-      const x = Math.cos(ang)*radius*val;
-      const y = Math.sin(ang)*radius*val;
-      if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
+  blocks.push({
+    title:"📌 7 dias (blindagem)",
+    hint:"Sem blindagem, o essencial vira “quando der”.",
+    items:[
+      "Defina seu <b>horário sagrado</b> (foco) e trate como aula.",
+      "Crie uma regra: reunião só com <b>pauta + saída</b> (decisão registrada).",
+      "Liste o que você <b>não faz</b> (limites formais).",
+      "Delegue <b>1 rotina</b> (com padrão de qualidade + acompanhamento).",
+      "Reserve 20 min para <b>organizar arquivos</b> do projeto (estrutura simples)."
+    ]
+  });
+
+  blocks.push({
+    title:"🧭 30 dias (ritual do eixo)",
+    hint:"Ritual é continuidade. Continuidade é poder acadêmico.",
+    items:[
+      `Transforme <b>${LABEL[meta.desired]}</b> em processo: uma entrega semanal pequena.`,
+      "Documente seu projeto em 1 página: <b>objetivo, público, rotina, indicadores, entregas</b>.",
+      "Defina <b>indicadores</b> (3) que façam sentido (sem burocracia vazia).",
+      "Crie uma rotina de <b>revisão quinzenal</b> do que entrou e do que sai da agenda.",
+      "Publique (para você mesmo) um <b>diário de decisões</b> (o que aceitou/recusou e por quê)."
+    ]
+  });
+
+  blocks.push({
+    title:"🏁 90 dias (equilíbrio)",
+    hint:"Se depois de 90 dias nada mudou, o sistema ganhou.",
+    items:[
+      "Redesenhe a semana para reduzir <b>Burocracia</b> em pelo menos 10 pontos.",
+      "Mova reuniões para horários de <b>baixo desempenho cognitivo</b>.",
+      "Feche 1 frente aberta que não conversa com sua meta.",
+      "Crie uma estratégia de <b>orientações</b> (grupo, templates, encontros temáticos).",
+      "Refaça este diagnóstico e compare os gráficos."
+    ]
+  });
+
+  blocks.push({
+    title:"🤝 Inclusão real (neurodivergência e acessibilidade)",
+    hint:"Isso não é ‘extra’: é qualidade do ensino.",
+    items:[
+      "Adote uma estrutura de aula previsível (agenda, metas, pausas).",
+      "Ofereça <b>múltiplas formas</b> de participação (fala, texto, anônimo, grupo).",
+      "Garanta acessibilidade básica: <b>contraste, fontes legíveis, texto alternativo</b>.",
+      "Defina regras de convivência: respeito, tempo de fala, acolhimento.",
+      "Crie rubricas claras e dê feedback curto (evita sofrimento e injustiça)."
+    ]
+  });
+
+  blocks.push({
+    title:"🤖 IA (ética + pedagogia)",
+    hint:"IA sem regra vira ruído; com regra vira ferramenta.",
+    items:[
+      "Defina o que pode: IA para rascunho, revisão, explicação — com <b>declaração de uso</b>.",
+      "Defina o que não pode: gerar respostas finais sem autoria e sem referência.",
+      "Mostre exemplos bons e ruins (transparência).",
+      "Exija citação de fontes reais (não só texto bonito).",
+      "Use IA para reduzir burocracia docente (templates) e liberar tempo de qualidade."
+    ]
+  });
+
+  blocks.push({
+    title:"🧠 Saúde mental (sem romantizar)",
+    hint:"Professor quebrado não sustenta projeto nem gente.",
+    items:[
+      "Proteja sono como política (sem culpa).",
+      "Recuse urgência como padrão: crie janelas de resposta a e-mails.",
+      "Faça 1 conversa ‘de verdade’ sobre saúde mental na turma/equipe.",
+      "Tire 1 atividade do calendário (redução consciente).",
+      "Tenha um dia/turno sem universidade (se isso é impossível, o diagnóstico está certo)."
+    ]
+  });
+
+  blocks.push({
+    title:"⚫ Antiburocracia (engenharia)",
+    hint:"Burocracia inevitável ≠ burocracia dominante.",
+    items:[
+      "Crie biblioteca de templates (atas, relatórios, e-mails, orientações).",
+      "Padronize arquivos do projeto (nomeação + pastas).",
+      "Reunião sem decisão não existe: encerre em 15 minutos.",
+      "Se é recorrente, vira processo: checklist + responsável + prazo.",
+      "Diga “não” elegante: ‘posso em X data / posso se for Y / não posso por Z’."
+    ]
+  });
+
+  return blocks;
+}
+
+function renderChecklist(blocks){
+  const grid = document.getElementById("checkGrid");
+  grid.innerHTML = "";
+  blocks.forEach(b=>{
+    const card = document.createElement("div");
+    card.className = "checkCard";
+    card.innerHTML = `<h3>${b.title}</h3><p class="hint">${b.hint}</p>`;
+    b.items.forEach(txt=>{
+      const row = document.createElement("div");
+      row.className = "ck";
+      row.innerHTML = `<input type="checkbox"><div class="txt">${txt}</div>`;
+      card.appendChild(row);
     });
-    rctx.closePath();
-    rctx.strokeStyle = stroke;
-    rctx.lineWidth = 2;
-    rctx.stroke();
-    rctx.fillStyle = fill;
-    rctx.globalAlpha = alpha;
-    rctx.fill();
-    rctx.globalAlpha = 1;
-  }
-
-  // desired (leve)
-  poly(goal, "rgba(15,23,42,.25)", "rgba(15,23,42,.08)", 1);
-  // current (forte)
-  poly(cur, "rgba(15,23,42,.85)", "rgba(15,23,42,.14)", 1);
-
-  rctx.restore();
-
-  // titulo
-  rctx.fillStyle = "rgba(15,23,42,.92)";
-  rctx.font = "950 16px ui-sans-serif, system-ui";
-  rctx.textAlign = "left";
-  rctx.fillText("Perfil — Atual vs. Desejado", 14, 22);
-
-  rctx.fillStyle = "rgba(15,23,42,.65)";
-  rctx.font = "700 12px ui-sans-serif, system-ui";
-  rctx.fillText("Isso mede distribuição de energia (não ‘qualidade’).", 14, 42);
-}
-
-function drawTimeBars(curWeek, idealWeek){
-  clear(tctx, timeBars);
-  const W = timeBars.width, H = timeBars.height;
-
-  tctx.fillStyle="#fff";
-  tctx.fillRect(0,0,W,H);
-
-  tctx.fillStyle="rgba(15,23,42,.92)";
-  tctx.font="950 16px ui-sans-serif, system-ui";
-  tctx.fillText("Balanço de Semana — Hoje vs. Ideal", 14, 22);
-
-  tctx.fillStyle="rgba(15,23,42,.65)";
-  tctx.font="700 12px ui-sans-serif, system-ui";
-  tctx.fillText("Barras mostram % estimado de energia/tempo por eixo.", 14, 42);
-
-  const keys = ["R","E","T","G","I","B"];
-  const colors = {
-    R:"rgba(37,99,235,.80)",
-    E:"rgba(22,163,74,.80)",
-    T:"rgba(245,158,11,.85)",
-    G:"rgba(124,58,237,.80)",
-    I:"rgba(239,68,68,.78)",
-    B:"rgba(71,85,105,.70)"
-  };
-
-  const leftX = 80;
-  const barW = W - 120;
-  const rowH = 48;
-  const topY = 70;
-
-  keys.forEach((k, idx)=>{
-    const y = topY + idx*rowH;
-
-    // label
-    tctx.fillStyle="rgba(15,23,42,.90)";
-    tctx.font="900 12px ui-sans-serif, system-ui";
-    tctx.textAlign="left";
-    tctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, 14, y+18);
-
-    // back
-    tctx.fillStyle="rgba(15,23,42,.06)";
-    roundRect(tctx, leftX, y, barW, 14, 8, true, false);
-
-    // current
-    const cw = Math.round((curWeek[k]/100)*barW);
-    tctx.fillStyle=colors[k];
-    roundRect(tctx, leftX, y, cw, 14, 8, true, false);
-
-    // ideal marker line
-    const ix = leftX + Math.round((idealWeek[k]/100)*barW);
-    tctx.strokeStyle="rgba(15,23,42,.55)";
-    tctx.lineWidth=2;
-    tctx.beginPath();
-    tctx.moveTo(ix, y-4);
-    tctx.lineTo(ix, y+18);
-    tctx.stroke();
-
-    // numbers
-    tctx.fillStyle="rgba(15,23,42,.70)";
-    tctx.font="800 12px ui-sans-serif, system-ui";
-    tctx.textAlign="right";
-    tctx.fillText(`hoje ${curWeek[k]}%  |  ideal ${idealWeek[k]}%`, W-14, y+18);
+    grid.appendChild(card);
   });
 
-  tctx.fillStyle="rgba(15,23,42,.70)";
-  tctx.font="700 12px ui-sans-serif, system-ui";
-  tctx.textAlign="left";
-  tctx.fillText("Linha vertical = ideal. Barra colorida = hoje.", 14, H-16);
+  document.getElementById("closing").innerHTML = `
+    <div style="line-height:1.65; font-size:13px; color:rgba(15,23,42,.92);">
+      <b>1)</b> Professor universitário não é “função”: é um <b>ecossistema de decisões</b> sobre tempo, sentido e compromisso público.<br>
+      <b>2)</b> Pesquisa sem ensino vira especialização muda; ensino sem pesquisa vira repetição; extensão sem criticidade vira evento; gestão sem limite vira captura; inovação sem instituição vira hobby.<br>
+      <b>3)</b> A universidade mede o que você consegue <b>registrar</b> — seu trabalho é não virar refém do registro.<br>
+      <b>4)</b> O recurso mais raro é <b>atenção</b>. A sobrevivência docente é arquitetura: agenda, processos e limites.<br>
+      <b>5)</b> O professor maduro não “faz tudo”: ele <b>forma pessoas</b> e cria estruturas para o trabalho sobreviver ao seu nome.
+    </div>
+  `;
 }
 
-function drawBureau(B, friction){
-  clear(bctx, bureau);
-  const W = bureau.width, H = bureau.height;
-
-  bctx.fillStyle="#fff";
-  bctx.fillRect(0,0,W,H);
-
-  bctx.fillStyle="rgba(15,23,42,.92)";
-  bctx.font="950 16px ui-sans-serif, system-ui";
-  bctx.fillText("Burocracia — Termômetro + Fricção", 14, 22);
-
-  bctx.fillStyle="rgba(15,23,42,.65)";
-  bctx.font="700 12px ui-sans-serif, system-ui";
-  bctx.fillText("Burocracia é atrito: quando sobe, drena foco e saúde.", 14, 42);
-
-  // thermometer
-  const tx = 60, ty = 70, th = H-120, tw = 26;
-  bctx.fillStyle="rgba(15,23,42,.06)";
-  roundRect(bctx, tx, ty, tw, th, 12, true, false);
-
-  const fillH = Math.round((B/100)*th);
-  bctx.fillStyle = B>=70 ? "rgba(239,68,68,.75)" : (B>=40 ? "rgba(245,158,11,.80)" : "rgba(22,163,74,.75)");
-  roundRect(bctx, tx, ty + (th - fillH), tw, fillH, 12, true, false);
-
-  bctx.fillStyle="rgba(15,23,42,.80)";
-  bctx.font="900 13px ui-sans-serif, system-ui";
-  bctx.fillText(`⚫ Burocracia: ${B}/100`, 110, 100);
-
-  // friction bar
-  const bx = 110, by = 120, bw = W-150, bh = 18;
-  bctx.fillStyle="rgba(15,23,42,.06)";
-  roundRect(bctx, bx, by, bw, bh, 10, true, false);
-
-  const fw = Math.round((friction/100)*bw);
-  bctx.fillStyle = friction>=70 ? "rgba(239,68,68,.70)" : (friction>=40 ? "rgba(245,158,11,.75)" : "rgba(22,163,74,.70)");
-  roundRect(bctx, bx, by, fw, bh, 10, true, false);
-
-  bctx.fillStyle="rgba(15,23,42,.75)";
-  bctx.font="900 12px ui-sans-serif, system-ui";
-  bctx.fillText(`Fricção percebida: ${friction}/100 (burocracia × limite tolerável)`, bx, by-8);
-
-  // “Drenos principais” (explicação fixa V2; depois podemos pedir seleção)
-  const drenos = [
-    "Reuniões sem pauta/decisão",
-    "Relatórios duplicados e sistemas que não conversam",
-    "Prestação de contas manual",
-    "E-mails e urgências que invadem foco",
-    "Comissões por inércia (ninguém tem coragem de encerrar)"
-  ];
-
-  bctx.fillStyle="rgba(15,23,42,.92)";
-  bctx.font="950 13px ui-sans-serif, system-ui";
-  bctx.fillText("Top drenos (o que normalmente mata a semana):", 110, 165);
-
-  bctx.fillStyle="rgba(15,23,42,.70)";
-  bctx.font="700 12px ui-sans-serif, system-ui";
-  drenos.forEach((d, i)=>{
-    bctx.fillText(`• ${d}`, 110, 190 + i*18);
-  });
-
-  bctx.fillStyle="rgba(15,23,42,.80)";
-  bctx.font="900 12px ui-sans-serif, system-ui";
-  bctx.fillText("Ação imediata: escolha 1 dreno e crie template/automação/checklist em 48h.", 110, H-26);
-}
-
-function roundRect(ctx, x, y, w, h, r, fill, stroke){
-  const rr = Math.min(r, w/2, h/2);
-  ctx.beginPath();
-  ctx.moveTo(x+rr, y);
-  ctx.arcTo(x+w, y, x+w, y+h, rr);
-  ctx.arcTo(x+w, y+h, x, y+h, rr);
-  ctx.arcTo(x, y+h, x, y, rr);
-  ctx.arcTo(x, y, x+w, y, rr);
-  ctx.closePath();
-  if(fill) ctx.fill();
-  if(stroke) ctx.stroke();
-}
-
-// ---------- UI: Tabs ----------
+/* =========================
+   TABS
+========================= */
 document.querySelectorAll(".tab[data-tab]").forEach(t=>{
   t.addEventListener("click", ()=>{
     document.querySelectorAll(".tab[data-tab]").forEach(x=>x.classList.remove("active"));
@@ -1191,12 +1429,18 @@ document.querySelectorAll(".tab[data-rtab]").forEach(t=>{
     t.classList.add("active");
     const tab = t.dataset.rtab;
     document.getElementById("rtab-resultados").style.display = (tab==="resultados") ? "" : "none";
-    document.getElementById("rtab-planos").style.display = (tab==="planos") ? "" : "none";
+    document.getElementById("rtab-plano").style.display = (tab==="plano") ? "" : "none";
+    document.getElementById("rtab-check").style.display = (tab==="check") ? "" : "none";
   });
 });
 
-// ---------- Run ----------
+/* =========================
+   RUN + RENDER
+========================= */
 const statusPill = document.getElementById("statusPill");
+
+function val(id){ return document.getElementById(id).value; }
+function setVal(id,v){ document.getElementById(id).value = (v ?? ""); }
 
 function run(){
   const data = compute();
@@ -1211,19 +1455,22 @@ function run(){
 
   const meta = buildNarrative(data);
   const moves = buildMoves(data, meta);
-  const quotes = buildQuotes(data);
+  const blocks = buildChecklist(data, meta);
 
   // KPIs
   document.getElementById("kpiCore").textContent = `${EMOJI[meta.core]} ${LABEL[meta.core]}`;
-  document.getElementById("kpiRisk").textContent = meta.rk.txt;
-  document.getElementById("kpiRisk").style.color = clsColor(meta.rk.cls);
+  const r = riskLabel(data.capture);
+  document.getElementById("kpiRisk").textContent = r.txt;
+  document.getElementById("kpiRisk").style.color = clsColor(r.cls);
 
-  // Story
+  // Story + quote
   document.getElementById("story").innerHTML = meta.txt;
-
-  // Quote block
-  document.getElementById("quote").innerHTML =
-    `<b>Três frases para você não esquecer:</b><br>• ${quotes[0]}<br>• ${quotes[1]}<br>• ${quotes[2]}`;
+  document.getElementById("quote").innerHTML = `
+    <b>Três ideias para debate (sem autoajuda):</b><br>
+    • A universidade te puxa para ser <b>operador de processos</b>. Você precisa decidir se aceita essa identidade.<br>
+    • O docente que não protege atenção vira “produtor de ruído”: responde tudo, mas constrói pouco.<br>
+    • Saúde mental não é “pessoal”: é <b>institucional</b>. Se a instituição te adoece, ela também adoece sua ciência e seu ensino.
+  `;
 
   // Plan
   const movesEl = document.getElementById("moves");
@@ -1235,34 +1482,49 @@ function run(){
     movesEl.appendChild(d);
   });
 
-  // Closing
-  const closing = document.getElementById("closing");
-  closing.innerHTML = `
-    <div style="line-height:1.6;">
-      <b>1)</b> Você é responsável por um <b>ecossistema</b>: conhecimento, pessoas, território e instituição.<br>
-      <b>2)</b> Seu recurso mais raro é <b>atenção</b> — proteja-a com agenda e processos.<br>
-      <b>3)</b> O professor universitário maduro escolhe: <b>continuidade > novidade</b> e <b>coerência > oportunismo</b>.<br>
-      <b>4)</b> Burocracia é inevitável, mas não pode ser <b>identidade</b>.<br>
-      <b>5)</b> O melhor docente não faz tudo: ele <b>forma pessoas</b> e cria estruturas para o trabalho sobreviver ao seu nome.
-    </div>
-  `;
+  // Checklist
+  renderChecklist(blocks);
 
-  // Draw graphs
+  // Draw charts (sem deformar)
   drawRadar(data.cur, {R:data.goal.R,E:data.goal.E,T:data.goal.T,G:data.goal.G,I:data.goal.I});
-  drawTimeBars(data.currentWeek, data.ideal);
-  drawBureau(data.cur.B, data.friction);
+  drawWeekBars(data.currentWeek, data.ideal);
+
+  const bColor = data.cur.B>=70 ? "rgba(239,68,68,.80)" : (data.cur.B>=40 ? "rgba(245,158,11,.85)" : "rgba(22,163,74,.80)");
+  drawGauge("cvBureau", data.cur.B, `Burocracia: ${data.cur.B}/100 (fricção +${data.frictionB})`, bColor);
+
+  const mColor = data.cur.M>=70 ? "rgba(239,68,68,.80)" : (data.cur.M>=40 ? "rgba(245,158,11,.85)" : "rgba(22,163,74,.80)");
+  drawGauge("cvMental", data.cur.M, `Carga mental: ${data.cur.M}/100 (acima do limite +${data.frictionM})`, mColor);
+
+  drawQuad(data.impact, data.energy);
+  drawFunnel(data.currentWeek, data.cur.B, data.cur.M);
 
   statusPill.textContent = "diagnóstico gerado";
   statusPill.style.background = "rgba(22,163,74,.12)";
   statusPill.style.borderColor = "rgba(22,163,74,.25)";
-
-  updateProgress();
 }
 
 document.getElementById("btnRun").addEventListener("click", run);
 document.getElementById("btnRun2").addEventListener("click", run);
 
-// ---------- Save/Load ----------
+// Redesenhar ao redimensionar (mantém gráficos bonitos)
+window.addEventListener("resize", ()=>{
+  // só redesenha se já houver diagnóstico com tudo respondido
+  if(countAnswered() === QUESTIONS.length){
+    run();
+  }else{
+    // desenhar placeholders “limpos”
+    drawRadar({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
+    drawWeekBars({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0});
+    drawGauge("cvBureau", 0, "Burocracia: 0/100", "rgba(22,163,74,.80)");
+    drawGauge("cvMental", 0, "Carga mental: 0/100", "rgba(22,163,74,.80)");
+    drawQuad({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
+    drawFunnel({R:0,E:0,T:0,G:0,I:0,B:0},0,0);
+  }
+});
+
+/* =========================
+   SAVE / LOAD
+========================= */
 function collectState(){
   const answers = {};
   QUESTIONS.forEach(q=>{ answers[q.id] = document.getElementById(q.id).value || ""; });
@@ -1270,7 +1532,7 @@ function collectState(){
     name: val("name"), uni: val("uni"), dept: val("dept"), prog: val("prog"),
     phase: val("phase"), hours: val("hours"), notes: val("notes"),
     goalR: val("goalR"), goalE: val("goalE"), goalT: val("goalT"),
-    goalG: val("goalG"), goalI: val("goalI"), tolB: val("tolB"),
+    goalG: val("goalG"), goalI: val("goalI"), tolB: val("tolB"), tolM: val("tolM"),
     idealR: val("idealR"), idealE: val("idealE"), idealT: val("idealT"),
     idealG: val("idealG"), idealI: val("idealI"), idealB: val("idealB"),
     answers
@@ -1281,7 +1543,8 @@ function applyState(s){
   setVal("name", s.name); setVal("uni", s.uni); setVal("dept", s.dept); setVal("prog", s.prog);
   setVal("phase", s.phase || "early"); setVal("hours", s.hours || 45); setVal("notes", s.notes || "");
   setVal("goalR", s.goalR ?? 70); setVal("goalE", s.goalE ?? 75); setVal("goalT", s.goalT ?? 70);
-  setVal("goalG", s.goalG ?? 40); setVal("goalI", s.goalI ?? 60); setVal("tolB", s.tolB ?? 35);
+  setVal("goalG", s.goalG ?? 40); setVal("goalI", s.goalI ?? 60);
+  setVal("tolB", s.tolB ?? 35); setVal("tolM", s.tolM ?? 45);
   setVal("idealR", s.idealR ?? 25); setVal("idealE", s.idealE ?? 25); setVal("idealT", s.idealT ?? 25);
   setVal("idealG", s.idealG ?? 15); setVal("idealI", s.idealI ?? 10); setVal("idealB", s.idealB ?? 15);
 
@@ -1290,27 +1553,24 @@ function applyState(s){
       const el = document.getElementById(id);
       if(el){
         el.value = s.answers[id];
-        // atualizar o visor do valor
-        const vbox = el.parentElement.querySelector(".v");
+        const vbox = document.getElementById(id+"_v");
         if(vbox) vbox.textContent = el.value ? el.value : "—";
       }
     });
   }
   updateProgress();
 }
-function val(id){ return document.getElementById(id).value; }
-function setVal(id,v){ document.getElementById(id).value = (v ?? ""); }
 
 document.getElementById("btnSave").addEventListener("click", ()=>{
-  localStorage.setItem("eco_docente_v2", JSON.stringify(collectState()));
-  statusPill.textContent = "salvo no navegador";
+  localStorage.setItem("eco_docente_v3", JSON.stringify(collectState()));
+  statusPill.textContent = "salvo";
   statusPill.style.background = "rgba(37,99,235,.10)";
   statusPill.style.borderColor = "rgba(37,99,235,.20)";
 });
 document.getElementById("btnLoad").addEventListener("click", ()=>{
-  const raw = localStorage.getItem("eco_docente_v2");
+  const raw = localStorage.getItem("eco_docente_v3");
   if(!raw){
-    statusPill.textContent = "nada salvo ainda";
+    statusPill.textContent = "nada salvo";
     statusPill.style.background = "rgba(245,158,11,.12)";
     statusPill.style.borderColor = "rgba(245,158,11,.25)";
     return;
@@ -1319,79 +1579,74 @@ document.getElementById("btnLoad").addEventListener("click", ()=>{
   statusPill.textContent = "carregado";
   statusPill.style.background = "rgba(37,99,235,.10)";
   statusPill.style.borderColor = "rgba(37,99,235,.20)";
+  if(countAnswered() === QUESTIONS.length) run();
 });
-
 document.getElementById("btnReset").addEventListener("click", ()=>{
-  localStorage.removeItem("eco_docente_v2");
+  localStorage.removeItem("eco_docente_v3");
   location.reload();
 });
 
-// ---------- Export image ----------
+/* =========================
+   EXPORT (painel)
+========================= */
 document.getElementById("btnExport").addEventListener("click", ()=>{
+  if(countAnswered() !== QUESTIONS.length){
+    alert("Complete as perguntas antes de exportar.");
+    return;
+  }
+  // exporta um “painel” com 3 imagens principais em uma só
   const out = document.createElement("canvas");
-  out.width = 1200;
-  out.height = 980;
+  out.width = 1600;
+  out.height = 1000;
   const ctx = out.getContext("2d");
 
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle="#fff";
   ctx.fillRect(0,0,out.width,out.height);
 
-  ctx.fillStyle = "rgba(15,23,42,.95)";
-  ctx.font = "950 28px ui-sans-serif, system-ui";
-  ctx.fillText("Ecossistema Docente — Diagnóstico (V2)", 24, 44);
+  ctx.fillStyle="rgba(15,23,42,.95)";
+  ctx.font="950 34px ui-sans-serif, system-ui";
+  ctx.fillText("Ecossistema Docente — Painel (V3)", 32, 52);
 
-  ctx.fillStyle = "rgba(15,23,42,.65)";
-  ctx.font = "700 14px ui-sans-serif, system-ui";
+  ctx.fillStyle="rgba(15,23,42,.65)";
+  ctx.font="800 16px ui-sans-serif, system-ui";
   const name = (val("name")||"Visitante").trim();
   const uni  = (val("uni")||"—").trim();
-  ctx.fillText(`${name} · ${uni} · ${new Date().toLocaleDateString()}`, 24, 68);
+  ctx.fillText(`${name} · ${uni} · ${new Date().toLocaleDateString()}`, 32, 78);
 
-  // grids
-  ctx.drawImage(radar, 24, 90, 560, 320);
-  ctx.drawImage(timeBars, 616, 90, 560, 320);
-  ctx.drawImage(bureau, 24, 430, 1152, 260);
+  // Captura canvases (em CSS pixels) via desenho do próprio canvas (bitmap já ok)
+  const radar = document.getElementById("cvRadar");
+  const week  = document.getElementById("cvWeek");
+  const bureau= document.getElementById("cvBureau");
+  const mental= document.getElementById("cvMental");
 
-  // add short story
-  ctx.fillStyle = "rgba(15,23,42,.92)";
-  ctx.font = "900 14px ui-sans-serif, system-ui";
-  ctx.fillText("Resumo:", 24, 720);
-
-  ctx.fillStyle = "rgba(15,23,42,.70)";
-  ctx.font = "700 13px ui-sans-serif, system-ui";
-  const story = document.getElementById("story").innerText.replace(/\s+/g," ").trim();
-  wrapText(ctx, story.slice(0, 520) + (story.length>520 ? "…" : ""), 24, 744, 1152, 18);
+  // layout
+  ctx.drawImage(radar, 32, 110, 760, 360);
+  ctx.drawImage(week,  808, 110, 760, 360);
+  ctx.drawImage(bureau, 32, 500, 760, 360);
+  ctx.drawImage(mental, 808, 500, 760, 360);
 
   const link = document.createElement("a");
-  link.download = "ecossistema-docente-v2.png";
+  link.download = "ecossistema-docente-v3.png";
   link.href = out.toDataURL("image/png");
   link.click();
 });
 
-function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-  const words = text.split(" ");
-  let line = "";
-  for(let n=0;n<words.length;n++){
-    const testLine = line + words[n] + " ";
-    const metrics = ctx.measureText(testLine);
-    if(metrics.width > maxWidth && n>0){
-      ctx.fillText(line, x, y);
-      line = words[n] + " ";
-      y += lineHeight;
-    } else line = testLine;
-  }
-  ctx.fillText(line, x, y);
-}
-
-// init
-buildQuiz();
-updateProgress();
+/* =========================
+   INIT placeholders
+========================= */
 drawRadar({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
-drawTimeBars({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0});
-drawBureau(0,0);
+drawWeekBars({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0});
+drawGauge("cvBureau", 0, "Burocracia: 0/100", "rgba(22,163,74,.80)");
+drawGauge("cvMental", 0, "Carga mental: 0/100", "rgba(22,163,74,.80)");
+drawQuad({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
+drawFunnel({R:0,E:0,T:0,G:0,I:0,B:0},0,0);
 
-// load if exists
-const saved = localStorage.getItem("eco_docente_v2");
-if(saved) applyState(JSON.parse(saved));
+/* auto-load */
+const saved = localStorage.getItem("eco_docente_v3");
+if(saved){
+  applyState(JSON.parse(saved));
+  if(countAnswered() === QUESTIONS.length) run();
+}
 </script>
 </body>
 </html>
