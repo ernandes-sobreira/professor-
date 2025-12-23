@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Ecossistema Docente — V3 (Diagnóstico + Debate)</title>
+  <title>Ecossistema Docente — V3.1 (Diagnóstico + Debate)</title>
+
   <style>
     :root{
-      /* Visual claro, elegante, sem “noite” */
       --bg0:#f6f7fb;
       --bg1:#eef2ff;
       --card:#ffffff;
@@ -249,7 +249,7 @@
       line-height:1.55;
     }
 
-    /* ✅ CANVAS sem deformar: altura via aspect-ratio e resize real em JS */
+    /* ✅ CANVAS: tipos diferentes (fica bom no PC) */
     .vizGrid{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -265,7 +265,7 @@
     }
     .viz h3{
       margin:0 0 8px;
-      font-size:13px;
+      font-size: clamp(13px, 1.1vw, 15px);
       font-weight:980;
       letter-spacing:.1px;
       color: rgba(15,23,42,.92);
@@ -274,24 +274,37 @@
     .viz p{
       margin:0 0 10px;
       color:var(--muted);
-      font-size:12px;
+      font-size: clamp(12px, 1.0vw, 13px);
       line-height:1.35;
     }
+
     .canvasWrap{
       position:relative;
       width:100%;
-      aspect-ratio: 16 / 9;
       border-radius: 14px;
       overflow:hidden;
       border:1px solid rgba(15,23,42,.10);
       background:#fff;
     }
+    .canvasWrap.square{ aspect-ratio: 1 / 1; }
+    .canvasWrap.wide{ aspect-ratio: 16 / 10; }
+    .canvasWrap.gauge{ aspect-ratio: 16 / 11; }
+    .canvasWrap.quad{ aspect-ratio: 16 / 10; }
+
+    @media (min-width: 1100px){
+      .canvasWrap.square{ max-height: 360px; }
+      .canvasWrap.wide{ max-height: 320px; }
+      .canvasWrap.gauge{ max-height: 320px; }
+      .canvasWrap.quad{ max-height: 320px; }
+    }
+
     canvas{
       position:absolute;
       inset:0;
       width:100%;
       height:100%;
       display:block;
+      touch-action: none; /* para pan/zoom no quadrante */
     }
 
     .micro{ display:grid; gap:10px; margin-top:10px; }
@@ -377,10 +390,10 @@
   <div class="brand">
     <div class="logo" aria-hidden="true"></div>
     <div>
-      <h1>Ecossistema Docente — V3 (Diagnóstico visual + plano executável)</h1>
+      <h1>Ecossistema Docente — Diagnóstico + Debate (V3.1)</h1>
       <p class="subtitle">
         Um game crítico para professores: <b>o que eu faço</b>, <b>o que eu quero ser</b> e <b>o que me captura</b>.
-        Aqui, burocracia e saúde mental não são “rodapé”: são eixo.
+        Aqui, burocracia e saúde mental não são rodapé — são eixo.
       </p>
     </div>
   </div>
@@ -406,7 +419,7 @@
     <div id="tab-responder">
       <div class="card-h">
         <h2>🧾 Identidade & contexto</h2>
-        <span class="pill">V3 — gráficos estáveis (sem deformar)</span>
+        <span class="pill">V3.1 — estável no PC</span>
       </div>
       <div class="card-b">
         <div class="grid2">
@@ -429,7 +442,7 @@
 
         <div style="margin-top:12px;">
           <label>O que mais te puxa hoje? (opcional)</label>
-          <textarea id="notes" placeholder="Ex.: reuniões, sistemas, falta de equipe, pressão por papers, orientações, comissões, etc."></textarea>
+          <textarea id="notes" placeholder="Ex.: reuniões, sistemas, relatórios duplicados, pressão por papers, orientações, comissões, etc."></textarea>
         </div>
 
         <div style="margin-top:12px;">
@@ -509,12 +522,11 @@
         <span class="pill" id="statusPill">aguardando…</span>
       </div>
       <div class="card-b">
-
         <div class="vizGrid">
           <div class="viz">
             <h3>🕸️ Perfil (Atual vs Desejado)</h3>
             <p>Distribuição de energia por eixo. Não mede “qualidade”. Mede <b>onde você vive</b>.</p>
-            <div class="canvasWrap"><canvas id="cvRadar"></canvas></div>
+            <div class="canvasWrap square"><canvas id="cvRadar"></canvas></div>
             <div class="tagrow">
               <span class="tag"><i class="dot" style="background:rgba(15,23,42,.90)"></i> Atual</span>
               <span class="tag"><i class="dot" style="background:rgba(15,23,42,.25)"></i> Desejado</span>
@@ -524,31 +536,31 @@
           <div class="viz">
             <h3>📊 Semana (Hoje vs Ideal)</h3>
             <p>Você vê o desvio em segundos. Linha = ideal. Barra = hoje.</p>
-            <div class="canvasWrap"><canvas id="cvWeek"></canvas></div>
+            <div class="canvasWrap wide"><canvas id="cvWeek"></canvas></div>
           </div>
 
           <div class="viz">
             <h3>⚫ Burocracia (termômetro + fricção)</h3>
             <p>Quando isso sobe, o resto vira sobrevivência. Sem romantizar.</p>
-            <div class="canvasWrap"><canvas id="cvBureau"></canvas></div>
+            <div class="canvasWrap gauge"><canvas id="cvBureau"></canvas></div>
           </div>
 
           <div class="viz">
             <h3>🧠 Saúde mental (carga + risco)</h3>
             <p>Indicador de “captura”: se você só apaga incêndio, nada floresce.</p>
-            <div class="canvasWrap"><canvas id="cvMental"></canvas></div>
+            <div class="canvasWrap gauge"><canvas id="cvMental"></canvas></div>
           </div>
 
           <div class="viz">
-            <h3>🧭 Impacto × Energia</h3>
-            <p>Quadrante para decidir: o que dá retorno (impacto) sem te destruir (energia).</p>
-            <div class="canvasWrap"><canvas id="cvQuad"></canvas></div>
+            <h3>🧭 Impacto × Energia (interativo)</h3>
+            <p>Hover/Toque para ver detalhes. Arraste para mover. Scroll/pinça para zoom. Duplo clique para reset.</p>
+            <div class="canvasWrap quad"><canvas id="cvQuad"></canvas></div>
           </div>
 
           <div class="viz">
             <h3>⏳ Funil de drenos da semana</h3>
             <p>Uma visão simples do que rouba o seu melhor horário cognitivo.</p>
-            <div class="canvasWrap"><canvas id="cvFunnel"></canvas></div>
+            <div class="canvasWrap wide"><canvas id="cvFunnel"></canvas></div>
           </div>
         </div>
 
@@ -579,7 +591,7 @@
     <div id="rtab-plano" style="display:none;">
       <div class="card-h">
         <h2>🧭 Plano (7 / 30 / 90 dias)</h2>
-        <span class="pill">executável</span>
+        <span class="pill">executável + objetivo</span>
       </div>
       <div class="card-b">
         <div class="micro" id="moves"></div>
@@ -606,6 +618,46 @@
 
 <script>
 /* =========================
+   UTILIDADES
+========================= */
+function val(id){ return document.getElementById(id).value; }
+function setVal(id,v){ document.getElementById(id).value = (v ?? ""); }
+
+function clampNum(id, min=0, max=100){
+  const el = document.getElementById(id);
+  let v = Number(el.value);
+  if(!Number.isFinite(v)) v = 0;
+  v = Math.max(min, Math.min(max, Math.round(v)));
+  el.value = v;
+  return v;
+}
+function normalize100(obj){
+  const sum = Object.values(obj).reduce((a,b)=>a+b,0);
+  const base = Math.max(1, sum);
+  const out={};
+  for(const k in obj) out[k] = Math.round((obj[k]/base)*100);
+  return out;
+}
+
+function phaseTxt(){
+  const p = document.getElementById("phase").value;
+  return p==="early" ? "início de carreira" : (p==="mid" ? "meio de carreira" : "fase sênior");
+}
+
+function topRole(vec){
+  const keys=["R","E","T","G","I"];
+  return keys.reduce((best,k)=> vec[k] > vec[best] ? k : best, "R");
+}
+function riskLabel(capture){
+  if(capture >= 70) return {txt:"ALTO 🔥", cls:"bad"};
+  if(capture >= 40) return {txt:"MÉDIO ⚠️", cls:"warn"};
+  return {txt:"BAIXO ✅", cls:"ok"};
+}
+function clsColor(cls){
+  return cls==="bad" ? "var(--bad)" : (cls==="warn" ? "var(--warn)" : "var(--ok)");
+}
+
+/* =========================
    DADOS
 ========================= */
 const EMOJI = {R:"🔬",E:"🌱",T:"🎓",G:"🧭",I:"🚀",B:"⚫",M:"🧠"};
@@ -625,38 +677,31 @@ const COLORS = {
 };
 
 const QUESTIONS = [
-  /* Pesquisa / autoria */
   { id:"q1",  t:"Eu uso meus próprios artigos e projetos como material vivo de aula (com método e crítica).", a:"Nunca", b:"Sempre", w:{R:1.2,T:1.0} },
   { id:"q2",  t:"Eu tenho rotina de escrita/produção que sobrevive à semana real.", a:"Nunca", b:"Sempre", w:{R:1.5,G:0.2,M:-0.2} },
   { id:"q3",  t:"Minha pesquisa tem uma pergunta-mãe que dá coerência aos projetos (evita dispersão por edital).", a:"Nada", b:"Totalmente", w:{R:1.4,G:0.2,M:-0.2} },
 
-  /* Extensão crítica */
   { id:"q4",  t:"Eu enxergo extensão como coprodução de conhecimento (não só evento).", a:"Nada", b:"Totalmente", w:{E:1.3,R:0.4} },
   { id:"q5",  t:"Eu consigo transformar extensão em processo contínuo com indicadores simples e parceiros fixos.", a:"Nunca", b:"Sempre", w:{E:1.4,G:0.6} },
 
-  /* Ensino contemporâneo + inclusão */
   { id:"q6",  t:"Eu preparo aulas considerando neurodivergência (TDAH/TEA) com estrutura e múltiplas formas de participação.", a:"Nunca", b:"Sempre", w:{T:1.2,M:-0.1} },
   { id:"q7",  t:"Eu adapto materiais para acessibilidade (surdos/cegos/baixa visão/dislexia) ou busco apoio para isso.", a:"Nada", b:"Muito", w:{T:1.2,G:0.3,B:0.1} },
   { id:"q8",  t:"Avaliação é formativa (feedback, rubricas, refação), não punição nem burocracia.", a:"Nunca", b:"Sempre", w:{T:1.3,B:-0.2,M:-0.1} },
 
-  /* IA + inovação */
   { id:"q9",  t:"Eu uso IA de modo ético/pedagógico e ensino limites e transparência.", a:"Nunca", b:"Sempre", w:{I:1.0,T:0.6,G:0.2} },
   { id:"q10", t:"Eu tenho política clara para IA na disciplina (o que pode, como declarar e citar uso).", a:"Nunca", b:"Sempre", w:{G:0.6,T:0.8} },
-  { id:"q11", t:"Eu transformo ideias em protótipos e valido com usuários (alunos/território/gestão) antes de “fechar” solução.", a:"Nunca", b:"Sempre", w:{I:1.4,E:0.2} },
+  { id:"q11", t:"Eu transformo ideias em protótipos e valido com usuários (alunos/território/gestão) antes de ‘fechar’ solução.", a:"Nunca", b:"Sempre", w:{I:1.4,E:0.2} },
   { id:"q12", t:"Eu institucionalizo o que crio (documento, treino pessoas, deixo replicável).", a:"Nunca", b:"Sempre", w:{G:0.8,I:0.8} },
 
-  /* Gestão e política universitária */
   { id:"q13", t:"Eu entendo a universidade como campo de disputa (tempo/recursos/prestígio) e ajo com estratégia sem perder valores.", a:"Nada", b:"Totalmente", w:{G:1.0,B:0.2} },
   { id:"q14", t:"Eu lido com autoria/créditos/hierarquias com firmeza e ética (sem virar cínico).", a:"Nunca", b:"Sempre", w:{G:0.9,M:-0.1} },
   { id:"q15", t:"Eu formo pessoas para serem melhores que eu (delegação com confiança + critério).", a:"Nunca", b:"Sempre", w:{G:0.8,T:0.6,E:0.3} },
 
-  /* Burocracia real */
   { id:"q16", t:"Minha semana é engolida por sistemas, formulários, relatórios duplicados e reuniões sem decisão.", a:"Nada", b:"Totalmente", w:{B:1.7,M:0.4} },
   { id:"q17", t:"Reuniões ocupam meu melhor horário cognitivo.", a:"Nunca", b:"Sempre", w:{B:1.2,M:0.4} },
   { id:"q18", t:"Eu automatizo/templatizo rotinas (relatórios, e-mails, fluxos) para não repetir dor.", a:"Nunca", b:"Sempre", w:{I:0.6,G:0.6,B:-0.7,M:-0.2} },
-  { id:"q19", t:"Eu consigo dizer “não” de modo institucionalmente inteligente quando a demanda só gera ruído.", a:"Nunca", b:"Sempre", w:{G:0.7,B:-0.9,M:-0.2} },
+  { id:"q19", t:"Eu consigo dizer ‘não’ de modo institucionalmente inteligente quando a demanda só gera ruído.", a:"Nunca", b:"Sempre", w:{G:0.7,B:-0.9,M:-0.2} },
 
-  /* Saúde mental (sem romantizar) */
   { id:"q20", t:"Eu durmo o suficiente e não trabalho sempre no modo ‘urgência’ (meu corpo não virou ferramenta).", a:"Nunca", b:"Sempre", w:{M:-0.9,B:-0.1,G:0.2} },
   { id:"q21", t:"Eu reconheço sinais de exaustão e ajusto o sistema (não só ‘aguento’).", a:"Nunca", b:"Sempre", w:{G:0.6,M:-0.7,B:-0.2} },
   { id:"q22", t:"Eu protejo blocos de foco profundo (90–120 min) pelo menos 2x por semana.", a:"Nunca", b:"Sempre", w:{R:0.7,T:0.5,I:0.5,B:-0.4,M:-0.2} }
@@ -679,8 +724,8 @@ function buildQuiz(){
       <p class="q-title">${idx+1}) ${q.t}</p>
       <p class="q-sub">Use a régua: 1 (discordo/ausente) → 5 (concordo/presente). As pontuações ficam ocultas.</p>
       <div class="scale">
-        <input type="range" min="1" max="5" step="1" id="${q.id}">
-        <div class="v" id="${q.id}_v">—</div>
+        <input type="range" min="1" max="5" step="1" value="1" id="${q.id}">
+        <div class="v" id="${q.id}_v">1</div>
       </div>
       <div class="scaleHints"><span>${q.a}</span><span>${q.b}</span></div>
     `;
@@ -716,22 +761,6 @@ function updateProgress(){
 }
 updateProgress();
 
-function clampNum(id, min=0, max=100){
-  const el = document.getElementById(id);
-  let v = Number(el.value);
-  if(!Number.isFinite(v)) v = 0;
-  v = Math.max(min, Math.min(max, Math.round(v)));
-  el.value = v;
-  return v;
-}
-function normalize100(obj){
-  const sum = Object.values(obj).reduce((a,b)=>a+b,0);
-  const base = Math.max(1, sum);
-  const out={};
-  for(const k in obj) out[k] = Math.round((obj[k]/base)*100);
-  return out;
-}
-
 /* =========================
    COMPUTE
 ========================= */
@@ -748,17 +777,16 @@ function compute(){
     }
   });
 
-  // Perfil (R,E,T,G,I) normalizado
   const mainKeys=["R","E","T","G","I"];
   const mainSum = mainKeys.reduce((a,k)=>a + Math.max(0,raw[k]), 0);
   const base = Math.max(0.0001, mainSum);
+
   const cur = {
     R: Math.round((Math.max(0,raw.R)/base)*100),
     E: Math.round((Math.max(0,raw.E)/base)*100),
     T: Math.round((Math.max(0,raw.T)/base)*100),
     G: Math.round((Math.max(0,raw.G)/base)*100),
     I: Math.round((Math.max(0,raw.I)/base)*100),
-    // B e M em 0..100 por heurística (escala ajustada)
     B: Math.max(0, Math.min(100, Math.round((raw.B + 1.4) * 30))),
     M: Math.max(0, Math.min(100, Math.round((raw.M + 1.2) * 30)))
   };
@@ -775,14 +803,12 @@ function compute(){
     G: clampNum("idealG"), I: clampNum("idealI"), B: clampNum("idealB")
   });
 
-  // Semana “atual” (heurística: perfil + burocracia drena)
   let currentWeek = {
     R: cur.R, E: cur.E, T: cur.T, G: cur.G, I: cur.I,
     B: Math.min(45, Math.max(10, Math.round(cur.B*0.42)))
   };
   currentWeek = normalize100(currentWeek);
 
-  // Fricções: quanto está acima do tolerável
   const frictionB = Math.max(0, Math.round((cur.B - goal.tolB)));
   const frictionM = Math.max(0, Math.round((cur.M - goal.tolM)));
   const capture = Math.min(100, Math.round((cur.B*0.45) + (cur.M*0.40) + (frictionB*0.10) + (frictionM*0.05)));
@@ -795,8 +821,14 @@ function compute(){
     I: goal.I - cur.I
   };
 
-  // “impacto” e “energia” por eixo (para quadrante) — heurística útil
-  const impact = {R:cur.R*0.9 + goal.R*0.1, E:cur.E*0.8 + goal.E*0.2, T:cur.T*0.85 + goal.T*0.15, G:cur.G*0.7 + goal.G*0.3, I:cur.I*0.8 + goal.I*0.2};
+  const impact = {
+    R:cur.R*0.9 + goal.R*0.1,
+    E:cur.E*0.8 + goal.E*0.2,
+    T:cur.T*0.85 + goal.T*0.15,
+    G:cur.G*0.7 + goal.G*0.3,
+    I:cur.I*0.8 + goal.I*0.2
+  };
+
   const energy = {
     R: Math.max(10, 60 - cur.B*0.2 - cur.M*0.25),
     E: Math.max(10, 58 - cur.B*0.2 - cur.M*0.18),
@@ -806,23 +838,6 @@ function compute(){
   };
 
   return {missing, raw, cur, goal, ideal, currentWeek, frictionB, frictionM, capture, gap, impact, energy};
-}
-
-function topRole(vec){
-  const keys=["R","E","T","G","I"];
-  return keys.reduce((best,k)=> vec[k] > vec[best] ? k : best, "R");
-}
-function riskLabel(capture){
-  if(capture >= 70) return {txt:"ALTO 🔥", cls:"bad"};
-  if(capture >= 40) return {txt:"MÉDIO ⚠️", cls:"warn"};
-  return {txt:"BAIXO ✅", cls:"ok"};
-}
-function clsColor(cls){
-  return cls==="bad" ? "var(--bad)" : (cls==="warn" ? "var(--warn)" : "var(--ok)");
-}
-function phaseTxt(){
-  const p = document.getElementById("phase").value;
-  return p==="early" ? "início de carreira" : (p==="mid" ? "meio de carreira" : "fase sênior");
 }
 
 /* =========================
@@ -874,6 +889,9 @@ function roundRect(ctx, x,y,w,h,r, fill=true, stroke=false){
   if(stroke) ctx.stroke();
 }
 
+/* =========================
+   DESENHOS
+========================= */
 function drawRadar(cur, goal){
   const canvas = document.getElementById("cvRadar");
   const {ctx, resize} = C.radar;
@@ -884,11 +902,10 @@ function drawRadar(cur, goal){
   const H = canvas.getBoundingClientRect().height;
 
   const cx = W*0.50, cy = H*0.56;
-  const radius = Math.min(W*0.34, H*0.40);
+  const radius = Math.min(W*0.36, H*0.40);
   const axes = ["R","E","T","G","I"];
   const n = axes.length;
 
-  // rings
   ctx.strokeStyle = COLORS.soft;
   ctx.lineWidth = 1;
   for(let r=1;r<=5;r++){
@@ -903,7 +920,6 @@ function drawRadar(cur, goal){
     ctx.closePath(); ctx.stroke();
   }
 
-  // axes + labels
   axes.forEach((k,i)=>{
     const ang = (-Math.PI/2) + (i*(2*Math.PI/n));
     const x = cx + Math.cos(ang)*radius;
@@ -940,11 +956,11 @@ function drawRadar(cur, goal){
   poly(goal, "rgba(15,23,42,.25)", "rgba(15,23,42,.06)");
   poly(cur, "rgba(15,23,42,.90)", "rgba(15,23,42,.12)");
 
-  // title
   ctx.fillStyle = COLORS.ink;
   ctx.font = "950 13px ui-sans-serif, system-ui";
   ctx.textAlign="left";
   ctx.fillText("Atual vs Desejado", 10, 18);
+  ctx.textAlign="left";
 }
 
 function drawWeekBars(curW, idealW){
@@ -957,11 +973,11 @@ function drawWeekBars(curW, idealW){
   const H = canvas.getBoundingClientRect().height;
 
   const keys = ["R","E","T","G","I","B"];
-  const left = 92;
+  const left = 110;
   const rightPad = 10;
   const barW = W - left - rightPad;
-  const top = 36;
-  const rowH = (H-54)/keys.length;
+  const top = 40;
+  const rowH = (H-58)/keys.length;
 
   ctx.fillStyle = COLORS.ink;
   ctx.font = "950 13px ui-sans-serif, system-ui";
@@ -970,21 +986,18 @@ function drawWeekBars(curW, idealW){
   keys.forEach((k, idx)=>{
     const y = top + idx*rowH + 10;
 
-    // label
     ctx.fillStyle = COLORS.ink;
     ctx.font = "900 12px ui-sans-serif, system-ui";
+    ctx.textAlign="left";
     ctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, 10, y+10);
 
-    // back
     ctx.fillStyle = COLORS.soft2;
     roundRect(ctx, left, y, barW, 14, 8, true, false);
 
-    // bar (hoje)
     const bw = Math.round((curW[k]/100)*barW);
     ctx.fillStyle = COLORS[k] || "rgba(15,23,42,.50)";
     roundRect(ctx, left, y, bw, 14, 8, true, false);
 
-    // ideal line
     const ix = left + Math.round((idealW[k]/100)*barW);
     ctx.strokeStyle = "rgba(15,23,42,.55)";
     ctx.lineWidth = 2;
@@ -993,13 +1006,13 @@ function drawWeekBars(curW, idealW){
     ctx.lineTo(ix, y+18);
     ctx.stroke();
 
-    // numbers
     ctx.fillStyle = "rgba(15,23,42,.70)";
     ctx.font = "800 11px ui-sans-serif, system-ui";
     ctx.textAlign = "right";
     ctx.fillText(`hoje ${curW[k]}% | ideal ${idealW[k]}%`, W-10, y+11);
-    ctx.textAlign = "left";
   });
+
+  ctx.textAlign="left";
 }
 
 function drawGauge(canvasId, value, label, color){
@@ -1012,19 +1025,17 @@ function drawGauge(canvasId, value, label, color){
   const W = canvas.getBoundingClientRect().width;
   const H = canvas.getBoundingClientRect().height;
 
-  const cx = W*0.50, cy = H*0.70;
-  const r = Math.min(W*0.38, H*0.55);
+  const cx = W*0.50, cy = H*0.72;
+  const r = Math.min(W*0.38, H*0.58);
   const start = Math.PI*1.02;
   const end = Math.PI*1.98;
 
-  // base arc
   ctx.lineWidth = 16;
   ctx.strokeStyle = COLORS.soft2;
   ctx.beginPath();
   ctx.arc(cx, cy, r, start, end);
   ctx.stroke();
 
-  // segments (verde/amarelo/vermelho)
   const seg = [
     {to: 0.40, c:"rgba(22,163,74,.65)"},
     {to: 0.70, c:"rgba(245,158,11,.70)"},
@@ -1039,14 +1050,12 @@ function drawGauge(canvasId, value, label, color){
     prev = s.to;
   });
 
-  // value arc
   const pct = Math.max(0, Math.min(100, value))/100;
   ctx.strokeStyle = color;
   ctx.beginPath();
   ctx.arc(cx, cy, r, start, start + (end-start)*pct);
   ctx.stroke();
 
-  // needle
   const ang = start + (end-start)*pct;
   const nx = cx + Math.cos(ang)*(r-6);
   const ny = cy + Math.sin(ang)*(r-6);
@@ -1056,7 +1065,6 @@ function drawGauge(canvasId, value, label, color){
   ctx.fillStyle = "rgba(15,23,42,.85)";
   ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fill();
 
-  // texts
   ctx.fillStyle = COLORS.ink;
   ctx.font = "950 13px ui-sans-serif, system-ui";
   ctx.textAlign="center";
@@ -1070,6 +1078,17 @@ function drawGauge(canvasId, value, label, color){
   ctx.fillText("/100", cx, cy+2);
 }
 
+const QuadUI = {
+  scale: 1,
+  offX: 0,
+  offY: 0,
+  hover: null,
+  pinned: null,
+  dragging: false,
+  lastX: 0,
+  lastY: 0
+};
+
 function drawQuad(impact, energy){
   const canvas = document.getElementById("cvQuad");
   const {ctx, resize} = C.quad;
@@ -1079,27 +1098,31 @@ function drawQuad(impact, energy){
   const W = canvas.getBoundingClientRect().width;
   const H = canvas.getBoundingClientRect().height;
 
-  const pad = 42;
+  const pad = 46;
   const x0 = pad, y0 = pad;
   const x1 = W-pad, y1 = H-pad;
 
-  // axes
+  ctx.fillStyle = COLORS.ink;
+  ctx.font = "950 13px ui-sans-serif, system-ui";
+  ctx.textAlign="left";
+  ctx.fillText("Impacto × Energia (zoom, arraste, hover)", 10, 18);
+
+  ctx.save();
+  ctx.translate(QuadUI.offX, QuadUI.offY);
+  ctx.translate(W/2, H/2);
+  ctx.scale(QuadUI.scale, QuadUI.scale);
+  ctx.translate(-W/2, -H/2);
+
   ctx.strokeStyle = COLORS.soft;
   ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(x0, y1); ctx.lineTo(x1, y1); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x0, y1); ctx.lineTo(x0, y0); ctx.stroke();
 
-  // mid lines
   const mx = x0 + (x1-x0)/2;
   const my = y0 + (y1-y0)/2;
   ctx.strokeStyle = "rgba(15,23,42,.10)";
   ctx.beginPath(); ctx.moveTo(mx, y0); ctx.lineTo(mx, y1); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x0, my); ctx.lineTo(x1, my); ctx.stroke();
-
-  // labels
-  ctx.fillStyle = COLORS.ink;
-  ctx.font = "950 13px ui-sans-serif, system-ui";
-  ctx.fillText("Impacto × Energia (onde investir)", 10, 18);
 
   ctx.fillStyle = "rgba(15,23,42,.65)";
   ctx.font = "800 11px ui-sans-serif, system-ui";
@@ -1111,11 +1134,13 @@ function drawQuad(impact, energy){
   ctx.restore();
 
   const keys=["R","E","T","G","I"];
+  const pts = [];
   keys.forEach(k=>{
     const ix = (impact[k]||0)/100;
     const ey = (energy[k]||0)/100;
     const px = x0 + ix*(x1-x0);
     const py = y1 - ey*(y1-y0);
+    pts.push({k, px, py, impact: Math.round((impact[k]||0)), energy: Math.round((energy[k]||0))});
 
     ctx.fillStyle = COLORS[k];
     ctx.beginPath(); ctx.arc(px,py,7,0,Math.PI*2); ctx.fill();
@@ -1125,11 +1150,34 @@ function drawQuad(impact, energy){
     ctx.fillText(`${EMOJI[k]} ${LABEL[k]}`, px+10, py+4);
   });
 
-  // quadrant hints
-  ctx.fillStyle = "rgba(15,23,42,.60)";
-  ctx.font = "800 10px ui-sans-serif, system-ui";
-  ctx.fillText("Alto impacto / alta energia = ouro", mx+6, my-6);
-  ctx.fillText("Alto impacto / baixa energia = risco de burnout", mx+6, y1-10);
+  ctx.restore();
+
+  canvas.__quadPts = pts;
+
+  const target = QuadUI.pinned || QuadUI.hover;
+  if(target){
+    const boxW = 260, boxH = 74;
+    const bx = Math.min(W - boxW - 12, Math.max(12, target.sx + 12));
+    const by = Math.min(H - boxH - 12, Math.max(30, target.sy - 10));
+
+    ctx.fillStyle = "rgba(255,255,255,.97)";
+    ctx.strokeStyle = "rgba(15,23,42,.12)";
+    ctx.lineWidth = 1;
+    roundRect(ctx, bx, by, boxW, boxH, 12, true, true);
+
+    ctx.fillStyle = "rgba(15,23,42,.92)";
+    ctx.font = "950 12px ui-sans-serif, system-ui";
+    ctx.fillText(`${EMOJI[target.k]} ${LABEL[target.k]}`, bx+12, by+22);
+
+    ctx.fillStyle = "rgba(15,23,42,.70)";
+    ctx.font = "850 12px ui-sans-serif, system-ui";
+    ctx.fillText(`Impacto: ${target.impact}/100`, bx+12, by+46);
+    ctx.fillText(`Energia: ${target.energy}/100`, bx+140, by+46);
+
+    ctx.fillStyle = "rgba(15,23,42,.55)";
+    ctx.font = "800 11px ui-sans-serif, system-ui";
+    ctx.fillText(QuadUI.pinned ? "fixado (clique para soltar)" : "clique para fixar", bx+12, by+64);
+  }
 }
 
 function drawFunnel(curW, B, M){
@@ -1154,32 +1202,29 @@ function drawFunnel(curW, B, M){
     {k:"I", name:"Inovação (criação)", v: curW.I, c: COLORS.I}
   ].sort((a,b)=>b.v-a.v);
 
-  const left=16, top=36, rowH=(H-56)/items.length, maxW=W-32;
+  const left=16, top=40, rowH=(H-62)/items.length, maxW=W-32;
 
   items.forEach((it, idx)=>{
     const y = top + idx*rowH + 10;
-    // bar back
+
     ctx.fillStyle = COLORS.soft2;
     roundRect(ctx, left, y, maxW, 14, 8, true, false);
 
-    // bar fill
     ctx.fillStyle = it.c;
     roundRect(ctx, left, y, Math.round((it.v/100)*maxW), 14, 8, true, false);
 
-    // label
     ctx.fillStyle = "rgba(15,23,42,.85)";
     ctx.font = "900 11px ui-sans-serif, system-ui";
+    ctx.textAlign="left";
     ctx.fillText(`${EMOJI[it.k]} ${it.name}`, left, y-3);
 
-    // value
     ctx.fillStyle = "rgba(15,23,42,.65)";
     ctx.font = "800 11px ui-sans-serif, system-ui";
     ctx.textAlign="right";
     ctx.fillText(`${it.v}%`, W-16, y+11);
-    ctx.textAlign="left";
   });
 
-  // small note
+  ctx.textAlign="left";
   ctx.fillStyle = "rgba(15,23,42,.60)";
   ctx.font = "800 11px ui-sans-serif, system-ui";
   ctx.fillText(`Burocracia=${B}/100 · Carga mental=${M}/100`, 16, H-10);
@@ -1199,7 +1244,6 @@ function buildNarrative(data){
   const desired = topRole({R:data.goal.R,E:data.goal.E,T:data.goal.T,G:data.goal.G,I:data.goal.I});
   const rk = riskLabel(data.capture);
 
-  // maior gap
   const biggestGap = Object.keys(data.gap).reduce((a,k)=> Math.abs(data.gap[k]) > Math.abs(data.gap[a]) ? k : a, "R");
   const gapAbs = Math.abs(data.gap[biggestGap]);
   const gapDir = data.gap[biggestGap] >= 0 ? "crescer" : "reduzir";
@@ -1229,11 +1273,19 @@ function buildNarrative(data){
 
 function buildMoves(data, meta){
   const moves=[];
-  const core=meta.core, desired=meta.desired, gapKey=meta.biggestGap;
+
+  // ✅ objetivo claro do ciclo
+  moves.push({
+    ttl:"🎯 Objetivo do ciclo (90 dias) — o que muda de verdade",
+    txt:`Meta 1: reduzir burocracia de ${data.cur.B}/100 para ≤ ${Math.max(0, data.goal.tolB)} e manter carga mental ≤ ${data.goal.tolM}.
+Meta 2: aproximar o eixo desejado (${EMOJI[meta.desired]} ${LABEL[meta.desired]}) em +10 pontos no radar.
+Evidências (o que você terá na mão): (1) biblioteca de templates + checklist, (2) 2 blocos semanais fixos de foco,
+(3) 1 ritual contínuo do eixo (entrega semanal), (4) 1 mudança institucional (pauta/decisão/limite) que economize tempo real.`
+  });
 
   moves.push({
     ttl:"48 horas — parar a hemorragia (sem heroísmo)",
-    txt:"1) Corte 1 reunião sem decisão. 2) Crie 1 template para o dreno que mais se repete. 3) Bloqueie 2 sessões de foco (90–120 min) no melhor horário."
+    txt:"1) Corte 1 reunião sem decisão (ou reduza pela metade). 2) Crie 1 template para o dreno que mais se repete. 3) Bloqueie 2 sessões de foco (90–120 min) no melhor horário."
   });
 
   moves.push({
@@ -1248,7 +1300,7 @@ function buildMoves(data, meta){
     G:"Gestão com limite: agenda de gestão, decisões registradas, delegação e encerramento de comissões inúteis.",
     I:"Inovação com usuário: protótipo→teste→ajuste. Depois institucionalize (manual + replicação)."
   };
-  moves.push({ ttl:"30 dias — transformar eixo em ritual", txt: ritual[desired] || "Crie um processo replicável que sobreviva à sua semana." });
+  moves.push({ ttl:"30 dias — transformar eixo em ritual", txt: ritual[meta.desired] || "Crie um processo replicável que sobreviva à sua semana." });
 
   moves.push({
     ttl:"90 dias — reequilibrar semana real vs ideal",
@@ -1262,7 +1314,7 @@ function buildMoves(data, meta){
     });
   }
 
-  if(core !== desired){
+  if(meta.core !== meta.desired){
     moves.push({
       ttl:"Ponte identitária (do que você é ao que quer ser)",
       txt:"Crie 1 projeto-ponte: seu eixo atual deve alimentar o desejado. Ex.: pesquisa → ensino (aula autoral); ensino → pesquisa (dados didáticos); extensão → inovação (ferramentas)."
@@ -1276,7 +1328,7 @@ function buildMoves(data, meta){
     G:"Crescer gestão = decidir e delegar, não ‘segurar tudo’. Gestão sem limite captura.",
     I:"Crescer inovação = testar com usuários e institucionalizar (senão morre em você)."
   };
-  moves.push({ ttl:`Onde mexer primeiro: ${EMOJI[gapKey]} ${LABEL[gapKey]}`, txt: gapAdvice[gapKey] });
+  moves.push({ ttl:`Onde mexer primeiro: ${EMOJI[meta.biggestGap]} ${LABEL[meta.biggestGap]}`, txt: gapAdvice[meta.biggestGap] });
 
   return moves;
 }
@@ -1292,18 +1344,18 @@ function buildChecklist(data, meta){
       "Crie <b>1 template</b> (e-mail, relatório, orientação, ata) para o dreno mais frequente.",
       "Bloqueie <b>2 sessões</b> de foco profundo (90–120 min) no melhor horário da semana.",
       "Escolha <b>1 tarefa</b> repetitiva e transforme em checklist (passo a passo).",
-      "Tire as notificações do celular por <b>4 horas</b> no período de foco."
+      "Tire notificações por <b>4 horas</b> no período de foco."
     ]
   });
 
   blocks.push({
     title:"📌 7 dias (blindagem)",
-    hint:"Sem blindagem, o essencial vira “quando der”.",
+    hint:"Sem blindagem, o essencial vira ‘quando der’.",
     items:[
       "Defina seu <b>horário sagrado</b> (foco) e trate como aula.",
-      "Crie uma regra: reunião só com <b>pauta + saída</b> (decisão registrada).",
+      "Regra: reunião só com <b>pauta + saída</b> (decisão registrada).",
       "Liste o que você <b>não faz</b> (limites formais).",
-      "Delegue <b>1 rotina</b> (com padrão de qualidade + acompanhamento).",
+      "Delegue <b>1 rotina</b> (padrão de qualidade + acompanhamento).",
       "Reserve 20 min para <b>organizar arquivos</b> do projeto (estrutura simples)."
     ]
   });
@@ -1314,9 +1366,9 @@ function buildChecklist(data, meta){
     items:[
       `Transforme <b>${LABEL[meta.desired]}</b> em processo: uma entrega semanal pequena.`,
       "Documente seu projeto em 1 página: <b>objetivo, público, rotina, indicadores, entregas</b>.",
-      "Defina <b>indicadores</b> (3) que façam sentido (sem burocracia vazia).",
-      "Crie uma rotina de <b>revisão quinzenal</b> do que entrou e do que sai da agenda.",
-      "Publique (para você mesmo) um <b>diário de decisões</b> (o que aceitou/recusou e por quê)."
+      "Defina <b>3 indicadores</b> úteis (sem burocracia vazia).",
+      "Crie uma rotina de <b>revisão quinzenal</b> do que entra e do que sai da agenda.",
+      "Mantenha um <b>diário de decisões</b> (o que aceitou/recusou e por quê)."
     ]
   });
 
@@ -1327,7 +1379,7 @@ function buildChecklist(data, meta){
       "Redesenhe a semana para reduzir <b>Burocracia</b> em pelo menos 10 pontos.",
       "Mova reuniões para horários de <b>baixo desempenho cognitivo</b>.",
       "Feche 1 frente aberta que não conversa com sua meta.",
-      "Crie uma estratégia de <b>orientações</b> (grupo, templates, encontros temáticos).",
+      "Crie estratégia de <b>orientações</b> (grupo, templates, encontros temáticos).",
       "Refaça este diagnóstico e compare os gráficos."
     ]
   });
@@ -1336,11 +1388,11 @@ function buildChecklist(data, meta){
     title:"🤝 Inclusão real (neurodivergência e acessibilidade)",
     hint:"Isso não é ‘extra’: é qualidade do ensino.",
     items:[
-      "Adote uma estrutura de aula previsível (agenda, metas, pausas).",
-      "Ofereça <b>múltiplas formas</b> de participação (fala, texto, anônimo, grupo).",
-      "Garanta acessibilidade básica: <b>contraste, fontes legíveis, texto alternativo</b>.",
-      "Defina regras de convivência: respeito, tempo de fala, acolhimento.",
-      "Crie rubricas claras e dê feedback curto (evita sofrimento e injustiça)."
+      "Estrutura previsível (agenda, metas, pausas).",
+      "Múltiplas formas de participação (fala, texto, anônimo, grupo).",
+      "Acessibilidade básica: <b>contraste, fontes legíveis, texto alternativo</b>.",
+      "Regras de convivência: respeito, tempo de fala, acolhimento.",
+      "Rubricas claras + feedback curto (evita sofrimento e injustiça)."
     ]
   });
 
@@ -1348,11 +1400,11 @@ function buildChecklist(data, meta){
     title:"🤖 IA (ética + pedagogia)",
     hint:"IA sem regra vira ruído; com regra vira ferramenta.",
     items:[
-      "Defina o que pode: IA para rascunho, revisão, explicação — com <b>declaração de uso</b>.",
-      "Defina o que não pode: gerar respostas finais sem autoria e sem referência.",
+      "Defina o que pode (rascunho, revisão, explicação) com <b>declaração de uso</b>.",
+      "Defina o que não pode (resposta final sem autoria e sem referência).",
       "Mostre exemplos bons e ruins (transparência).",
-      "Exija citação de fontes reais (não só texto bonito).",
-      "Use IA para reduzir burocracia docente (templates) e liberar tempo de qualidade."
+      "Exija fontes reais e checagem (não só texto bonito).",
+      "Use IA para reduzir burocracia (templates) e liberar tempo de qualidade."
     ]
   });
 
@@ -1361,10 +1413,10 @@ function buildChecklist(data, meta){
     hint:"Professor quebrado não sustenta projeto nem gente.",
     items:[
       "Proteja sono como política (sem culpa).",
-      "Recuse urgência como padrão: crie janelas de resposta a e-mails.",
-      "Faça 1 conversa ‘de verdade’ sobre saúde mental na turma/equipe.",
+      "Crie janelas de resposta a e-mails (urgência não é padrão).",
+      "Uma conversa real sobre saúde mental na turma/equipe.",
       "Tire 1 atividade do calendário (redução consciente).",
-      "Tenha um dia/turno sem universidade (se isso é impossível, o diagnóstico está certo)."
+      "Um turno sem universidade por semana (se impossível, o diagnóstico está certo)."
     ]
   });
 
@@ -1372,11 +1424,11 @@ function buildChecklist(data, meta){
     title:"⚫ Antiburocracia (engenharia)",
     hint:"Burocracia inevitável ≠ burocracia dominante.",
     items:[
-      "Crie biblioteca de templates (atas, relatórios, e-mails, orientações).",
-      "Padronize arquivos do projeto (nomeação + pastas).",
+      "Biblioteca de templates (atas, relatórios, e-mails, orientações).",
+      "Padrão de arquivos do projeto (nomeação + pastas).",
       "Reunião sem decisão não existe: encerre em 15 minutos.",
-      "Se é recorrente, vira processo: checklist + responsável + prazo.",
-      "Diga “não” elegante: ‘posso em X data / posso se for Y / não posso por Z’."
+      "Recorrente vira processo: checklist + responsável + prazo.",
+      "Diga ‘não’ elegante: posso em X / posso se for Y / não posso por Z."
     ]
   });
 
@@ -1439,9 +1491,6 @@ document.querySelectorAll(".tab[data-rtab]").forEach(t=>{
 ========================= */
 const statusPill = document.getElementById("statusPill");
 
-function val(id){ return document.getElementById(id).value; }
-function setVal(id,v){ document.getElementById(id).value = (v ?? ""); }
-
 function run(){
   const data = compute();
   if(data.missing.length){
@@ -1457,35 +1506,31 @@ function run(){
   const moves = buildMoves(data, meta);
   const blocks = buildChecklist(data, meta);
 
-  // KPIs
   document.getElementById("kpiCore").textContent = `${EMOJI[meta.core]} ${LABEL[meta.core]}`;
   const r = riskLabel(data.capture);
   document.getElementById("kpiRisk").textContent = r.txt;
   document.getElementById("kpiRisk").style.color = clsColor(r.cls);
 
-  // Story + quote
   document.getElementById("story").innerHTML = meta.txt;
   document.getElementById("quote").innerHTML = `
     <b>Três ideias para debate (sem autoajuda):</b><br>
-    • A universidade te puxa para ser <b>operador de processos</b>. Você precisa decidir se aceita essa identidade.<br>
+    • A universidade te puxa para ser <b>operador de processos</b>. Você decide se aceita essa identidade.<br>
     • O docente que não protege atenção vira “produtor de ruído”: responde tudo, mas constrói pouco.<br>
     • Saúde mental não é “pessoal”: é <b>institucional</b>. Se a instituição te adoece, ela também adoece sua ciência e seu ensino.
   `;
 
-  // Plan
   const movesEl = document.getElementById("moves");
   movesEl.innerHTML = "";
   moves.forEach(m=>{
     const d = document.createElement("div");
     d.className = "move";
-    d.innerHTML = `<p class="ttl">${m.ttl}</p><p class="txt">${m.txt}</p>`;
+    d.innerHTML = `<p class="ttl">${m.ttl}</p><p class="txt">${m.txt.replaceAll("\n","<br>")}</p>`;
     movesEl.appendChild(d);
   });
 
-  // Checklist
   renderChecklist(blocks);
 
-  // Draw charts (sem deformar)
+  // charts
   drawRadar(data.cur, {R:data.goal.R,E:data.goal.E,T:data.goal.T,G:data.goal.G,I:data.goal.I});
   drawWeekBars(data.currentWeek, data.ideal);
 
@@ -1506,13 +1551,11 @@ function run(){
 document.getElementById("btnRun").addEventListener("click", run);
 document.getElementById("btnRun2").addEventListener("click", run);
 
-// Redesenhar ao redimensionar (mantém gráficos bonitos)
+// Redesenhar ao redimensionar
 window.addEventListener("resize", ()=>{
-  // só redesenha se já houver diagnóstico com tudo respondido
   if(countAnswered() === QUESTIONS.length){
     run();
   }else{
-    // desenhar placeholders “limpos”
     drawRadar({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
     drawWeekBars({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0});
     drawGauge("cvBureau", 0, "Burocracia: 0/100", "rgba(22,163,74,.80)");
@@ -1521,6 +1564,112 @@ window.addEventListener("resize", ()=>{
     drawFunnel({R:0,E:0,T:0,G:0,I:0,B:0},0,0);
   }
 });
+
+/* =========================
+   QUAD INTERACTION (hover/click/pan/zoom)
+========================= */
+(function enableQuadInteraction(){
+  const canvas = document.getElementById("cvQuad");
+
+  function screenToWorld(sx, sy){
+    const W = canvas.getBoundingClientRect().width;
+    const H = canvas.getBoundingClientRect().height;
+
+    let x = sx - QuadUI.offX;
+    let y = sy - QuadUI.offY;
+
+    x = (x - W/2)/QuadUI.scale + W/2;
+    y = (y - H/2)/QuadUI.scale + H/2;
+
+    return {x,y};
+  }
+
+  function pickPoint(sx, sy){
+    const pts = canvas.__quadPts || [];
+    const w = screenToWorld(sx, sy);
+    let best = null;
+    let bestD = 1e9;
+
+    pts.forEach(p=>{
+      const dx = p.px - w.x;
+      const dy = p.py - w.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < bestD){
+        bestD = d;
+        best = p;
+      }
+    });
+
+    if(best && bestD <= 18){
+      return {...best, sx, sy};
+    }
+    return null;
+  }
+
+  canvas.addEventListener("mousemove", (e)=>{
+    const r = canvas.getBoundingClientRect();
+    const sx = e.clientX - r.left;
+    const sy = e.clientY - r.top;
+    QuadUI.hover = pickPoint(sx, sy);
+    if(countAnswered() === QUESTIONS.length) run();
+  });
+
+  canvas.addEventListener("click", (e)=>{
+    const r = canvas.getBoundingClientRect();
+    const sx = e.clientX - r.left;
+    const sy = e.clientY - r.top;
+    const p = pickPoint(sx, sy);
+    if(QuadUI.pinned && (!p || p.k === QuadUI.pinned.k)){
+      QuadUI.pinned = null;
+    }else{
+      QuadUI.pinned = p;
+    }
+    if(countAnswered() === QUESTIONS.length) run();
+  });
+
+  canvas.addEventListener("dblclick", ()=>{
+    QuadUI.scale = 1;
+    QuadUI.offX = 0;
+    QuadUI.offY = 0;
+    QuadUI.pinned = null;
+    if(countAnswered() === QUESTIONS.length) run();
+  });
+
+  canvas.addEventListener("wheel", (e)=>{
+    e.preventDefault();
+    const delta = Math.sign(e.deltaY);
+    const factor = (delta > 0) ? 0.92 : 1.08;
+    QuadUI.scale = Math.max(0.8, Math.min(2.6, QuadUI.scale * factor));
+    if(countAnswered() === QUESTIONS.length) run();
+  }, {passive:false});
+
+  canvas.addEventListener("pointerdown", (e)=>{
+    canvas.setPointerCapture(e.pointerId);
+    QuadUI.dragging = true;
+    QuadUI.lastX = e.clientX;
+    QuadUI.lastY = e.clientY;
+  });
+
+  canvas.addEventListener("pointermove", (e)=>{
+    if(!QuadUI.dragging) return;
+    const dx = e.clientX - QuadUI.lastX;
+    const dy = e.clientY - QuadUI.lastY;
+    QuadUI.lastX = e.clientX;
+    QuadUI.lastY = e.clientY;
+    QuadUI.offX += dx;
+    QuadUI.offY += dy;
+    if(countAnswered() === QUESTIONS.length) run();
+  });
+
+  canvas.addEventListener("pointerup", ()=>{
+    QuadUI.dragging = false;
+  });
+
+  canvas.addEventListener("pointerleave", ()=>{
+    QuadUI.hover = null;
+    if(countAnswered() === QUESTIONS.length) run();
+  });
+})();
 
 /* =========================
    SAVE / LOAD
@@ -1552,9 +1701,9 @@ function applyState(s){
     Object.keys(s.answers).forEach(id=>{
       const el = document.getElementById(id);
       if(el){
-        el.value = s.answers[id];
+        el.value = s.answers[id] || "1";
         const vbox = document.getElementById(id+"_v");
-        if(vbox) vbox.textContent = el.value ? el.value : "—";
+        if(vbox) vbox.textContent = el.value ? el.value : "1";
       }
     });
   }
@@ -1562,13 +1711,13 @@ function applyState(s){
 }
 
 document.getElementById("btnSave").addEventListener("click", ()=>{
-  localStorage.setItem("eco_docente_v3", JSON.stringify(collectState()));
+  localStorage.setItem("eco_docente_v31", JSON.stringify(collectState()));
   statusPill.textContent = "salvo";
   statusPill.style.background = "rgba(37,99,235,.10)";
   statusPill.style.borderColor = "rgba(37,99,235,.20)";
 });
 document.getElementById("btnLoad").addEventListener("click", ()=>{
-  const raw = localStorage.getItem("eco_docente_v3");
+  const raw = localStorage.getItem("eco_docente_v31");
   if(!raw){
     statusPill.textContent = "nada salvo";
     statusPill.style.background = "rgba(245,158,11,.12)";
@@ -1582,71 +1731,109 @@ document.getElementById("btnLoad").addEventListener("click", ()=>{
   if(countAnswered() === QUESTIONS.length) run();
 });
 document.getElementById("btnReset").addEventListener("click", ()=>{
-  localStorage.removeItem("eco_docente_v3");
+  localStorage.removeItem("eco_docente_v31");
   location.reload();
 });
 
 /* =========================
-   EXPORT (painel)
+   EXPORT (TODOS os 6 gráficos)
 ========================= */
 document.getElementById("btnExport").addEventListener("click", ()=>{
   if(countAnswered() !== QUESTIONS.length){
     alert("Complete as perguntas antes de exportar.");
     return;
   }
-  // exporta um “painel” com 3 imagens principais em uma só
+
+  const canvases = [
+    { id:"cvRadar",  title:"Perfil (Atual vs Desejado)" },
+    { id:"cvWeek",   title:"Semana (Hoje vs Ideal)" },
+    { id:"cvBureau", title:"Burocracia" },
+    { id:"cvMental", title:"Saúde mental" },
+    { id:"cvQuad",   title:"Impacto × Energia" },
+    { id:"cvFunnel", title:"Funil de drenos" }
+  ];
+
   const out = document.createElement("canvas");
-  out.width = 1600;
-  out.height = 1000;
+  out.width = 1900;
+  out.height = 1350;
   const ctx = out.getContext("2d");
 
   ctx.fillStyle="#fff";
   ctx.fillRect(0,0,out.width,out.height);
 
   ctx.fillStyle="rgba(15,23,42,.95)";
-  ctx.font="950 34px ui-sans-serif, system-ui";
-  ctx.fillText("Ecossistema Docente — Painel (V3)", 32, 52);
+  ctx.font="950 36px ui-sans-serif, system-ui";
+  ctx.fillText("Ecossistema Docente — Painel", 36, 54);
 
   ctx.fillStyle="rgba(15,23,42,.65)";
   ctx.font="800 16px ui-sans-serif, system-ui";
   const name = (val("name")||"Visitante").trim();
   const uni  = (val("uni")||"—").trim();
-  ctx.fillText(`${name} · ${uni} · ${new Date().toLocaleDateString()}`, 32, 78);
+  const dept = (val("dept")||"—").trim();
+  ctx.fillText(`${name} · ${uni} · ${dept} · ${new Date().toLocaleDateString()}`, 36, 82);
 
-  // Captura canvases (em CSS pixels) via desenho do próprio canvas (bitmap já ok)
-  const radar = document.getElementById("cvRadar");
-  const week  = document.getElementById("cvWeek");
-  const bureau= document.getElementById("cvBureau");
-  const mental= document.getElementById("cvMental");
+  const pad = 36;
+  const top = 110;
+  const gap = 22;
+  const cellW = (out.width - pad*2 - gap)/2;
+  const cellH = (out.height - top - pad - gap*2)/3;
 
-  // layout
-  ctx.drawImage(radar, 32, 110, 760, 360);
-  ctx.drawImage(week,  808, 110, 760, 360);
-  ctx.drawImage(bureau, 32, 500, 760, 360);
-  ctx.drawImage(mental, 808, 500, 760, 360);
+  canvases.forEach((c, idx)=>{
+    const src = document.getElementById(c.id);
+    const col = idx % 2;
+    const row = Math.floor(idx / 2);
+    const x = pad + col*(cellW + gap);
+    const y = top + row*(cellH + gap);
+
+    ctx.fillStyle="rgba(15,23,42,.03)";
+    ctx.strokeStyle="rgba(15,23,42,.10)";
+    ctx.lineWidth=1;
+    roundRect(ctx, x, y, cellW, cellH, 14, true, true);
+
+    ctx.fillStyle="rgba(15,23,42,.80)";
+    ctx.font="900 14px ui-sans-serif, system-ui";
+    ctx.fillText(c.title, x+12, y+22);
+
+    const innerX = x+12;
+    const innerY = y+34;
+    const innerW = cellW-24;
+    const innerH = cellH-46;
+    ctx.drawImage(src, innerX, innerY, innerW, innerH);
+  });
 
   const link = document.createElement("a");
-  link.download = "ecossistema-docente-v3.png";
+  link.download = "ecossistema-docente-painel.png";
   link.href = out.toDataURL("image/png");
   link.click();
 });
 
 /* =========================
-   INIT placeholders
+   INIT
 ========================= */
-drawRadar({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
-drawWeekBars({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0});
-drawGauge("cvBureau", 0, "Burocracia: 0/100", "rgba(22,163,74,.80)");
-drawGauge("cvMental", 0, "Carga mental: 0/100", "rgba(22,163,74,.80)");
-drawQuad({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
-drawFunnel({R:0,E:0,T:0,G:0,I:0,B:0},0,0);
+function initPlaceholders(){
+  drawRadar({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
+  drawWeekBars({R:0,E:0,T:0,G:0,I:0,B:0},{R:0,E:0,T:0,G:0,I:0,B:0});
+  drawGauge("cvBureau", 0, "Burocracia: 0/100", "rgba(22,163,74,.80)");
+  drawGauge("cvMental", 0, "Carga mental: 0/100", "rgba(22,163,74,.80)");
+  drawQuad({R:0,E:0,T:0,G:0,I:0},{R:0,E:0,T:0,G:0,I:0});
+  drawFunnel({R:0,E:0,T:0,G:0,I:0,B:0},0,0);
+}
+initPlaceholders();
 
-/* auto-load */
-const saved = localStorage.getItem("eco_docente_v3");
+// auto-load
+const saved = localStorage.getItem("eco_docente_v31");
 if(saved){
   applyState(JSON.parse(saved));
   if(countAnswered() === QUESTIONS.length) run();
 }
+
+/* =========================
+   FIX: progress update when typing basic fields (optional)
+========================= */
+["name","uni","dept","prog","hours"].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener("input", ()=>{ /* no-op */ });
+});
 </script>
 </body>
 </html>
